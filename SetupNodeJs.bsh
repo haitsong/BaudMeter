@@ -1,0 +1,7 @@
+if [ ! -f "/usr/bin/nodejs" ]; then
+   echo nodejs not found
+   sudo apt-get install nodejs
+else
+   echo `which nodejs`
+fi
+

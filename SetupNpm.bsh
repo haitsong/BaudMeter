@@ -1,0 +1,7 @@
+if [ ! -f "/usr/bin/npm" ]; then
+   echo nodejs not found
+   sudo apt-get install npm
+else
+   echo npm is already installed [`which npm`]
+fi
+

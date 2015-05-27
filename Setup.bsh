@@ -1,0 +1,12 @@
+sudo chown -R $USER /usr/local
+
+if [ ! -d $HOME/GitHome ]; then
+    mkdir $HOME/GitHome
+fi
+
+SetupNodejs.bsh
+SetupNpm.bsh
+SetupSelenium.bsh
+SetupElastic.bsh
+SetupKibana.bsh
+

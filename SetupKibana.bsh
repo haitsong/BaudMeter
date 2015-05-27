@@ -1,0 +1,21 @@
+
+if [ ! -d "$HOME/Kibana" ] ; then
+    mkdir "$HOME/Kibana"
+fi
+
+cd $HOME/Kibana
+
+if [ ! -f "$HOME/Kibana/kibana-4.0.2-linux-x64.tar.gz" ]; then
+    wget https://download.elastic.co/kibana/kibana/kibana-4.0.2-linux-x64.tar.gz
+fi
+
+if [ ! -f "$HOME/Kibana/kibana-4.0.2-linux-x64/bin/kibana" ]; then
+    cd "$HOME/Kibana"
+    tar xvfz kibana-4.0.2-linux-x64.tar.gz
+else
+    echo Kibana installed under $HOME/Kibana/kibana-4.0.2-linux-x64/bin/kibana 
+fi
+
+echo running Kibanna
+$HOME/Kibana/kibana-4.0.2-linux-x64/bin/kibana > /dev/null &
+
