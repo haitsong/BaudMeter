@@ -4,9 +4,11 @@ if [ ! -d $HOME/GitHome ]; then
     mkdir $HOME/GitHome
 fi
 
-SetupNodejs.bsh
-SetupNpm.bsh
-SetupSelenium.bsh
-SetupElastic.bsh
-SetupKibana.bsh
+$HOME/GitHome/BaudMeter/SetupNodejs.bsh
+$HOME/GitHome/BaudMeter/SetupNpm.bsh
+
+$HOME/GitHome/BaudMeter/Sesame/SetupSelenium.bsh
+$HOME/GitHome/BaudMeter/Pumpkin/SetupElastic.bsh
+$HOME/GitHome/BaudMeter/Peony/SetupKibana.bsh
+
 
