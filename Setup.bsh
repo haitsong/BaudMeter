@@ -19,6 +19,6 @@ $PRODHOME/SetupNodejs.bsh
 $PRODHOME/Sesame/SetupSelenium.bsh
 $PRODHOME/Pumpkin/SetupElastic.bsh
 $PRODHOME/Peony/SetupKibana.bsh
-$PRODHOME/Grapevine/SetupElastic.bsh
+$PRODHOME/Grapevine/SetupProxy.bsh
 $PRODHOME/Peony/SetupKibana.bsh
 
