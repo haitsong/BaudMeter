@@ -6,7 +6,7 @@ fi
 
 SetupNodejs.bsh
 SetupNpm.bsh
-SetupSelenium.bsh
-SetupElastic.bsh
-SetupKibana.bsh
+Sesame/SetupSelenium.bsh
+Grapevine/SetupElastic.bsh
+Peony/SetupKibana.bsh
 
