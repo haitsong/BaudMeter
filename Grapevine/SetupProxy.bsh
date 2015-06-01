@@ -4,28 +4,19 @@ else
     echo traceroute already installed
 fi
 
-if [ ! -d $HOME/GitHome/BaudMeter/node_modules/azure-storage ]; then
-    npm install azure-storage
-else
-    echo azure storage module already installed.
-fi
+function install_nodejs_module()
+{
+    modulename=$1
+    if [ ! -d $HOME/GitHome/BaudMeter/node_modules/$modulename ]; then
+        npm install $modulename
+    else
+        echo module: $modulename module already installed.
+    fi    
+}
 
-if [ ! -d $HOME/GitHome/BaudMeter/node_modules/should ]; then
-    npm install -g mocha
-    npm install should
-else
-    echo nodejs should module already installed.
-fi
-
-if [ ! -d $HOME/GitHome/BaudMeter/node_modules/dns ]; then
-    npm install dns
-else
-    echo nodejs dns module already installed.
-fi
-
-if [ ! -d $HOME/GitHome/BaudMeter/node_modules/http ]; then
-    npm install http
-else
-    echo nodejs http module already installed.
-fi
+install_nodejs_module "azure-storage"
+install_nodejs_module "should"
+install_nodejs_module "net"
+install_nodejs_module "dns"
+install_nodejs_module "http"
 
