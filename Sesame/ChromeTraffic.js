@@ -9,13 +9,19 @@ var driver = new webdriver.Builder()
     .forBrowser('chrome')
     .build();
 
-
 function browseUrlAndClickRandom(url)
 {
-   var indx= Math.floor((Math.random() * 10) + 1);
-   driver.get(url);
-   var xpath = "//*/a["+indx+"]";
-   driver.findElement(By.xpath( xpath ) ).click();
+    try 
+    {
+        var indx= Math.floor((Math.random() * 10) + 1);
+        driver.get(url);
+        var xpath = "//*/a["+indx+"]";
+        driver.findElement(By.xpath( xpath ) ).click();
+        driver.wait( function(){},100000);
+    }
+    catch(err)
+    {
+    }
 }
 
 driver.get('http://www.google.com/ncr');

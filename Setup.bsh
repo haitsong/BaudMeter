@@ -4,11 +4,21 @@ if [ ! -d $HOME/GitHome ]; then
     mkdir $HOME/GitHome
 fi
 
-$HOME/GitHome/BaudMeter/SetupNodejs.bsh
-$HOME/GitHome/BaudMeter/SetupNpm.bsh
 
-$HOME/GitHome/BaudMeter/Sesame/SetupSelenium.bsh
-$HOME/GitHome/BaudMeter/Pumpkin/SetupElastic.bsh
-$HOME/GitHome/BaudMeter/Peony/SetupKibana.bsh
+if [ ! -d $HOME/GitHome/BaudMeter ]; then
+    mkdir $HOME/GitHome/BaudMeter
+fi
 
+PRODHOME=$HOME/GitHome/BaudMeter
+
+cd $PRODHOME
+
+$PRODHOME/SetupNpm.bsh
+$PRODHOME/SetupNodejs.bsh
+
+$PRODHOME/Sesame/SetupSelenium.bsh
+$PRODHOME/Pumpkin/SetupElastic.bsh
+$PRODHOME/Peony/SetupKibana.bsh
+$PRODHOME/Grapevine/SetupElastic.bsh
+$PRODHOME/Peony/SetupKibana.bsh
 
