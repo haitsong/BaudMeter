@@ -4,6 +4,11 @@ if [ ! -d $HOME/GitHome ]; then
     mkdir $HOME/GitHome
 fi
 
+
+if [ ! -d $HOME/GitHome/BaudMeter ]; then
+    mkdir $HOME/GitHome/BaudMeter
+fi
+
 SetupNodejs.bsh
 SetupNpm.bsh
 Sesame/SetupSelenium.bsh

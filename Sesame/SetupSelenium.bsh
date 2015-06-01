@@ -1,19 +1,30 @@
+echo install Selenium for traffic generation in project Sesame
+
 if [ ! -d $HOME/Selenium ]; then
     mkdir $HOME/Selenium
 fi
 
 if [ ! -f $HOME/Selenium/chromedriver ]; then
+    echo no chrome driver detected under Selenium, installing.
     cd $HOME/Selenium
     wget http://chromedriver.storage.googleapis.com/2.15/chromedriver_linux64.zip
     unzip chromedriver_linux64.zip
+else 
+    echo chrome driver exist $HOME/Selenium/chromedriver
 fi
 
-PROJHOME=$HOME/GitHome/BaudMeter
-
-if [ ! -d $PROJHOME/node_modules/selenium-webdriver ]; then
-    cd $PROJHOME
+PRODHOME=$HOME/GitHome/BaudMeter
+echo Check npm installation
+if [ ! -d $PRODHOME/node_modules/selenium-webdriver ]; then
+    echo install selenium driver on $PRODHOME/node_modules/selenium-webdriver
+    cd $PRODHOME
     npm install selenium-webdriver
-    cd $PROJHOME/node_modules
-    mv $PROJHOME/node_modules/selenium-webdriver/firefox/binary.js $PROJHOME/node_modules/selenium-webdriver/firefox/binary.js.sav
-    cp binary.js $PROJHOME/node_modules/selenium-webdriver/firefox/binary.js
+else
+    echo Exists: selenium driver on $PRODHOME/node_modules/selenium-webdriver
 fi
+
+#echo COPY a bug fix of     
+#cd $PRODHOME/node_modules
+#mv $PRODHOME/node_modules/selenium-webdriver/firefox/binary.js $PRODHOME/node_modules/selenium-webdriver/firefox/#binary.js.sav
+#cp binary.js $PRODHOME/node_modules/selenium-webdriver/firefox/binary.js
+
