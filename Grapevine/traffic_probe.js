@@ -16,18 +16,20 @@ var dns = require('dns');
 var wp = require('./wping');
 var tr = require('./wtrace');
 var watchlist = require('./domain_watch_list');
+var proxy = require('./web_proxy_no_filter');
 
 exports.Initialize = Initialize;
 
 function Initialize(){
-    CalculateTrafficStatistic(watchlist.GetMatchedDomainList());
+    CalculateTrafficStatistic();
 
     setInterval(CalculateTrafficStatistic, 60000);
 }
 
 function CalculateTrafficStatistic(){
 
-    var domainlist = watchlist.GetMatchedDomainList();
+    //var domainlist = watchlist.GetMatchedDomainList();
+    var domainList = proxy.GetDomainList();
     console.log('start to calculate statistic for matched domains ' + JSON.stringify(domainlist));
 
     for(var domain in domainlist) {
