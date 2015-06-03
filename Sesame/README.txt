@@ -7,3 +7,5 @@ SYNOPSIS:
 
 USAGE: 
     nodejs ChromeTraffic.js
+ or using mocha:
+    mocha MochaChrome.js
