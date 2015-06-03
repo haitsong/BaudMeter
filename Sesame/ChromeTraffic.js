@@ -1,41 +1,55 @@
-var webdriver = require('selenium-webdriver'),
-    By = require('selenium-webdriver').By,
-    until = require('selenium-webdriver').until,
-    proxy = require('selenium-webdriver/proxy');
 
-var driver = new webdriver.Builder()
-    .withCapabilities(webdriver.Capabilities.chrome())
-//    .setProxy(proxy.manual({http: 'host:1234'}))
-    .forBrowser('chrome')
-    .build();
+var webdriver = require('selenium-webdriver');
 
-function browseUrlAndClickRandom(url)
+webdriver.promise.controlFlow().on('uncaughtException', function(e) {
+    console.error('Unhandled error: ' + e);
+});
+
+
+function testUrl(url)
 {
-    try 
-    {
-        var indx= Math.floor((Math.random() * 10) + 1);
-        driver.get(url);
-        var xpath = "//*/a["+indx+"]";
-        driver.findElement(By.xpath( xpath ) ).click();
-        driver.wait( function(){},100000);
+    var driver = new webdriver.Builder().
+        withCapabilities(webdriver.Capabilities.chrome()).
+        build(); 
+    try {   
+        driver.get(url)
+        .then(
+            function(){ return driver.getTitle().then(function(title){console.log(title);}); }
+        )
+        ;        
+        var xp="//a[starts-with(@href, 'http')]";
+        var links = driver.findElements(webdriver.By.xpath(xp));
+        links  //links from the page read;
+        .then(
+            function(arrlink)  {
+                if( arrlink && arrlink.length>0 )  {
+                    var rind = Math.floor( Math.random()*(arrlink.length-1) );                     
+                    var elclick=arrlink[rind];
+                    console.log( 'clicking '+rind+'th element link out of ' + arrlink.length +' links');
+                    var action= new webdriver.ActionSequence(driver);
+                    action.click(elclick).perform();
+                    return action;
+                }
+            }
+        )
+        .then(
+            function(actperform){ 
+                for(x in actperform)
+                    console.log(x);
+                return driver.getTitle().then(function(title){console.log(title);}); 
+            }
+        );
+     }
+    catch(err) {
+        console.log(err);
     }
-    catch(err)
-    {
-    }
+    finally {
+    	driver.quit();
+	}
 }
 
-driver.get('http://www.google.com/ncr');
-driver.findElement(By.name('q')).sendKeys('webdriver');
-driver.findElement(By.name('btnG')).click();
-driver.wait(until.titleIs('webdriver - Google Search'), 1000);
-
-browseUrlAndClickRandom('http://www.tmall.com');
+testUrl('http://news.baidu.com'); 
+testUrl('http://www.qq.com'); 
+testUrl('http://www.taobao.com'); 
+testUrl('http://www.tmall.com'); 
 //driver.quit();
-
-browseUrlAndClickRandom('http://news.baidu.com');
-//driver.quit();
-
-browseUrlAndClickRandom('http://www.taobao.com');
-driver.quit();
-
-

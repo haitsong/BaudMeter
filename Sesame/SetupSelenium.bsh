@@ -1,19 +1,40 @@
+
+CHROMELOC=`which google-chrome`
+if [ $CHROMELOC != "" ]; then
+    echo 'Google Chrome browser found at ' $CHROMELOC
+else
+    echo 'Google Chrome browser not found, install needed'
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    sudo dpkg -i google-chrome-stable_current_amd64.deb
+fi
+
 if [ ! -d $HOME/Selenium ]; then
     mkdir $HOME/Selenium
 fi
 
 if [ ! -f $HOME/Selenium/chromedriver ]; then
+    echo Installing chromedriver of Selenium
     cd $HOME/Selenium
     wget http://chromedriver.storage.googleapis.com/2.15/chromedriver_linux64.zip
     unzip chromedriver_linux64.zip
+else
+    echo Selenium chromedriver found at $HOME/Selenium/chromedriver
 fi
 
 PROJHOME=$HOME/GitHome/BaudMeter
 
-if [ ! -d $PROJHOME/node_modules/selenium-webdriver ]; then
-    cd $PROJHOME
-    npm install selenium-webdriver
-    cd $PROJHOME/node_modules
-    mv $PROJHOME/node_modules/selenium-webdriver/firefox/binary.js $PROJHOME/node_modules/selenium-webdriver/firefox/binary.js.sav
-    cp binary.js $PROJHOME/node_modules/selenium-webdriver/firefox/binary.js
-fi
+function install_nodejs_module()
+{
+    modulename=$1
+    if [ ! -d $HOME/GitHome/BaudMeter/node_modules/$modulename ]; then
+        npm install $modulename
+    else
+        echo module: $modulename module already installed.
+    fi    
+}
+
+install_nodejs_module 'selenium-webdriver'
+install_nodejs_module 'mocha'
+install_nodejs_module 'assert'
+
+
