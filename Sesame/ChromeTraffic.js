@@ -1,5 +1,5 @@
-
 var webdriver = require('selenium-webdriver');
+var TopSites = require('./Top500ChinaSites');
 
 webdriver.promise.controlFlow().on('uncaughtException', function(e) {
     console.error('Unhandled error: ' + e);
@@ -34,8 +34,8 @@ function testUrl(url)
         )
         .then(
             function(actperform){ 
-                for(x in actperform)
-                    console.log(x);
+                //for(x in actperform)
+                //    console.log(x);
                 return driver.getTitle().then(function(title){console.log(title);}); 
             }
         );
@@ -48,8 +48,17 @@ function testUrl(url)
 	}
 }
 
-testUrl('http://news.baidu.com'); 
-testUrl('http://www.qq.com'); 
-testUrl('http://www.taobao.com'); 
-testUrl('http://www.tmall.com'); 
+//testUrl('http://news.baidu.com'); 
+//testUrl('http://www.qq.com'); 
+//testUrl('http://www.taobao.com'); 
+//testUrl('http://www.tmall.com'); 
 //driver.quit();
+var topSites= TopSites.TopSites;
+console.log('Top Sites: '+topSites.length);
+for(ix in topSites )
+{
+    url = topSites[ix];
+    console.log(ix+": "+url);
+    testUrl(url+"");
+}
+
