@@ -1,6 +1,6 @@
 var arrayOfSites =
 [
-    'http://www.baidu.com/',
+    'http://news.baidu.com/',
     'http://www.qq.com/',
     'http://www.taobao.com/',
     'http://www.sina.com.cn/',
