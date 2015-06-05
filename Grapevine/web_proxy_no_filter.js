@@ -291,7 +291,7 @@ function postMsgToElasticSearch(content){
     };
 
     var options = {
-        host: 'baudscope.cloudapp.net',
+        host: 'elasticscsearch.cloudapp.net',
         port: 9200,
         path: '/proxy_http_traffic/v2',
         method: 'POST',
@@ -344,10 +344,10 @@ function main() {
         console.log( 'server listening on port ' + port );
     }
 
-    if ( debugging ) {
-        console.log('start to initialize watchlist');
-    }
-    watchlist.Initialize();
+    //if ( debugging ) {
+    //    console.log('start to initialize watchlist');
+    //}
+    //watchlist.Initialize();
 
     if ( debugging ) {
         console.log('start to initialize probe object');

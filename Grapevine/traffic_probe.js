@@ -15,7 +15,7 @@ var http = require('http');
 var dns = require('dns');
 var wp = require('./wping');
 var tr = require('./wtrace');
-var watchlist = require('./domain_watch_list');
+//var watchlist = require('./domain_watch_list');
 var proxy = require('./web_proxy_no_filter');
 
 exports.Initialize = Initialize;
@@ -29,7 +29,7 @@ function Initialize(){
 function CalculateTrafficStatistic(){
 
     //var domainlist = watchlist.GetMatchedDomainList();
-    var domainList = proxy.GetDomainList();
+    var domainlist = proxy.GetDomainList();
     console.log('start to calculate statistic for matched domains ' + JSON.stringify(domainlist));
 
     for(var domain in domainlist) {
@@ -96,7 +96,7 @@ function postToElasticSearch(content, eType){
     };
 
     var options = {
-        host: 'baudscope.cloudapp.net',
+        host: 'elasticsctest.cloudapp.net',
         port: 9200,
         path: '/proxy_http_traffic/'+eType,
         method: 'POST',
