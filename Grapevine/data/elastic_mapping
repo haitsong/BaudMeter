@@ -7,11 +7,11 @@ GET _search
    }
 }
 
-PUT /proxy_http_traffic
+PUT /proxy_log
 
-PUT /proxy_http_traffic/v2/_mapping
+PUT /proxy_log/user_request/_mapping
 {
-    "v2":
+    "user_request":
     {
         "_ttl": {
             "enabled": true
@@ -65,7 +65,9 @@ PUT /proxy_http_traffic/v2/_mapping
     }
 }
 
-PUT /proxy_http_traffic/probe/_mapping
+PUT /domain_probe
+
+PUT /domain_probe/probe/_mapping
 {
     "probe":
     {
@@ -125,10 +127,11 @@ PUT /proxy_http_traffic/probe/_mapping
     }
 }
 
+PUT /traffic_route
 
-PUT /proxy_http_traffic/route/_mapping
+PUT /traffic_route/hops/_mapping
 {
-    "route":
+    "hops":
     {
         "_ttl":{
             "enabled": true

@@ -291,9 +291,9 @@ function postMsgToElasticSearch(content){
     };
 
     var options = {
-        host: 'elasticscsearch.cloudapp.net',
+        host: 'elasticsctest.cloudapp.net',
         port: 9200,
-        path: '/proxy_http_traffic/v2',
+        path: '/proxy_log/user_request',
         method: 'POST',
         headers: headers
     };

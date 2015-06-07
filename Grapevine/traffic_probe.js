@@ -62,7 +62,7 @@ function PostDomainStatistic(domain, address){
             rttMdevInMs: statistic['rttMdevInMs']
         }
 
-        postToElasticSearch(JSON.stringify(probe_msg), 'probe');
+        postToElasticSearch(JSON.stringify(probe_msg), 'domain_probe', 'probe');
     });
 
     // Trace how many hops the packet requires to reach the host and how long each hop takes.
@@ -81,7 +81,7 @@ function PostDomainStatistic(domain, address){
                 hops: routes
             };
 
-            postToElasticSearch(JSON.stringify(route_msg), 'route');
+            postToElasticSearch(JSON.stringify(route_msg), 'traffic_route', 'hops');
         }
         else{
             // Post failure ...
@@ -89,7 +89,7 @@ function PostDomainStatistic(domain, address){
     });
 
 }
-function postToElasticSearch(content, eType){
+function postToElasticSearch(content, index, eType){
     var headers = {
         'Content-Type': 'application/json',
         'Content-Length': content.length
@@ -98,7 +98,7 @@ function postToElasticSearch(content, eType){
     var options = {
         host: 'elasticsctest.cloudapp.net',
         port: 9200,
-        path: '/proxy_http_traffic/'+eType,
+        path: '/' + index + '/' + eType,
         method: 'POST',
         headers: headers
     };
