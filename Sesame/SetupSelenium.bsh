@@ -1,7 +1,8 @@
 
 CHROMELOC=`which google-chrome`
-if [ $CHROMELOC != "" ]; then
-    echo 'Google Chrome browser found at ' $CHROMELOC
+echo 'Google Chrome browser at ['$CHROMELOC']'
+if [[ ( '' != $CHROMELOC ) ]]; then
+    echo 'Google Chrome browser found at ['$CHROMELOC']'
 else
     echo 'Google Chrome browser not found, install needed'
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -10,6 +11,13 @@ fi
 
 if [ ! -d $HOME/Selenium ]; then
     mkdir $HOME/Selenium
+fi
+
+if [ ! -f $HOME/.bashrcx ]; then
+    echo copy bashrc file to $HOME/.bashrc
+    cp ../dot.bashrc $HOME/.bashrc
+    echo adding Selenium folder to path.
+    ../dot.bashrc
 fi
 
 if [ ! -f $HOME/Selenium/chromedriver ]; then
