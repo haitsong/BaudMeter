@@ -13,7 +13,7 @@ if [ ! -d $HOME/Selenium ]; then
     mkdir $HOME/Selenium
 fi
 
-if [ ! -f $HOME/.bashrcx ]; then
+if [ ! -f $HOME/.bashrc ]; then
     echo copy bashrc file to $HOME/.bashrc
     cp ../dot.bashrc $HOME/.bashrc
     echo adding Selenium folder to path.
