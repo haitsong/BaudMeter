@@ -1,16 +1,31 @@
-var webdriver = require('selenium-webdriver');
+var webdriver = require('selenium-webdriver'),
+    By = require('selenium-webdriver').By,
+    until = require('selenium-webdriver').until,
+    proxy = require('selenium-webdriver/proxy');
+
 var TopSites = require('./Top500ChinaSites');
 
 webdriver.promise.controlFlow().on('uncaughtException', function(e) {
     console.error('Unhandled error: ' + e);
 });
 
+var topSites= TopSites.TopSites;
+console.log('Top Sites: '+topSites.length);
 
-function testUrl(url)
+var nVisitingSites = 0;
+
+function testUrl()
 {
+
+    nVisitingSites = (nVisitingSites+1) % (topSites.length)
+    url = topSites[ nVisitingSites ];
+    
+    console.log("testing url: ["+nVisitingSites+"] ="+url);
+
     var driver = new webdriver.Builder().
         withCapabilities(webdriver.Capabilities.chrome()).
         build(); 
+        
     try {   
         driver.get(url)
         .then(
@@ -27,38 +42,34 @@ function testUrl(url)
                     var elclick=arrlink[rind];
                     console.log( 'clicking '+rind+'th element link out of ' + arrlink.length +' links');
                     var action= new webdriver.ActionSequence(driver);
-                    action.click(elclick).perform();
-                    return action;
+                    action.mouseMove(elclick);
+                    action.click();
+                    return action.perform();
                 }
+            }
+        )        
+        .then(
+            function(actperform){ 
+                driver.executeScript('return document.readyState', 10000);
+                return driver.getTitle().then(function(title){console.log(title);}); 
             }
         )
         .then(
-            function(actperform){ 
-                //for(x in actperform)
-                //    console.log(x);
-                return driver.getTitle().then(function(title){console.log(title);}); 
+            function()
+            {
+                driver.quit();
+                testUrl();
             }
-        );
+        )
      }
     catch(err) {
         console.log(err);
     }
     finally {
     	driver.quit();
-	}
+    	// testUrl();
+	}	
 }
 
-//testUrl('http://news.baidu.com'); 
-//testUrl('http://www.qq.com'); 
-//testUrl('http://www.taobao.com'); 
-//testUrl('http://www.tmall.com'); 
-//driver.quit();
-var topSites= TopSites.TopSites;
-console.log('Top Sites: '+topSites.length);
-for(ix in topSites )
-{
-    url = topSites[ix];
-    console.log(ix+": "+url);
-    testUrl(url+"");
-}
+testUrl();
 
