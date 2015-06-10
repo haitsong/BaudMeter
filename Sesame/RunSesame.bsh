@@ -1,0 +1,3 @@
+cd $PROJHOME/Sesame
+nodejs ChromeTraffic.js > $PROJHOME/Sesame/Sesame.log
+

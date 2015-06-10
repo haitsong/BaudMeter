@@ -1,0 +1,13 @@
+sesamepid=$( ps -elf | grep nodejs |grep -i chrometraffic.js | awk '{print $4}' )
+echo sesame process id is [$sesamepid]
+if [[ '' == '$sesamepid' ]]; then
+   echo no sesame process seen, need to restart selenium;
+   cd $PROJHOME/Sesame
+   RunSesame.bsh
+else 
+    echo sesame running, checking $PROJHOME/Sesame/Sesame.log timestamp.
+    SESAMELOGFILE=$PROJHOME/Sesame/Sesame.log
+    echo "Time of last access : $(stat -c %x $SESAMELOGFILE)"
+    echo "Time of last modification : $(stat -c %y $SESAMELOGFILE)"
+    echo "Time of last change : $(stat -c %z $SESAMELOGFILE)"   
+fi
