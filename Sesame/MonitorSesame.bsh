@@ -1,0 +1,15 @@
+sesamepid=$( ps -elf | grep nodejs |grep -i chrometraffic.js | awk '{print $4}' )
+PROJHOME=$HOME/GitHome/BaudMeter
+echo sesame process id is [$sesamepid]
+if [ "$sesamepid" == "" ]; then
+   echo no sesame process seen, need to restart selenium;
+   $PROJHOME/Sesame/RunSesame.bsh
+else 
+    echo sesame running, checking $PROJHOME/Sesame/Sesame.log timestamp.
+    SESAMELOGFILE=$PROJHOME/Sesame/Sesame.log
+    if test `find "$SESAMELOGFILE" -mmin +3`
+    then
+	echo $SESAMELOGFILE is more than 3 minutes old,
+        killall chrome
+    fi
+fi

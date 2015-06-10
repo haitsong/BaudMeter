@@ -1,3 +1,8 @@
+echo $HOME
+PROJHOME=$HOME//GitHome/BaudMeter
+echo project is located at [$PROJHOME] 
+echo killing chrome before start.
+killall chrome
 cd $PROJHOME/Sesame
-nodejs ChromeTraffic.js > $PROJHOME/Sesame/Sesame.log
+nodejs ChromeTraffic.js > $PROJHOME/Sesame/Sesame.log &
 
