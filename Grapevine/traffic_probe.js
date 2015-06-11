@@ -96,7 +96,7 @@ function postToElasticSearch(content, index, eType){
     };
 
     var options = {
-        host: 'elasticsctest.cloudapp.net',
+        host: 'baudclustera2.cloudapp.net',
         port: 9200,
         path: '/' + index + '/' + eType,
         method: 'POST',

@@ -291,7 +291,7 @@ function postMsgToElasticSearch(content){
     };
 
     var options = {
-        host: 'elasticsctest.cloudapp.net',
+        host: 'baudclustera2.cloudapp.net',
         port: 9200,
         path: '/proxy_log/user_request',
         method: 'POST',
