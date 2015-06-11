@@ -20,3 +20,6 @@ install_nodejs_module "net"
 install_nodejs_module "dns"
 install_nodejs_module "http"
 
+npm install forever -g
+ln -s /usr/bin/nodejs /usr/local/bin/node
+

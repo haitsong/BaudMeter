@@ -4,5 +4,5 @@ echo project is located at [$PROJHOME]
 echo killing chrome before start.
 killall -q -i chrome 
 cd $PROJHOME/Sesame
-nodejs ChromeTraffic.js > $PROJHOME/Sesame/Sesame.log &
+nodejs ChromeTraffic.js -p '100.69.102.61:7899'> $PROJHOME/Sesame/Sesame.log &
 
