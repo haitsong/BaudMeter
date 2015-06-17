@@ -10,6 +10,6 @@ else
     if test `find "$SESAMELOGFILE" -mmin +3`
     then
 	echo $SESAMELOGFILE is more than 3 minutes old,
-        killall chrome
+        killall -q chrome
     fi
 fi
