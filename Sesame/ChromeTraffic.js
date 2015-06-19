@@ -3,7 +3,7 @@ var webdriver = require('selenium-webdriver'),
     until = require('selenium-webdriver').until,
     proxy = require('selenium-webdriver/proxy');
 
-var TopSites = require('./Top500ChinaSites');
+var TopSites = require('./Top50ChinaSites');
 
 webdriver.promise.controlFlow().on('uncaughtException', function(e) {
     console.error('Unhandled error: ' + e);
@@ -18,10 +18,10 @@ var proxy_server = '';
 function testUrl()
 {
 
-    nVisitingSites = (nVisitingSites+1) % (topSites.length)
-    url = topSites[ nVisitingSites ];
+    var randomSite = Math.floor( Math.random()*(topSites.length-1) );
+    url = topSites[ randomSite ];
     
-    console.log("testing url: ["+nVisitingSites+"] ="+url);
+    console.log("testing url: ["+randomSite+"] ="+url);
 
     var driver = new webdriver.Builder().
         withCapabilities(webdriver.Capabilities.chrome()).
