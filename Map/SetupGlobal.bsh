@@ -1,0 +1,82 @@
+rm *.json
+
+ogr2ogr -f GeoJSON -where "SU_A3 <> 'ATA'" countries.json ne_10m_admin_0_countries_lakes.shp
+topojson --id-property SU_A3 -p name=NAME -p name -o countries.topo.json countries.json
+
+function getStatesForCountry()
+{
+    ct=$1
+    country=${ct,,}
+    echo $country STATES
+    ogr2ogr -f GeoJSON -where "gu_a3 = '$ct'" states.json ne_10m_admin_1_states_provinces_lakes.shp
+    topojson --id-property adm1_cod_1 -p name -o states.topo.json states.json
+    mv states.topo.json states_$country.topo.json
+    rm states.json
+}
+
+function getCitiesForCountry()
+{
+    ct=$1
+    country=${ct,,}
+    echo $country CITIES
+    ogr2ogr -f GeoJSON -where "ADM0_A3 = '$ct' " cities.json ne_10m_populated_places.shp
+    topojson -p name=NAME -p state=ADM1NAME -o cities.topo.json cities.json
+    mv cities.topo.json cities_$country.topo.json
+    rm cities.json
+}
+
+function getStateAndCityForCountry()
+{
+    getCitiesForCountry $1    
+    getStatesForCountry $1    
+}
+
+getStateAndCityForCountry 'AUS'
+getStateAndCityForCountry 'USA'
+getStateAndCityForCountry 'CHN'
+getStateAndCityForCountry 'JPN'
+getStateAndCityForCountry 'RUS'
+
+exit 0
+
+echo USA CITIES
+ogr2ogr -f GeoJSON -where "ADM0_A3 = 'USA' " cities.json ne_10m_populated_places.shp
+topojson -p name=NAME -p state=ADM1NAME -o cities.topo.json cities.json
+mv cities.topo.json cities_usa.topo.json
+rm cities.json
+
+echo JPN CITIES
+ogr2ogr -f GeoJSON -where "ADM0_A3 = 'JPN' " cities.json ne_10m_populated_places.shp
+topojson -p name=NAME -p state=ADM1NAME -o cities.topo.json cities.json
+mv cities.topo.json cities_jpn.topo.json
+rm cities.json
+
+echo CHN CITIES
+ogr2ogr -f GeoJSON -where "ADM0_A3 = 'CHN' " cities.json ne_10m_populated_places.shp
+topojson -p name=NAME -p state=ADM1NAME -o cities.topo.json cities.json
+mv cities.topo.json cities_chn.topo.json
+rm cities.json
+
+#simplified version:
+#ogr2ogr -f GeoJSON -simplify 0.2 -where "SU_A3 <> 'ATA'" countries.json ne_10m_admin_0_countries_lakes.shp
+#topojson --id-property SU_A3 -p name=NAME -p name -o countries.topo.json countries.json
+
+echo USA
+ogr2ogr -f GeoJSON -where "gu_a3 = 'USA'" states.json ne_10m_admin_1_states_provinces_lakes.shp
+topojson --id-property adm1_cod_1 -p name -o states.topo.json states.json
+mv states.topo.json states_usa.topo.json
+rm states.json
+
+echo JPN
+ogr2ogr -f GeoJSON -where "gu_a3 = 'JPN'" states.json ne_10m_admin_1_states_provinces_lakes.shp
+topojson --id-property adm1_cod_1 -p name -o states.topo.json states.json
+mv states.topo.json states_jpn.topo.json
+rm states.json
+
+echo CHN
+ogr2ogr -f GeoJSON -where "gu_a3 = 'CHN'" states.json ne_10m_admin_1_states_provinces_lakes.shp
+topojson --id-property adm1_cod_1 -p name -o states.topo.json states.json
+mv states.topo.json states_chn.topo.json
+rm states.json
+
+
