@@ -15,27 +15,38 @@ var http = require('http');
 var dns = require('dns');
 var wp = require('./wping');
 var tr = require('./wtrace');
+var sites = require('./50website');
+var domainlist= sites.TopSites;
+var cluster_address = 'baudclustera2.cloudapp.net';
 //var watchlist = require('./domain_watch_list');
-var proxy = require('./web_proxy_no_filter');
+//var proxy = require('./web_proxy_no_filter');
 
 exports.Initialize = Initialize;
 
 function Initialize(){
     CalculateTrafficStatistic();
 
-    setInterval(CalculateTrafficStatistic, 60000);
+    setInterval(CalculateTrafficStatistic, 120000);
+}
+
+function Log(message)
+{
+    console.log(message);
 }
 
 function CalculateTrafficStatistic(){
 
-    //var domainlist = watchlist.GetMatchedDomainList();
-    var domainlist = proxy.GetDomainList();
-    console.log('start to calculate statistic for matched domains ' + JSON.stringify(domainlist));
 
-    for(var domain in domainlist) {
-        dns.lookup(domain, function(err, address, family){
+    //var domainlist = watchlist.GetMatchedDomainList();
+    //var domainlist = proxy.GetDomainList();
+    Log('start to calculate statistic for matched domains ' + JSON.stringify(domainlist));
+    Log('current elastic cluster address : ' + cluster_address);
+
+    for(var index in domainlist) {
+        Log('domain: ' + domainlist[index]);
+        dns.lookup(domainlist[index], function(err, address, family){
             if(!err) {
-                PostDomainStatistic(domain, address);
+                PostDomainStatistic(domainlist[index], address);
             }
         });
     }
@@ -46,7 +57,7 @@ function PostDomainStatistic(domain, address){
     // Lost rate is not that accurate.
     wp.probe(address, function(statistic){
         // to do: Post ping result to elastic search.
-        console.log('ping ' + domain + ':' + address +',' + JSON.stringify(statistic));
+        Log('ping ' + domain + ':' + address +',' + JSON.stringify(statistic));
 
         var probe_msg = {
             domain : domain,
@@ -70,7 +81,7 @@ function PostDomainStatistic(domain, address){
 
         if(!err) {
             // to do: Post traceroute result to elastic search.
-            console.log('traceroute ' + domain + ':' + address + ',' + JSON.stringify(hops));
+            Log('traceroute ' + domain + ':' + address + ',' + JSON.stringify(hops));
             var routes = [];
             for (var i = 0; i < hops.length; i++)
                 routes.push( JSON.stringify(hops[i]));
@@ -96,7 +107,7 @@ function postToElasticSearch(content, index, eType){
     };
 
     var options = {
-        host: 'baudclustera2.cloudapp.net',
+        host: cluster_address,
         port: 9200,
         path: '/' + index + '/' + eType,
         method: 'POST',
@@ -108,19 +119,19 @@ function postToElasticSearch(content, index, eType){
 
         var responseString = '';
 
-        console.log('start to post to elastic search ' + options.host + eType);
+        //Log('start to post to elastic search ' + options.host + eType);
 
         res.on('data', function(data) {
             responseString += data;
         });
 
         res.on('end', function() {
-            console.log('finish to post to elastic search ' + options.host + eType);
+            //Log('finish to post to elastic search ' + options.host + eType);
         });
     });
 
     req.on('error', function(e) {
-        console.log('fail to post data to ' + options.host + options.path + ', error msg is ' + e);
+        Log('fail to post data to ' + options.host + options.path + ', error msg is ' + e);
     });
 
     req.write(content);
@@ -130,6 +141,11 @@ function postToElasticSearch(content, index, eType){
 
 //domains = {'www.baidu.com' : true, 'www.google.com': true, 'www.hoopchina.com': true};
 
-//CalculateTrafficStatistic(watchlist.GetMatchedDomainList());
+//CalculateTrafficStatistic();
 //PingDns(domains);
 //TraceRoute(domains);
+
+Initialize();
+
+// use:
+// node traffic_probe.js

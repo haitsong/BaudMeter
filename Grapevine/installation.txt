@@ -8,3 +8,6 @@ npm install should
 
 to do:
 1. add bdstatic.com for baidu
+
+# start
+
