@@ -1,0 +1,58 @@
+RUNDIR=`pwd`
+
+MAPHOME=$HOME/BaudMeter/Map;
+
+if [ ! -d "$MAPHOME" ] ; then
+    mkdir "$MAPHOME"
+fi
+rm -rf *.json
+
+cd $MAPHOME
+
+if [ ! -f "$MAPHOME/ne_10m_admin_0_map_subunits.zip" ] ; then
+    wget http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_0_map_subunits.zip
+    wget http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_0_countries_lakes.zip
+    wget http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_1_states_provinces_lakes.zip
+    wget http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_populated_places.zip
+    unzip ne_10m_admin_0_map_subunits.zip -x
+    unzip ne_10m_admin_0_countries_lakes.zip -x    
+    unzip ne_10m_admin_1_states_provinces_lakes.zip -x    
+    unzip ne_10m_populated_places.zip -x
+fi
+
+OGR2OGRCMD=$( which ogr2ogr )
+TOPOJSONCMD=$( which topojson )
+echo OGR2OGRCMD is located: [$OGR2OGRCMD]
+echo TOPOJSONCMD is located: [$TOPOJSONCMD]
+
+if [ "$OGR2OGRCMD" == "" ]; then
+    echo install ogr2ogr $OGR2OGRCMD
+    sudo apt-get install gdal-bin
+fi
+
+if [ ! -d /usr/local/lib/node_modules/topojson ]; then
+    echo install topojson
+    npm install -g topojson    
+fi
+
+cd $MAPHOME
+
+if [[ ! -f $MAPHOME/subunits.json ]]; then
+#####    ogr2ogr -f GeoJSON  -where "SU_A3 <> 'ATA'"  subunits.json  ne_10m_admin_0_map_subunits.shp
+    ogr2ogr -f GeoJSON -where "ADM0_A3 IN ('CHN','TWN', 'HKG', 'MAC')" countries.json ne_10m_admin_0_countries_lakes.shp
+    ogr2ogr -f GeoJSON  -where "ADM0_A3 IN ('CHN')"  subunits.json  ne_10m_admin_1_states_provinces_lakes.shp 
+    #// ne_10m_admin_0_map_subunits.shp
+    # ogr2ogr -f GeoJSON  subunits.json  ne_10m_admin_0_countries_lakes.shp
+    # ogr2ogr -f GeoJSON  places.json  ne_10m_populated_places.shp   
+    ogr2ogr -f GeoJSON -where "ADM0_A3 IN ('CHN') AND SCALERANK>7"   places.json  ne_10m_populated_places.shp    
+######    ogr2ogr -f GeoJSON -where "SCALERANK > 18" places.json  ne_10m_populated_places.shp     
+    #    ogr2ogr -f GeoJSON -where "ADM0_A3 IN ('CHN','TWN')" zh-chn-twn.topo.json ne_10m_admin_0_countries_lakes.shp
+    #    ogr2ogr -f GeoJSON -where "ADM0_A3 IN ('HKG','MAC')" zh-hkg-mac.geo.json ne_10m_admin_0_countries_lakes.shp
+    #    ogr2ogr -f GeoJSON -where "gu_A3 IN ('CHN')" zh-mainland-provinces.json ne_10m_admin_1_states_provinces_lakes.shp 
+fi
+
+#topojson -o map.json --properties name=NAME -- zh-chn-twn.topo.json zh-hkg-mac.geo.json zh-mainland-provinces.json subunits.json places.json
+topojson -o chinamap.json --properties name=NAME -- subunits.json places.json countries.json
+
+mv *.json $RUNDIR
+cd $RUNDIR
