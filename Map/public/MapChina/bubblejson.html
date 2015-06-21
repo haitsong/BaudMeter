@@ -134,18 +134,13 @@ d3.json("instances.json", function(instances) {
     var destination = instance.destination;
     // create array if the srcDestIdLinks's entry for origin is empty, or get the array ref back
     var linksByOrigin = srcDestIdLinks[origin] || (srcDestIdLinks[origin] = []);   
-    if( typeof destination === "string" ) {
-        linksByOrigin.push({source: origin, target: destination, value: instance.value });  // add the instance to it.
+    var step = origin;
+    factValueBySites[origin] = (factValueBySites[origin] || 0) + 1;     // inc hit count of origin site  
+    for(var i in destination) {
+        linksByOrigin.push({source: step, target: destination[i], value: instance.value[i] });  // add the instance to it.
+        step = destination[i];
+        factValueBySites[step] = (factValueBySites[step] || 0) + 1;       // inc hit count of each step destination
     }
-    else {
-        var src = origin;
-        for(var i in destination) {
-            linksByOrigin.push({source: src, target: destination[i], value: instance.value[i] });  // add the instance to it.
-            src = destination[i];
-        }
-    }
-    factValueBySites[origin] = (factValueBySites[origin] || 0) + 1;            // inc hit count of source  
-    factValueBySites[destination] = (factValueBySites[destination] || 0) + 1;  // inc hit count of target
   });
 
   // foreach site's location, 
