@@ -43,13 +43,18 @@ function CalculateTrafficStatistic(){
     Log('current elastic cluster address : ' + cluster_address);
 
     for(var index in domainlist) {
-        Log('domain: ' + domainlist[index]);
-        dns.lookup(domainlist[index], function(err, address, family){
-            if(!err) {
-                PostDomainStatistic(domainlist[index], address);
-            }
-        });
+        DoStatistic(domainlist[index]);
     }
+}
+
+function DoStatistic(domain)
+{
+    Log('domain: ' + domain);
+    dns.lookup(domain, function(err, address, family){
+        if(!err) {
+            PostDomainStatistic(domain, address);
+        }
+    });
 }
 
 function PostDomainStatistic(domain, address){
