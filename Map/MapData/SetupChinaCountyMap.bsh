@@ -1,0 +1,5 @@
+rm *.json
+
+ogr2ogr -f GeoJSON county.json CHINACounty.shp
+~/GitHome/BaudMeter/Map/node_modules/topojson/bin/topojson -p PROVINCE,NAME,ZIP=POST_,GB1999 -o county.topo.json county.json
+
