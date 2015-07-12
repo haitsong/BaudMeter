@@ -1,7 +1,10 @@
 rm *.json
 
 ogr2ogr  -t_srs EPSG:4326 -f GeoJSON county.json CHINACounty.shp
+ogr2ogr  -t_srs EPSG:4326 -f GeoJSON -where "PROVINCE=32" jiangsu_county.json CHINACounty.shp
+
 ### ogr2ogr  -t_srs EPSG:4326 -f GeoJSON province.json 省界_region.shp
 ~/GitHome/BaudMeter/Map/node_modules/topojson/bin/topojson -o ChinaXMap.json -p PROVINCE,NAME,ZIP=POST_,GB1999 county.json 
+~/GitHome/BaudMeter/Map/node_modules/topojson/bin/topojson -o JiangSuCounty.json -p PROVINCE,NAME,ZIP=POST_,GB1999 jiangsu_county.json 
 ### province.json
 
