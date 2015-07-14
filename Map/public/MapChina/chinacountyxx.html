@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+
+path {
+  fill: #fff;
+}
+
+.county-line
+{
+    fill: #9de; 
+    fill-opacity: 0.1;
+    stroke: #ab3;
+}
+
+.province-line
+{
+    fill: #d9e; 
+    fill-opacity: 0.01;
+    stroke: #07a;
+}
+
+.province-line-none
+{
+    fill: none; 
+    stroke: #587;
+    pointer-events: all;
+}
+
+#cells.voronoi path.cell {
+  stroke: brown;
+}
+
+#cells g:hover path.arc {
+  display: inherit;
+}
+
+path.arc {
+  pointer-events: none;
+  fill: none;
+  display: none;
+}
+
+path.cell {
+  fill: none;
+  pointer-events: all;
+}
+
+circle {
+  fill: steelblue;
+  fill-opacity: .9;
+  stroke: #fff;
+  z-index: 0;
+}
+
+
+    </style>
+</head>
+
+
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+    <h2>
+      <span id="sitename">China Counties</span>, 
+      <span id="provname">Zooming to province </span> 
+      <br>
+      great arcs and symbol map
+    </h2>
+
+<div style="position:absolute;bottom:0;font-size:18px;">
+  <input type="checkbox" id="voronoi"> <label for="voronoi">show Voronoi</label>
+</div>
+
+<script>
+
+var width = 900, //1200
+    height = 600; //800;
+
+var projection = d3.geo.mercator()
+    .scale(880)
+    .rotate([-110,-35])
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path()
+    .projection(projection)
+    .pointRadius(2);
+
+var svg = d3.select("body").insert("svg:svg", "h2")
+    .attr("width", width)
+    .attr("height", height);
+
+var gcounties = svg.append("svg:g")
+    .attr("class", "county-line")
+    .attr("id", "counties");
+
+var gprovinces = svg.append("svg:g")
+    .attr("class", "province-line")
+    .attr("id", "provinces");
+
+var provincebounds={};    
+
+function addProvCountyBoundPath(clsprv, d)
+{
+    // adding 3 attributes: province id, and gb1999 city.
+    var bounds = path.bounds(d);
+    var pbound =  provincebounds[clsprv];
+    if( !pbound )
+    {
+        provincebounds[clsprv]=bounds;
+    }
+    else 
+    {
+        if(bounds[1][0]>pbound[1][0]) pbound[1][0]=bounds[1][0];
+        if(bounds[0][0]<pbound[0][0]) pbound[0][0]=bounds[0][0];
+        if(bounds[1][1]>pbound[1][0]) pbound[1][1]=bounds[1][1];
+        if(bounds[0][1]<pbound[0][1]) pbound[0][1]=bounds[0][1];
+        provincebounds[clsprv]=pbound;
+    }
+}
+        
+d3.json("ChinaXMap.json", function(error, geox) {
+
+  var counties = topojson.feature(geox, geox.objects.county);
+  //  var provinces = topojson.feature(geox, geox.objects.province);
+  //  var color = d3.scale.category20();
+  gcounties.selectAll("path")
+      .data(counties.features)
+      .enter()
+      .append("svg:path")
+      .attr("class", function(d,i) { 
+        var clsprv = 'gp'+d.properties.PROVINCE;
+        var clscity = 'gc'+Math.floor(d.properties.GB1999/100);
+        addProvCountyBoundPath(clsprv, d);
+		return 'county-line '+ clsprv + ' '+clscity;
+ 	  })
+      .attr("d", path)
+      .style('fill', function(d,i) { 
+		var colors = ['red','blue','cyan','pink','purple','yellow','gray','orange','green','white'];
+		return colors[d.properties.PROVINCE%11]; 
+	})
+    .on("mouseover", function(d, i) { 
+	    d3.select("#sitename").text(d.properties.NAME); 
+	})
+      .on("click", function(d,i) { 
+		zoomprovince(d, d.properties.PROVINCE);
+	});
+
+  gcounties.append("path")
+    .datum(topojson.mesh(geox, geox.objects.county, function(a, b) 
+    { return a.properties.PROVINCE === b.properties.PROVINCE; }))
+    .attr("d", path)
+    .attr("class", "province-line");
+
+});
+
+
+var xyzforprovince=
+{
+};
+
+
+function zoom(xyz, pclass) {
+    gcounties.transition()
+    .duration(750)
+    .attr("transform", "translate(" + projection.translate() + ")scale(" + xyz[2] + ")translate(-" + xyz[0] + ",-" + xyz[1] + ")")
+    .style("stroke-width", (1.0) / xyz[2] + "px")
+    .selectAll("."+pclass)
+    //.style('fill', 'red')
+    .attr("d", path.pointRadius(20.0 / xyz[2]));
+}
+
+function get_xyz(d) {
+  var bounds = path.bounds(d);
+  var w_scale =1.6* (bounds[1][0] - bounds[0][0]) / width;
+  var h_scale =1.6* (bounds[1][1] - bounds[0][1]) / height;
+  var z = 0.96 / Math.max(w_scale, h_scale); // 0.96 / Math.max(w_scale, h_scale);
+  var x = (bounds[1][0] + bounds[0][0]) / 2;
+  // var y = (bounds[1][1] + bounds[0][1]) / 2 + (height / z / 6) ;
+  var y = (bounds[1][1] + bounds[0][1]) / 2 + (height / z / 6);
+  return [x, y, z];
+}
+
+function getXyzForProvince(clsprv)
+{
+    var bounds = provincebounds[clsprv];
+    var w_scale =2.6* (bounds[1][0] - bounds[0][0]) / width;
+    var h_scale =2.6* (bounds[1][1] - bounds[0][1]) / height;
+    var z = 0.96 / Math.max(w_scale, h_scale); // 0.96 / Math.max(w_scale, h_scale);
+    var x = (bounds[1][0] + bounds[0][0]) / 2;
+    // var y = (bounds[1][1] + bounds[0][1]) / 2 + (height / z / 6) ;
+    var y = (bounds[1][1] + bounds[0][1]) / 2 + (height / z / 6);
+    return [x, y, z];
+}
+
+function zoomprovince(d, provinceMapId)
+{
+    var classprv = 'gp'+provinceMapId;    
+	d3.select("#provname").text(classprv); 
+    var zoomxyz = xyzforprovince[classprv];
+    if(!zoomxyz){
+        zoomxyz = getXyzForProvince(classprv);
+        xyzforprovince[classprv]=zoomxyz;
+    }    
+    zoom(zoomxyz, classprv);
+}
+
+</script>
+  </body>
+</html>

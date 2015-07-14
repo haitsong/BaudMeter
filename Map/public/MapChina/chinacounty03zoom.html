@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+
+path {
+  fill: #fff;
+}
+
+.county-line
+{
+    fill: #9de; 
+    fill-opacity: 0.1;
+    stroke: #ab3;
+}
+
+.province-line
+{
+    fill: #d9e; 
+    fill-opacity: 0.01; 
+    stroke: #07a;
+    pointer-events: all;
+}
+
+#cells.voronoi path.cell {
+  stroke: brown;
+}
+
+#cells g:hover path.arc {
+  display: inherit;
+}
+
+path.arc {
+  pointer-events: none;
+  fill: none;
+  display: none;
+}
+
+path.cell {
+  fill: none;
+  pointer-events: all;
+}
+
+circle {
+  fill: steelblue;
+  fill-opacity: .9;
+  stroke: #fff;
+  z-index: 0;
+}
+
+    </style>
+</head>
+
+
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script  src="ChinaCityCountyCodes.json" charset="utf-8"></script>
+<h2>
+  <span id="countyname">countyname</span>, 
+  <span id="provincename">province </span> 
+</h2>
+
+<script>
+
+var width = 900, //1200
+    height = 600; //800;
+
+    /*
+var projection = d3.geo.mercator()
+    .scale(880)
+    .rotate([-110,-35])
+    .translate([width / 2, height / 2+20]);
+*/
+var projection = d3.geo.mercator()
+    .scale(880)
+    .rotate([-110,-35])
+    .translate([0, 0]);
+//    .scale(width / 2 / Math.PI);
+    
+var zoombehavior = d3.behavior.zoom()
+    .scaleExtent([1, 8])
+    .on("zoom", move);
+    
+var path = d3.geo.path()
+    .projection(projection)
+    .pointRadius(2);
+    
+var svg = d3.select("body").insert("svg:svg", "h2")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    .call(zoombehavior); 
+    
+var gcounties = svg.append('g') //"svg:g")
+    .attr("class", "county-line")
+    .attr("id", "counties");
+
+function move() {
+  var t = d3.event.translate,
+      s = d3.event.scale;
+  t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
+  t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
+  zoombehavior.translate(t);
+  gcounties.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+}
+
+/*    
+function ZoomProvince(d, provinceMapId)
+{
+return;
+    var classprv = 'gp'+provinceMapId;    
+	d3.select("#provname").text(classprv); 
+    var zoomxyz = xyzforprovince[classprv];
+    if(!zoomxyz){
+        zoomxyz = get_xyz(d, classprv);
+        xyzforprovince[classprv]=zoomxyz;
+    }    
+    zoom(zoomxyz, classprv);
+}
+*/
+
+function DrawCounties(provid)
+{
+    // d3.selectAll('.county-line:not(.county-of-'+provid+')').attr('style:visibility','hidden');
+    // d3.selectAll('.province-line:not(.province-of-'+provid+')').attr('display','normal');
+    d3.selectAll('.county-line').attr('style:visibility','hidden');
+    d3.selectAll('.province-line').attr('display','normal');
+    d3.selectAll('.province-line').attr('style:visibility','visible');
+    d3.selectAll('.county-of-'+provid).attr('style:visibility','visible');
+    d3.selectAll('.province-of-'+provid).attr('display','none');
+}
+
+var activeProvince=32;
+var xyzforprovince={};
+  
+d3.json("ChinaXMap.json", function(error, geox) 
+{
+    // draw counties;    
+    var counties = topojson.feature(geox, geox.objects.county);
+    var listofprov = {};
+        
+    gcounties.selectAll("path")
+        .data( counties.features )
+        .enter()
+        .append("svg:path")
+        .attr("d", path)          
+        .attr("class", function(d,i) { 
+            var clsprv  = 'county-of-'+d.properties.PROVINCE;
+            listofprov [clsprv] = d.properties.PROVINCE;
+            return 'county-line '+ clsprv;
+        })
+        .attr("style:visibility", function(d,i) { 
+            return d.properties.PROVINCE==activeProvince? 'visible': 'hidden';
+        })
+        .style('fill', function(d,i) { 
+            var colors = ['red','blue','cyan','pink','purple','yellow','gray','orange','green','cadetblue'];
+            var colorx = // d.properties.PROVINCE==activeProvince? colors[Math.floor(d.properties.GB1999/100%11)]: 'white'; 
+                colors[Math.floor(d.properties.GB1999/100%11)]; 
+            return colorx;
+        })
+        .on("mouseover", function(d, i) { 
+            d3.select("#countyname").text(d.properties.NAME+activeProvince); 
+        });
+    
+    for(var clsx in listofprov)
+    {
+        var prvid = listofprov[clsx];
+        var provlines = topojson.merge(geox, geox.objects.county.geometries.filter(function(d) { return d.properties.PROVINCE==prvid; }));
+        provlines["PROVINCE"] =  prvid;
+        gcounties.append('path')
+            .datum(provlines)
+            .attr("class", function(d, i) { 
+                var clsprv  = 'province-of-'+d.PROVINCE;
+                return 'province-line '+ clsprv;
+            })
+            .attr("d", path)
+            .on("mouseover", function(d, i) { 
+                d3.select("#provincename").text('PROVINCE='+d.PROVINCE); 
+                DrawCounties(d.PROVINCE);
+            })
+            //.on("click", function(d,i) { 
+            //    var provid = activeProvince= d.PROVINCE;
+            //    // ZoomProvince(d, provid);
+            //    DrawCounties(provid);
+            //})
+            ;              
+    }    
+});
+
+/*
+    
+function zoom(xyz, pclass) {
+    gcounties
+        .transition()
+        .duration(100)
+        .attr("transform", "translate(" + projection.translate() + ")scale(" + xyz[2] + ")translate(-" + xyz[0] + ",-" + xyz[1] + ")")
+        .style("stroke-width", (1.0) / xyz[2] + "px")
+        .selectAll("."+pclass)
+        .attr("d", path.pointRadius(20.0 / xyz[2]));       
+}
+
+function get_xyz(d) {
+  var bounds = path.bounds(d);
+  var w_scale =1.6* (bounds[1][0] - bounds[0][0]) / width;
+  var h_scale =1.6* (bounds[1][1] - bounds[0][1]) / height;
+  var z = 0.96 / Math.max(w_scale, h_scale); 
+  var x = (bounds[1][0] + bounds[0][0]) / 2;
+  var y = (bounds[1][1] + bounds[0][1]) / 2 + (height / z / 6);
+  return [x, y, z];
+}
+*/
+
+</script>
+</body>
+</html>
