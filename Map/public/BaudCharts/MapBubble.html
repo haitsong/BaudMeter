@@ -17,35 +17,17 @@ path
 .province-line
 {
     fill: #eeffff; 
-    fill-opacity: 0.6; 
+    fill-opacity: 0.1; 
     stroke: #7a9;
     pointer-events: all;
 }
 
-#cells.voronoi path.cell {
-  stroke: brown;
-}
-
-#cells g:hover path.arc {
-  display: inherit;
-}
-
-path.arc {
-  pointer-events: none;
-  fill: none;
-  display: none;
-}
-
-path.cell {
-  fill: none;
-  pointer-events: all;
-}
-
-circle {
-  fill: steelblue;
-  fill-opacity: .9;
-  stroke: #fff;
-  z-index: 0;
+.city-circle
+{
+    fill: none; 
+    fill-opacity: 0.6; 
+    stroke: #a97;
+    pointer-events: all;
 }
 
 </style>
@@ -55,7 +37,8 @@ circle {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
-<script  src="ChinaCityCountyCodes.json" charset="utf-8"></script>
+<script src="ChinaCityCountyCodes.json"></script>
+
 <script>
 
 var width = 900, //1200
@@ -82,47 +65,93 @@ var svg = d3.select("body").insert("svg:svg", "h2")
     .call(zoombehavior); 
     
 var gcounties = svg.append('g') //"svg:g")
-    .attr("class", "county-line")
     .attr("id", "counties");
-
+        
 function move() {
-  var t = d3.event.translate,
-      s = d3.event.scale;
+  var t = d3.event.translate;
+  var s = d3.event.scale;
   t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
   t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
   zoombehavior.translate(t);
   gcounties.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
-  d3.select("#scale").text(s);
-  d3.select("#cx").text(t[0]);
-  d3.select("#cy").text(t[1]);  
+  // gcounties.select('circle').style("r", 3/s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+  // zoom level: d3.select("#scale").text(s);  d3.select("#cx").text(t[0]); d3.select("#cy").text(t[1]);  
 }
 
 function DrawCounties(provid)
 {
-    d3.selectAll('.county-line').attr('style:visibility','hidden');
-    d3.selectAll('.province-line').attr('display','normal');
+    d3.selectAll('.province-line').attr('display','inline');
     d3.selectAll('.province-line').attr('style:visibility','visible');
-    d3.selectAll('.county-of-'+provid).attr('style:visibility','visible');
-    d3.selectAll('.province-of-'+provid).attr('display','none');
+    d3.selectAll('.county-line').attr('style:visibility','hidden');
+    d3.selectAll('.city-circle').attr('style:visibility','hidden');
+    d3.selectAll('.inactive-of-'+provid).attr('style:visibility','hidden');
+    d3.selectAll('.inactive-of-'+provid).attr('display','none');
+    d3.selectAll('.active-of-'+provid).attr('style:visibility','visible');
+    d3.selectAll('.active-of-'+provid).attr('display','inline');
+}
+
+var colors  = ['#8ef','#fe8','#b8e','#8eb','#be8','#fbc','#cbf','#d8e','#e8d','#de8'];
+/* INPUT PARAMETER, a function to return color for gb1999 */
+function GetCountyColor( gb1999OfCounty )
+{
+    return colors[Math.floor(gb1999OfCounty/100%11)]; 
+}
+
+function SetSiteCircleSizeAndColor(site)
+{
+    var code= (site.COUNTY||site.ZHCITY||site.PROVINCE);
+    var colorscale= d3.scale.linear().domain([0, 7000, 8000]).range(["green", "yellow", "red"]);
+    site.color = colorscale(code%7*1000); 
+    site.radius = (code%11)*0.3;
 }
 
 var activeProvince=32;
 var xyzforprovince={};
-var colors = ['#8ef','#fe8','#b8e','#8eb','#be8','#fbc','#cbf','#d8e','#e8d','#de8'];
+
+function LoadSites(sites) {    
+    sites = sites.filter(function(site) {
+        var location = [+site.LON, +site.LAT];
+        var pr =  projection(location);        
+        site.cx = pr[0];
+        site.cy = pr[1];
+        SetSiteCircleSizeAndColor(site);
+        return true;
+    });
+};
   
 d3.json("ChinaXMap.json", function(error, geox) 
 {
     // draw counties;    
     var counties = topojson.feature(geox, geox.objects.county);
     var listofprov = {};
-        
+    
+    LoadSites(ChinaCountyGBZipLatLonArray);
+	// Draw City
+	gcounties.selectAll("path")
+        .data(ChinaCountyGBZipLatLonArray)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) {
+            return  d.cx; // projection([d.LON, d.LAT])[0];
+        })
+        .attr("cy", function(d) {
+            return d.cy; // projection([d.LON, d.LAT])[1];
+        })        
+//        .attr("style:visibility", function(d,i) { 
+//            return d.PROVINCE/10000==activeProvince? 'visible': 'hidden';
+//        })
+        .attr("r", function(d,i){ return d.radius; })        
+        .attr("fill", function(d,i){ return d.color; })        
+        .sort(function(a, b) { return b.radius - a.radius; });        
+        ;
+            
     gcounties.selectAll("path")
         .data( counties.features )
         .enter()
         .append("svg:path")
         .attr("d", path)          
         .attr("class", function(d,i) { 
-            var clsprv  = 'county-of-'+d.properties.PROVINCE;
+            var clsprv  = 'active-of-'+d.properties.PROVINCE;
             listofprov [clsprv] = d.properties.PROVINCE;
             return 'county-line '+ clsprv;
         })
@@ -130,23 +159,26 @@ d3.json("ChinaXMap.json", function(error, geox)
             return d.properties.PROVINCE==activeProvince? 'visible': 'hidden';
         })
         .style('fill', function(d,i) { 
-            var colorx = d.properties.PROVINCE==0? '#4169E1': 
-                colors[Math.floor(d.properties.GB1999/100%11)]; 
+            var colorx = d.properties.PROVINCE==0? '#4169E1': GetCountyColor(d.properties.GB1999);            
             return colorx;
         })
         .on("mouseover", function(d, i) { 
             d3.select("#countyname").text(d.properties.NAME+activeProvince); 
         });
-    
+   
     for(var clsx in listofprov)
     {
         var prvid = listofprov[clsx];
-        var provlines = topojson.merge(geox, geox.objects.county.geometries.filter(function(d) { return d.properties.PROVINCE==prvid; }));
+        var provlines = topojson.merge(geox, 
+            geox.objects.county.geometries.filter(
+                function(d) { 
+                    return d.properties.PROVINCE==prvid; 
+                }));
         provlines["PROVINCE"] =  prvid;
         gcounties.append('path')
             .datum(provlines)
             .attr("class", function(d, i) { 
-                var clsprv  = 'province-of-'+d.PROVINCE;
+                var clsprv  = 'inactive-of-'+d.PROVINCE;
                 return 'province-line '+ clsprv;
             })
             .attr("d", path)
@@ -157,6 +189,8 @@ d3.json("ChinaXMap.json", function(error, geox)
             ;              
     }    
     
+ 
+    
 });
 
 //move to Jiangsu:
@@ -166,9 +200,9 @@ zoombehavior.scale(7).translate([-800, -200]).event(gcounties);
 <h2>
   <span id="countyname">countyname</span><br/>
   <span id="provincename">province </span><br/> 
-  <span id="scale">scale</span><br/>
+  <!-- span id="scale">scale</span><br/>
   <span id="cx">cx</span><br/>
-  <span id="cy">cy</span>
+  <span id="cy">cy</span -->
 </h2>
 </body>
 </html>
