@@ -9,8 +9,8 @@ path
 
 .county-line
 {
-    fill:  none; 
-    // fill-opacity: 0.6;
+    fill:  Azure; 
+    fill-opacity: 0.6;
     stroke: #ab3;
 }
 
@@ -66,7 +66,7 @@ var svg = d3.select("body").insert("svg:svg", "h2")
     
 var gcounties = svg.append('g') //"svg:g")
     .attr("id", "counties");
-        
+    
 function move() {
   var t = d3.event.translate;
   var s = d3.event.scale;
@@ -90,22 +90,26 @@ function DrawCounties(provid)
     d3.selectAll('.active-of-'+provid).attr('display','inline');
 }
 
+var colorscale= d3.scale.linear().domain([0, 3000, 8000]).range(["green", "yellow", "red"]);
+
+
 /* INPUT PARAMETER, a function to return color for gb1999 
 function GetCountyColor( gb1999OfCounty )
 {
     var colors  = ['#8ef','#fe8','#b8e','#8eb','#be8','#fbc','#cbf','#d8e','#e8d','#de8'];
     return colors[Math.floor(gb1999OfCounty/100%11)]; 
 }
-*/
+
+ INPUT PARAMETER, a function to return size of GB1999 for gb1999 
 
 function SetSiteCircleSizeAndColor(site)
 {
-    var code= site.GB1999;
+    var code= (site.COUNTY||site.ZHCITY||site.PROVINCE);
     var colorscale= d3.scale.linear().domain([0, 7000, 8000]).range(["green", "yellow", "red"]);
     site.color = colorscale(code%7*1000); 
     site.radius = (code%11)*0.3;
 }
-
+*/
 var activeProvince=32;
 
 var chinaCountyCityDetail ={};
@@ -120,38 +124,19 @@ function LoadSites(sites) {
         site.GB1999 = site.COUNTY|| site.ZHCITY || site.PROVINCE;
         // create a map of geo locations;
         chinaCountyCityDetail[site.GB1999]=site;
-        SetSiteCircleSizeAndColor(site);        
     });
 };
 
+//GB1999 CITIES OF CHINA:
 LoadSites(ChinaCountyGBZipLatLonArray);
-  
+
 d3.json("ChinaXMap.json", function(error, geox) 
 {
     // draw counties;    
     var counties = topojson.feature(geox, geox.objects.county);
     var listofprov = {};
-    
-	// Draw City
-	gcounties.selectAll("path")
-        .data(ChinaCountyGBZipLatLonArray)
-        .enter()
-        .append("circle")
-        .attr("cx", function(d) {
-            return  d.cx; // projection([d.LON, d.LAT])[0];
-        })
-        .attr("cy", function(d) {
-            return d.cy; // projection([d.LON, d.LAT])[1];
-        })        
-//        .attr("style:visibility", function(d,i) { 
-//            return d.PROVINCE/10000==activeProvince? 'visible': 'hidden';
-//        })
-        .attr("r", function(d,i){ return d.radius; })        
-        .attr("fill", function(d,i){ return d.color; })        
-        .sort(function(a, b) { return b.radius - a.radius; });        
-        ;
-            
-    gcounties.selectAll("path")
+                
+    gcounties.selectAll("path.county-line")
         .data( counties.features )
         .enter()
         .append("svg:path")
@@ -161,13 +146,13 @@ d3.json("ChinaXMap.json", function(error, geox)
             listofprov [clsprv] = d.properties.PROVINCE;
             return 'county-line '+ clsprv;
         })
-        .attr("style:visibility", function(d,i) { 
-            return d.properties.PROVINCE==activeProvince? 'visible': 'hidden';
-        })
-        /*.style('fill', function(d,i) { 
-            var colorx = d.properties.PROVINCE==0? '#4169E1': GetCountyColor(d.properties.GB1999);            
-            return colorx;
-        }) */
+//        .attr("style:visibility", function(d,i) { 
+//            return d.properties.PROVINCE==activeProvince? 'visible': 'hidden';
+//        })
+//        .style('fill', function(d,i) { 
+//            var colorx = d.properties.PROVINCE==0? '#4169E1': GetCountyColor(d.properties.PROVINCE*100);            
+//            return colorx;
+//        })
         .on("mouseover", function(d, i) { 
             d3.select("#countyname").text(d.properties.NAME+activeProvince); 
         });
@@ -193,14 +178,59 @@ d3.json("ChinaXMap.json", function(error, geox)
                 DrawCounties(d.PROVINCE);
             })
             ;              
-    }    
-    
- 
+    }     
     
 });
 
+// foreach instance, on each instance sites
+d3.json("instances.json", function(instances) {
+
+    // instance's origin links to its target, in the form of site ids, grouped by originids, [[origin_siteid, destination_siteid] []] }
+    var srcDestIdLinks = {}; 
+
+    var arc = d3.geo.greatArc()
+      .source(function(d) { 
+            return chinaCountyCityDetail[d.source].location; 
+            })
+      .target(function(d) { 
+            return chinaCountyCityDetail[d.target].location; 
+            });
+
+    instances.forEach(function(instance) {
+        var origin = instance.origin;
+        var destination = instance.destination;
+        // create array if the srcDestIdLinks's entry for origin is empty, or get the array ref back
+        var linksByOrigin = srcDestIdLinks[origin] || (srcDestIdLinks[origin] = []);   
+        var step = origin;
+        for(var i in destination) {
+            linksByOrigin.push({source: step, target: destination[i], value: instance.value[i] });  // add the instance to it.
+            step = destination[i];
+        }
+    });            
+
+    
+    var gpatharc = gcounties.selectAll("g")
+        .data(ChinaCountyGBZipLatLonArray)        
+        .enter()
+        .append("svg:g");
+    //    .attr("class","patharc");
+
+    gpatharc.selectAll("path.instancepath")
+        .data( function(d) { return srcDestIdLinks[d.GB1999] || [];} )
+        .enter()
+        .append("svg:path")
+        .attr("class", "instancepath")
+        .attr("d", function(d){  
+            return path(arc(d)); 
+        })
+        .attr("stroke", function(d) {  return  colorscale(d.value); } )
+        .sort(function(a, b) { return b.value - a.value; });
+        ;        
+    });
+
+
 //move to Jiangsu:
-// zoombehavior.scale(7).translate([-800, -200]).event(gcounties);
+//zoombehavior.scale(7).translate([-800, -200]).event(gcounties);
 
 </script>
 <h2>
