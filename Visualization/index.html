@@ -1,0 +1,21 @@
+<html ng-app="myApp"> 
+  <head> 
+    <!-- Include 3rd party libraries -->
+    <script src="bower_components/d3/d3.js" charset="UTF-8"></script>
+    <script src="bower_components/angular/angular.js" charset="UTF-8"></script>
+    <script src="bower_components/topojson/topojson.js" charset="UTF-8"></script>
+
+    <!-- Include the application files -->
+    <script src="src/app.js"></script>
+    <link href="src/app.css" rel="stylesheet">
+
+    <!-- Include the files of the chart component -->
+    <script src="src/provinceLatencyView.js"></script>
+
+  </head>
+  <body>
+    <div ng-controller="MainCtrl">
+      <m-Province-Latency-View latency="latency" county-Map="countyMap"></m-Province-Latency-View>
+    </div>
+  </body> 
+</html>
