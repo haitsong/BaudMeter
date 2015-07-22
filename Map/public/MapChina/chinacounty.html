@@ -94,7 +94,8 @@ d3.json("ChinaXMap.json", function(error, geox) {
     .attr("class", "province-line")
       .attr("d", path)
       .style('fill', function(d,i) { 
-		return '#'+d.properties.PROVINCE+'FAB9'; 
+        var colors = ['red','yellow','blue','green','cyan','orange'];
+		return colors[d.properties.PROVINCE%5]; 
 		// debugger;
 	});
       

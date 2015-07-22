@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <style type="text/css">
+
+path {
+  fill: #ddd;
+}
+
+.province-line
+{
+    fill: #9de; 
+    fill-opacity: 0.1;
+    stroke: #00f;
+  stroke: F0F;
+}
+
+#cells.voronoi path.cell {
+  stroke: brown;
+}
+
+#cells g:hover path.arc {
+  display: inherit;
+}
+
+path.arc {
+  pointer-events: none;
+  fill: none;
+  display: none;
+}
+
+path.cell {
+  fill: none;
+  pointer-events: all;
+}
+
+circle {
+  fill: steelblue;
+  fill-opacity: .9;
+  stroke: #fff;
+  z-index: 0;
+}
+
+
+    </style>
+</head>
+
+
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+    <h2>
+      <span id="sitename">U.S. commercial sites</span>, 2008<br>
+      great arcs and symbol map
+    </h2>
+
+<div style="position:absolute;bottom:0;font-size:18px;">
+  <input type="checkbox" id="voronoi"> <label for="voronoi">show Voronoi</label>
+</div>
+
+<script>
+
+var width = 1200,
+    height = 800;
+
+var projection = d3.geo.mercator()
+    .scale(1100)
+    .rotate([-110,-35])
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path()
+    .projection(projection)
+    .pointRadius(2);
+
+var svg = d3.select("body").insert("svg:svg", "h2")
+    .attr("width", width)
+    .attr("height", height);
+        
+var counties = svg.append("svg:g")
+    .attr("class", "province-line")
+    .attr("id", "counties");
+        
+d3.json("county.topo.json", function(error, geox) {
+
+  var topocounties = topojson.feature(geox, geox.objects.county);  
+  counties.selectAll("path")
+      .data(topocounties.features)
+    .enter().append("svg:path")
+      .attr("d", path)
+      .style("fill", function(d,i)
+          {
+              return '#'+d.PROVINCE+'FA9B';
+          });
+      
+});
+
+var circles = svg.append("svg:g")
+    .attr("id", "circles");
+
+var cells = svg.append("svg:g")
+    .attr("id", "cells");
+   
+var colorscale= d3.scale.linear().domain([0, 3000, 8000]).range(["green", "yellow", "red"]);
+
+// foreach instance, on each instance sites
+d3.csv("instances.csv", function(instances) {
+
+  // instance's origin links to its target, in the form of site ids, grouped by originids, [[origin_siteid, destination_siteid] []] }
+  var srcDestIdLinks = {}; 
+  
+  // instance's fact value (hit count for simplicity) of sites, table keyed by site_siteid;
+  // this could be input from analysis
+  var factValueBySites = {};   
+     
+  // geolocations of sites, keyed by site_siteids;
+  var siteGeoLocations = {};   
+  
+  // location by site's geo projection
+  var siteMapProjections = [];
+
+  var arc = d3.geo.greatArc()
+      .source(function(d) { return siteGeoLocations[d.source]; })
+      .target(function(d) { return siteGeoLocations[d.target]; });
+
+  instances.forEach(function(instance) {
+    var origin = instance.origin;
+    var destination = instance.destination;
+    // create array if the srcDestIdLinks's entry for origin is empty, or get the array ref back
+    var linksByOrigin = srcDestIdLinks[origin] || (srcDestIdLinks[origin] = []);       
+    linksByOrigin.push({source: origin, target: destination, value: instance.value });                 // add the instance to it.
+    factValueBySites[origin] = (factValueBySites[origin] || 0) + 1;            // inc hit count of source  
+    factValueBySites[destination] = (factValueBySites[destination] || 0) + 1;  // inc hit count of target
+  });
+
+  // foreach site's location, 
+  // site is form of { siteid: 'SITEID', name: 'SITE NAME', latitude: 30, longitude: 101 }
+  d3.csv("sites.csv", function(sites) {
+
+    // draw only circles with activities.
+    // Only consider sites with at least one flight.
+    sites = sites.filter(function(site) {
+      if (factValueBySites[site.siteid]) {
+        var location = [+site.longitude, +site.latitude];
+        siteGeoLocations[site.siteid] = location;
+        siteMapProjections.push(projection(location));
+        return true;
+      }
+    });
+
+    // Compute the Voronoi diagram of sites' projected siteMapProjections.
+    var polygons = d3.geom.voronoi(siteMapProjections);
+    
+    var g = cells.selectAll("g")
+        .data(sites)
+      .enter().append("svg:g");
+
+    g.append("svg:path")
+        .attr("class", "cell")
+        .attr("d", function(d, i) { return "M" + polygons[i].join("L") + "Z"; })
+        .on("mouseover", function(d, i) { d3.select("#sitename").text(d.name); });
+
+    g.selectAll("path.arc")
+        .data(function(d) { return srcDestIdLinks[d.siteid] || []; })
+      .enter().append("svg:path")
+        .attr("class", "arc")
+        .attr("d", function(d){  return path(arc(d)); }  )
+        // d3.scale.linear().domain([0, 10000, 30000]).range(["#00ff00", "#ffff00", "#ff0000"]);
+        .attr("stroke", function(d) {  return  colorscale(d.value); } )
+        .sort(function(a, b) { return b.value - a.value; });
+        ;
+        
+        //.sort(function(a, b) { return srcDestIdLinks[b.siteid].length - srcDestIdLinks[a.siteid].length; });
+
+    circles.selectAll("circle")
+        .data(sites)
+      .enter().append("svg:circle")
+        .attr("cx", function(d, i) { return siteMapProjections[i][0]; })
+        .attr("cy", function(d, i) { return siteMapProjections[i][1]; })
+        .attr("r", function(d, i) { return Math.sqrt(factValueBySites[d.siteid]); })
+        .sort(function(a, b) { return factValueBySites[b.siteid] - factValueBySites[a.siteid]; });
+  });
+});
+
+d3.select("input[type=checkbox]").on("change", function() {
+  cells.classed("voronoi", this.checked);
+});
+
+
+</script>
+  </body>
+</html>
