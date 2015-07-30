@@ -36,7 +36,7 @@ path
 <body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="topojson.v1.min.js"></script>
 <script src="ChinaCityCountyCodes.json" charset="utf-8"></script>
 <script src="ChinaMapJs.json" charset="utf-8"></script>
 
@@ -51,7 +51,7 @@ var projection = d3.geo.mercator()
     .translate([0,0]);
     
 var zoombehavior = d3.behavior.zoom()
-    .scaleExtent([1, 1000])
+    .scaleExtent([1,600])
     .on("zoom", move);
     
 var path = d3.geo.path()
@@ -75,8 +75,11 @@ function move() {
   t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
   zoombehavior.translate(t);
   gcounties.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
-  // gcounties.select('circle').style("r", 3/s).attr("transform", "translate(" + t + ")scale(" + s + ")");
-  // zoom level: d3.select("#scale").text(s);  d3.select("#cx").text(t[0]); d3.select("#cy").text(t[1]);  
+  gcounties.select('circle').style("r", 3/s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+  // zoom level: 
+  d3.select("#scale").text(s);  
+  d3.select("#cx").text(t[0]); 
+  d3.select("#cy").text(t[1]);  
 }
 
 function DrawCounties(provid)
@@ -110,28 +113,53 @@ function SetSiteCircleSizeAndColor(site)
 var activeProvince=32;
 
 var chinaCountyCityDetail ={};
-
-function LoadSites(sites) {    
+function LoadGB1999CountyCenter(sites) {    
     sites = sites.forEach(function(site) {
         var location = [ site.LON ||site.longitude, site.LAT ||site.latitude];
         site.location = location; // wrap in geo location
         var pr =  projection(site.location);        
         site.cx = pr[0];
         site.cy = pr[1];
-        site.GB1999 = site.COUNTY|| site.ZHCITY || site.PROVINCE;
+        if(!site.GB1999)
+        {   // GB1999 should be computed before hand so that we know 
+            // what it belongs to.
+            site.GB1999 = site.COUNTY|| site.ZHCITY || site.PROVINCE;
+        }
         // create a map of geo locations;
-        chinaCountyCityDetail[site.GB1999]=site;
+        chinaCountyCityDetail["GB"+site.GB1999]=site;
+    });
+};
+// load official GB1999 sites;
+LoadGB1999CountyCenter(ChinaCountyGBZipLatLonArray);
+
+function FindMatchingGB1999Site(gb1999, nullallowed)
+{
+    var s = "GB"+gb1999;
+    var res = chinaCountyCityDetail[s];
+    if(res || nullallowed)
+    {
+        return res;
+    }
+    return FindMatchingGB1999Site( Math.floor(gb1999/100.0) *100, true );
+}
+
+// function to preprocess the user data;
+function LoadUserSiteData(sites) {    
+    sites = sites.forEach(function(site) {
+        var location = [ site.LON ||site.longitude, site.LAT ||site.latitude];
+        site.location = location; // wrap in geo location
+        var pr =  projection(site.location);        
+        site.cx = pr[0];
+        site.cy = pr[1];
         SetSiteCircleSizeAndColor(site);        
     });
 };
 
-
-// LoadSites(ChinaCountyGBZipLatLonArray);
   
-function DrawChinaMap(geox, sites) 
+function DrawChinaMap(geox, sites, zoomGB1999)
 {
 
-    LoadSites(sites);
+    LoadUserSiteData(sites);
 
     // draw counties;    
     var counties = topojson.feature(geox, geox.objects.county);
@@ -169,14 +197,11 @@ function DrawChinaMap(geox, sites)
         .attr("style:visibility", function(d,i) { 
             return d.properties.PROVINCE==activeProvince? 'visible': 'hidden';
         })
-        /*.style('fill', function(d,i) { 
-            var colorx = d.properties.PROVINCE==0? '#4169E1': GetCountyColor(d.properties.GB1999);            
-            return colorx;
-        }) */
         .on("mouseover", function(d, i) { 
             d3.select("#countyname").text(d.properties.NAME+activeProvince); 
         });
-   
+
+    // draw province border line:        
     for(var clsx in listofprov)
     {
         var prvid = listofprov[clsx];
@@ -199,21 +224,30 @@ function DrawChinaMap(geox, sites)
             })
             ;              
     }    
-      
+
+    gbsite = FindMatchingGB1999Site(zoomGB1999);
+    if(gbsite)
+    {
+       var scalex=100;
+       zoombehavior.translate([-gbsite.cx*scalex,-gbsite.cy*scalex]).scale(scalex).event(gcounties);
+    } 
 };
 
-DrawChinaMap(topoChinaMap, ChinaCountyGBZipLatLonArray );
+
+zoomGB1999 = 320701;
+/*ChinaCountyGBZipLatLonArray as data*/
+DrawChinaMap(topoChinaMap, ChinaCountyGBZipLatLonArray, zoomGB1999 );
 
 //move to Jiangsu:
-// zoombehavior.scale(7).translate([-800, -200]).event(gcounties);
+//zoombehavior.scale(7).translate([-800, -200]).event(gcounties);
 
 </script>
 <h2>
   <span id="countyname">countyname</span><br/>
   <span id="provincename">province </span><br/> 
-  <!-- span id="scale">scale</span><br/>
+  <span id="scale">scale</span><br/>
   <span id="cx">cx</span><br/>
-  <span id="cy">cy</span -->
+  <span id="cy">cy</span>
 </h2>
 </body>
 </html>
