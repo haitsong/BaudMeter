@@ -59,7 +59,7 @@ var projection = d3.geo.mercator()
     
 var zoombehavior = d3.behavior.zoom()
     .scaleExtent([1,100])
-    .on("zoom", move);
+    .on("zoom", panzoom);
     
 var path = d3.geo.path()
     .projection(projection)
@@ -75,7 +75,7 @@ var svg = d3.select("body").insert("svg:svg", "h2")
 var gcounties = svg.append('g') //"svg:g")
     .attr("id", "counties");
         
-function move() {
+function panzoom() {
   var t = d3.event.translate;
   var s = d3.event.scale;
   t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
@@ -87,6 +87,16 @@ function move() {
   d3.select("#scale").text(s);  
   d3.select("#cx").text(t[0]); 
   d3.select("#cy").text(t[1]);  
+  if(s>=20)
+  {
+    d3.selectAll('.site-circle').attr('display','inline');
+//    d3.selectAll('.site-circle').attr('style:visibility','visible');
+  }
+  else
+  {
+    d3.selectAll('.site-circle').attr('display','none');
+//    d3.selectAll('.site-circle').attr('style:visibility','hidden');
+  }
 }
 
 function DrawCounties(provid)
@@ -207,6 +217,7 @@ function DrawChinaMap(geox, sites, fColorForGb1999)
             .attr("class", function(d,i){ return 'site-circle'; })
             .attr("r", function(d,i){ return d.radius; })
             .attr("fill", function(d,i){ return d.color; })
+			.on("click", function(d){ alert(d.GB1999+d.FULLNAME );} )
             .sort(function(a, b) { return b.radius - a.radius; });
                 
     // draw province border line:        
@@ -249,8 +260,8 @@ zoomGB1999 = 320701;
 /*ChinaCountyGBZipLatLonArray as data*/
 DrawChinaMap(topoChinaMap, ChinaCountyGBZipLatLonArray, GetCountyColor );
 
-//move to Jiangsu:
-//zoombehavior.scale(7).translate([-800, -200]).event(gcounties);
+//panzoom to Jiangsu:
+zoombehavior.scale(7).translate([-800, -200]).event(gcounties);
 
 </script>
 <h2>
