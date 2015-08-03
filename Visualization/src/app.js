@@ -1,6 +1,6 @@
 /* src/app.js */
 // Application Module 
-angular.module('myApp', ['LatencyCharts'])
+angular.module('myApp', ['d3Charts'])
 
 // Main application controller
 .controller('MainCtrl', ['$scope',

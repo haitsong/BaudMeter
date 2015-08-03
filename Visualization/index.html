@@ -10,12 +10,32 @@
     <link href="src/app.css" rel="stylesheet">
 
     <!-- Include the files of the chart component -->
-    <script src="src/provinceLatencyView.js"></script>
+    <script src="src/services/eventService.js"></script>
+    <script src="src/views/provinceLatencyView.js"></script>
+    <script src="src/controller/people.js"></script>
+    <script src="src/controller/user.js"></script>
 
   </head>
   <body>
     <div ng-controller="MainCtrl">
       <m-Province-Latency-View latency="latency" county-Map="countyMap"></m-Province-Latency-View>
     </div>
+
+    <div ng-controller="peopleCtrl">
+      <li ng-repeat="name in names">
+        {{name}}
+      </li>
+    </div>
+
+    <div ng-controller="userCtrl" align="left">
+      <input ng-model="newUser"/>
+      <button ng-click="addUser(newUser)">Add New User</button>
+      <li ng-repeat="user in users">
+        {{user}}
+      </li>
+    </div>
+
+
+
   </body> 
 </html>

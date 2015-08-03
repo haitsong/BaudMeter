@@ -1,6 +1,6 @@
 /* src/chart.js */
 // Chart Module 
-angular.module('LatencyCharts', [])
+angular.module('d3Charts', ['eventLib'])
 
 // D3 Factory
     .factory('d3', function() {
