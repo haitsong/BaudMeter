@@ -1,0 +1,44 @@
+<style type="text/css">
+    path
+    {
+        fill: #fff;
+    }
+
+    .county-line
+    {
+        fill:  Azure;
+        fill-opacity: 0.6;
+        stroke: #ab3;
+    }
+
+    .province-line
+    {
+        fill: #eeffff;
+        fill-opacity: 0.1;
+        stroke: #7a9;
+        pointer-events: all;
+    }
+
+    .city-circle
+    {
+        fill: none;
+        fill-opacity: 0.6;
+        stroke: #a97;
+        pointer-events: all;
+    }
+
+</style>
+
+
+<div ng-controller="traceQueryCtrl" >
+    <form novalidate class="simple-form">
+        County GB1999 Number: <input type="text" ng-model="traceRouteQuery.gb1999" /><br />
+        CO Office IP: <input type="text" ng-model="traceRouteQuery.coOfficeIp" /><br />
+        Target Site: <input type="text" ng-model="traceRouteQuery.targetSite" /><br />
+
+        <input type="button" ng-click="search(traceRouteQuery)" value="Search" />
+    </form>
+</div>
+<div ng-controller="ChinaTraceRouteViewCtrl">
+    <m-China-Trace-Route-View line-Instances="lineInstances" china-Map="chinaMap" china-City-County-Code="chinaCityCountyCode"></m-China-Trace-Route-View>
+</div>

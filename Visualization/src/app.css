@@ -1,0 +1,47 @@
+.county-boundary {
+    fill: none;
+    stroke: #777;
+    stroke-width: 2;
+    stroke-dasharray: 2,2;
+    stroke-linejoin: round;
+}
+
+.place,
+.place-label {
+    fill: #444;
+}
+
+.mouse_over_county{
+    stroke:#FFFF00;
+    stroke-width:4;
+    stroke-dasharray:0;
+}
+
+.active_county {
+    stroke:#FF00FF;
+    stroke-width:4;
+    stroke-dasharray:0;
+}
+
+.inactive_county {
+    stroke:#777;
+    stroke-width:2;
+    stroke-dasharray:2,2;
+}
+
+div.tooltip {
+    position: absolute;
+    max-width: 200px;
+    height: auto;
+    padding: 5px;
+    background-color: white;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none; /* MUI IMPORTANTE! */
+    font-family: sans-serif;
+    font-size:12px;
+}

@@ -1,8 +1,9 @@
-<html ng-app="b">
+<html ng-app="myApp">
   <head> 
     <!-- Include 3rd party libraries -->
     <script src="bower_components/d3/d3.js" charset="UTF-8"></script>
     <script src="bower_components/angular/angular.js" charset="UTF-8"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/topojson/topojson.js" charset="UTF-8"></script>
 
     <!-- Include the application files -->
@@ -11,15 +12,29 @@
 
     <!-- Include the files of the chart component -->
     <script src="src/services/eventService.js"></script>
+    <script src="src/controller/latencyController.js"></script>
+    <script src="src/controller/provinceLatencyViewController.js"></script>
+    <script src="src/controller/traceRouteController.js"></script>
+    <script src="src/controller/chinaTraceRouteViewController.js"></script>
+    <script src="src/controller/traceQueryController.js"></script>
+
+
     <script src="src/views/provinceLatencyView.js"></script>
+    <script src="src/views/chinaTraceRouteView.js"></script>
     <script src="src/controller/people.js"></script>
     <script src="src/controller/user.js"></script>
 
   </head>
   <body>
-    <div ng-controller="MainCtrl">
-      <m-Province-Latency-View latency="latency" county-Map="countyMap"></m-Province-Latency-View>
-    </div>
+  <header>
+    <a href="#/latency">Latency View</a>
+    <a href="#/trace">Trace Route View</a>
+    <a href='#/default'>Default</a>
+  </header>
+
+  <div ng-view>
+  </div>
+  <!--
 
     <div ng-controller="peopleCtrl">
       <li ng-repeat="name in names">
@@ -34,8 +49,7 @@
         {{user}}
       </li>
     </div>
-
-
+    -->
 
   </body> 
 </html>

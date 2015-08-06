@@ -1,6 +1,6 @@
 /* src/chart.js */
 // Chart Module 
-angular.module('d3Charts', ['eventLib'])
+angular.module('d3Charts')
 
 // D3 Factory
     .factory('d3', function() {
@@ -26,6 +26,12 @@ angular.module('d3Charts', ['eventLib'])
 
                 var color = d3.scale.linear()
                     .range(['rgb(254,229,217)','rgb(252,187,161)','rgb(252,146,114)','rgb(251,106,74)','rgb(239,59,44)','rgb(203,24,29)','rgb(153,0,13)']);
+
+                var tooltip = d3.select("body").append("div")
+                    .attr("class", "tooltip")
+                    .style("opacity", 0);
+
+                var active_county = null;
 
                 d3.csv(latency, function(error, latency) {
                     if (error) return console.error(error);
@@ -80,9 +86,9 @@ angular.module('d3Charts', ['eventLib'])
                         var center_lat = -32.455778
 
                         var projection = d3.geo.mercator()
-                            .scale(10000)
+                            .scale(8000)
                             .rotate([center_long, center_lat])		// longitude, latitude of Tai Zhou
-                            .translate([width / 2, height / 2]);
+                            .translate([width / 1.5, height / 2]);
 
                         var path = d3.geo.path()
                             .projection(projection);
@@ -91,6 +97,52 @@ angular.module('d3Charts', ['eventLib'])
                             .data(counties.features)
                             .enter()
                             .append("path")
+                            .attr("id", function(d){return "GB"+d.properties.GB1999; })
+                            .on("mouseover", function(d){
+                                d3.select(this)
+                                    .classed("mouse_over_county", true)
+                                    .classed("inactive_county", false)
+                                    .classed("active_county", false);
+
+                                tooltip.transition()
+                                    .duration(500)
+                                    .style("opacity", .9);
+                                tooltip.html("<strong> County : " + d.properties.NAME +
+                                        "<br> <strong>Latency: " + d.properties.value + "ms</strong>" +
+                                        "<br> Zip: " + d.properties.ZIP +
+                                        "<br> GB1999: " + d.properties.GB1999)
+                                    .style("left", (d3.event.pageX) + "px")
+                                    .style("top", (d3.event.pageY - 28) + "px");
+                            })
+                            .on("mouseout", function(d){
+                                if("GB"+d.properties.GB1999!=active_county) {
+                                    //alert(d.properties.GB1999+active_county);
+                                    d3.select(this)
+                                        .classed("mouse_over_county", false);
+                                        //.classed("inactive_county", true)
+                                        //.classed("active_county", false);
+                                }
+                                else
+                                {
+                                    d3.select(this)
+                                        .classed("mouse_over_county", false)
+                                        .classed("active_county", true);
+                                }
+                                tooltip.transition()
+                                    .duration(500)
+                                    .style("opacity", 0);
+                            })
+                            .on("click", function(d){
+                                if(active_county) {
+                                    d3.select("#" + active_county)
+                                        .classed("active_county", false)
+                                        .classed("inactive_county", true);
+                                }
+                                active_county = "GB"+d.properties.GB1999;
+                                d3.select(this)
+                                    .classed("active_county",true)
+                                    .classed("inactive_county",false);
+                            })
                             .attr("d", path)
                             .attr("class", "county-boundary")
                             .style("fill", function(d){
@@ -106,6 +158,7 @@ angular.module('d3Charts', ['eventLib'])
                             });
 
                         // Draw City
+                        /*
                         svg.selectAll("circle1")
                             .data(latency)
                             .enter()
@@ -141,6 +194,8 @@ angular.module('d3Charts', ['eventLib'])
                             .attr("x", function(d) { return d.Longitude > -center_long ? 6 : -6; })
                             .style("text-anchor", function(d) { return d.Longitude > -center_long ? "start" : "end"; })
                             .text(function(d) { return d.County; });
+
+                           */
                     });
 
 
@@ -158,7 +213,9 @@ angular.module('d3Charts', ['eventLib'])
                     var svg = d3.select(element[0]).append('svg');
 
                     // Define the dimensions for the chart
-                    var width = 1100, height = 1100;
+                    var width = 700, height = 800;
+                    svg.attr('width',width);
+                    svg.attr('height',height);
 
                     // Return the link function
                     return function(scope, element, attrs) {
