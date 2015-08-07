@@ -24,6 +24,11 @@
     <script src="src/controller/people.js"></script>
     <script src="src/controller/user.js"></script>
 
+    // preloaded data of each Geolocation of GB1999: ChinaCountyGBZipLatLonArray
+    <script src="src/data/ChinaCityCountyCodes.js" charset="UTF-8" ></script>
+    // preload data: china map into: topoChinaMap;
+    <script src="src/data/ChinaMapJs.js" charset="UTF-8" ></script>
+
   </head>
   <body>
   <header>
@@ -31,6 +36,9 @@
     <a href="#/trace">Trace Route View</a>
     <a href='#/default'>Default</a>
   </header>
+
+  <div id="countyname" >COUNTYNAME</div>
+  <svg id="svgcounties" width="900" height="600"><g id="gcounties"></g></svg>
 
   <div ng-view>
   </div>

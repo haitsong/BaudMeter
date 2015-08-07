@@ -3,19 +3,17 @@ angular.module('d3Charts')
 
 // D3 Factory
 .factory('d3', function() {
-
     /* We could declare locals or other D3.js
      specific configurations here. */
-
     return d3;
 })
 
 .factory('topojson', function(){
-
     return topojson;
 })
 
 .directive('mChinaTraceRouteView', ["d3", 'eventService', 'topojson',
+
     function(d3, eventService) {
 
         eventService.register("search_route", function(route_query){
@@ -23,14 +21,14 @@ angular.module('d3Charts')
             alert("GB1999: " + route_query.gb1999 + ", coOfficeIp: "+ route_query.coOfficeIp +", target: "+ route_query.targetSite);
         });
 
-        function draw(svg, lineInstances, chinaMap, chinaCityCountyCode) {
-            var width = 900, //1200
-                height = 600; //800;
+        function draw(width, height, lineInstances) {
 
+            // china projection:
             var projection = d3.geo.mercator()
                 .scale(880)
                 .rotate([-110,-35])
-                .translate([0,0]);
+                // .translate([0,0]);
+                .translate([width/2,height/2]);
 
             var zoombehavior = d3.behavior.zoom()
                 .scaleExtent([1, 10])
@@ -40,21 +38,15 @@ angular.module('d3Charts')
                 .projection(projection)
                 .pointRadius(2);
 
-            var svg = d3.select("body").insert("svg:svg", "h2")
-                .attr("width", width)
-                .attr("height", height)
-                .append("g")
-                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-                .call(zoombehavior);
+            var svg = d3.select("#svgcounties");
 
-            var gcounties = svg.append('g') //"svg:g")
-                .attr("id", "counties");
+            var gcounties = d3.select('#gcounties')
+                // .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+                .call(zoombehavior);
 
             function move() {
                 var t = d3.event.translate;
                 var s = d3.event.scale;
-                t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
-                t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
                 zoombehavior.translate(t);
                 gcounties.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
             }
@@ -90,7 +82,8 @@ angular.module('d3Charts')
                 });
             };
 
-            d3.json(chinaMap, function(error, geox)
+            // d3.json(chinaMap, function(error, geox)
+            function drawChinaMap(geox)
             {
                 // draw counties;
                 var counties = topojson.feature(geox, geox.objects.county);
@@ -133,24 +126,30 @@ angular.module('d3Charts')
                     ;
                 }
 
-            });
+            };
+
+            LoadSites(ChinaCountyGBZipLatLonArray);
+            drawChinaMap(topoChinaMap);
+
         };
 
         return {
             restrict: 'E',
             scope: {
-                lineInstances: '=',
-                chinaMap: '=',
-                chinaCityCountyCode: '='
+                width:'=',
+                height:'=',
+                lineInstances: '='
             },
             compile: function( element, attrs, transclude ) {
 
-                var svg = d3.select(element[0]).append('svg');
+                // var svg = d3.select(element[0]).append('svg');
+                var svgx=null;
+                var width = 900; //1200
+                var height = 600; //800;
 
                 // Return the link function
                 return function(scope, element, attrs) {
-
-                    draw(svg, scope.lineInstances, scope.chinaMap, scope.chinaCityCountyCode);
+                    draw( scope.width, scope.height, scope.lineInstances);
                 };
             }
         };

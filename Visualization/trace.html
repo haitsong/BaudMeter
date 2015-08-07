@@ -1,34 +1,3 @@
-<style type="text/css">
-    path
-    {
-        fill: #fff;
-    }
-
-    .county-line
-    {
-        fill:  Azure;
-        fill-opacity: 0.6;
-        stroke: #ab3;
-    }
-
-    .province-line
-    {
-        fill: #eeffff;
-        fill-opacity: 0.1;
-        stroke: #7a9;
-        pointer-events: all;
-    }
-
-    .city-circle
-    {
-        fill: none;
-        fill-opacity: 0.6;
-        stroke: #a97;
-        pointer-events: all;
-    }
-
-</style>
-
 
 <div ng-controller="traceQueryCtrl" >
     <form novalidate class="simple-form">
@@ -40,5 +9,5 @@
     </form>
 </div>
 <div ng-controller="ChinaTraceRouteViewCtrl">
-    <m-China-Trace-Route-View line-Instances="lineInstances" china-Map="chinaMap" china-City-County-Code="chinaCityCountyCode"></m-China-Trace-Route-View>
+    <m-China-Trace-Route-View line-Instances="lineInstances" width="900" height="600" china-Map="chinaMap" china-City-County-Code="chinaCityCountyCode"></m-China-Trace-Route-View>
 </div>

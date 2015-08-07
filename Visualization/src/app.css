@@ -45,3 +45,32 @@ div.tooltip {
     font-family: sans-serif;
     font-size:12px;
 }
+
+path
+{
+    fill: #fff;
+}
+
+.county-line
+{
+    fill:  Azure;
+    fill-opacity: 0.6;
+    stroke: #ab3;
+}
+
+.province-line
+{
+    fill: #eeffff;
+    fill-opacity: 0.1;
+    stroke: #7a9;
+    pointer-events: all;
+}
+
+.city-circle
+{
+    fill: none;
+    fill-opacity: 0.6;
+    stroke: #a97;
+    pointer-events: all;
+}
+
