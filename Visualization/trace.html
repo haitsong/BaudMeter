@@ -4,7 +4,6 @@
         County GB1999 Number: <input type="text" ng-model="traceRouteQuery.gb1999" /><br />
         CO Office IP: <input type="text" ng-model="traceRouteQuery.coOfficeIp" /><br />
         Target Site: <input type="text" ng-model="traceRouteQuery.targetSite" /><br />
-
         <input type="button" ng-click="search(traceRouteQuery)" value="Search" />
     </form>
 </div>
@@ -13,9 +12,8 @@
             line-Instances="lineInstances"
             width="900"
             height="600"
-            zoomscale="17"
-            gb1999="320602"
-            china-Map="chinaMap"
-            china-City-County-Code="chinaCityCountyCode">
+            zoomscale="8"
+            >
+        <!--  gb1999="320602" -->
     </m-China-Trace-Route-View>
 </div>
