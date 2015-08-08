@@ -27,9 +27,7 @@ angular.module('d3Charts')
                 var color = d3.scale.linear()
                     .range(['rgb(254,229,217)','rgb(252,187,161)','rgb(252,146,114)','rgb(251,106,74)','rgb(239,59,44)','rgb(203,24,29)','rgb(153,0,13)']);
 
-                var tooltip = d3.select("body").append("div")
-                    .attr("class", "tooltip")
-                    .style("opacity", 0);
+                var tooltip = d3.select('#tooltip');
 
                 var active_county = null;
 

@@ -6,6 +6,7 @@ d3Charts.controller('traceQueryCtrl', ['$scope', 'eventService', function($scope
     {
         province: 32,
         gb1999: 329001,
+        zoomScale: 13,
         coOfficeIp: "201.192.1.201",
         targetSite: "sohu"
     };
