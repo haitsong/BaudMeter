@@ -24,60 +24,93 @@
     <script src="src/controller/people.js"></script>
     <script src="src/controller/user.js"></script>
 
-    // preloaded data of each Geolocation of GB1999: ChinaCountyGBZipLatLonArray
+    <!--  preloaded data of each Geolocation of GB1999: ChinaCountyGBZipLatLonArray -->
     <script src="src/data/ChinaCityCountyCodes.js" charset="UTF-8" ></script>
-    // preload data: china map into: topoChinaMap;
+    <!--  preload data: china map into: topoChinaMap; -->
     <script src="src/data/ChinaMapJs.js" charset="UTF-8" ></script>
 
     <script type="text/javascript" >
 
-        /* INPUT PARAMETER, a function to return color for gb1999 */
+        /* INPUT PARAMETER, a function to return color for gb1999, which is value to be shown map for county*/
         function GetCountyColor( gb1999OfCounty )
         {
           var colors  = ['#8ef','#fe8','#b8e','#8eb','#be8','#fbc','#cbf','#d8e','#e8d','#de8'];
           return colors[Math.floor(gb1999OfCounty/100%11)];
         }
 
-        /* INPUT PARAMETER, a function to color and size of circle of each user site */
-        function SetSiteCircleSizeAndColor(site)
-        {
-          var code= site.GB1999;
-          var colorscale= d3.scale.linear().domain([0, 7000, 8000]).range(["green", "yellow", "red"]);
-          site.color = colorscale(code%7*1000);
-          site.radius = (code%11)*0.3;
+        /* INPUT PARAMETER, a function for color/size of circle of each site(aco), with GB1999 precaculated. */        
+        function SetSiteCircleSizeAndColor(site) {
+            var code = site.GB1999;
+            var colorscale = d3.scale.linear().domain([0, 7000, 8000]).range(["green", "yellow", "red"]);
+            site.color = colorscale(code % 7 * 1000);
+            site.radius = (code % 11) * 0.3;
         }
 
+        // MOCK IMPLAEMENTATION VALUE FOR ROUTES:
         var routeTraceMock={};
 
-        /* INPUT PARAMETER, a function to return color for gb1999 */
-        function GetRouteTrace(siteDetail, targetHost) {   //MOCK IMPL
-          // this is an implementation on how this data is obtained.
-          // { "origin" : "320100", "destination" : [ "350100"] , "value" : [ 853 ] },
-          var key = 'GB' + siteDetail.gb1999;
-          if (routeTraceMock[key]) {
-            return routeTraceMock[key];
-          }
-          var res = [];
-          var iinst = {"source": 'GB'+ siteDetail.gb1999, "target": null, "value": null};
-          var nx = null;
-          for (var i = 0; i < 100; i++) {
-            var rx = Math.floor((Math.random() * 100) + 1);
-            var rb = Math.floor((Math.random() * ChinaCountyGBZipLatLonArray.length));
-            var gbx = ChinaCountyGBZipLatLonArray[rb];
-            iinst.target= 'GB'+gbx.GB1999;
-            iinst.value= rx;
-            res.push(iinst);
-            nx = (rx % 4 == 0 || i == 99)? iinst.target: key;
-            iinst = {"source": nx, "target": null, "value": null};
-          }
-          routeTraceMock[key] = res;
-          return res;
+        /* INPUT PARAMETER, a function to return a trace result of a site with gb1999 precalculated. */
+        function GetRouteTrace(acoDetail, targetHost) {   
+            return GetRouteTraceMock(acoDetail, targetHost);
+        }        
+
+        function GetRouteTraceMock(siteDetail, targetHost) {
+            // THIS IS A MOCK IMPL
+            // this is an implementation on how this data is obtained.
+            // { "origin" : "320100", "destination" : [ "350100"] , "value" : [ 853 ] },
+            var key = 'GB' + siteDetail.gb1999;
+            if (routeTraceMock[key]) {
+                return routeTraceMock[key];
+            }
+            var res = [];
+            var iinst = {"source": 'GB' + siteDetail.gb1999, "target": null, "value": null};
+            // source shall have its own lat lon location
+            var loc = siteDetail.location;
+            if(!loc) {
+                var sitegb1999 = FindMatchingGB1999Site(siteDetail.gb1999);
+                loc = sitegb1999.location;
+            }
+            if(loc) {
+                iinst.location = [loc[0], loc[1]];
+            }
+            var nx = null;
+            for (var i = 0; i < 20; i++) {
+                var rx = Math.floor((Math.random() * 100) + 1);
+                var rb = Math.floor((Math.random() * ChinaCountyGBZipLatLonArray.length));
+                var gbx = ChinaCountyGBZipLatLonArray[rb];
+                iinst.target = 'GB' + gbx.GB1999;
+                iinst.value = rx;
+                res.push(iinst);
+                nx = (rx % 4 == 0 || i == 99) ? iinst.target : key;
+                iinst = {"source": nx, "target": null, "value": null};
+            }
+            routeTraceMock[key] = res;
+            return res;
         }
 
+        /* #################################################################### */
+        /* THIS IS UTILITY FOR CALCULATING CENTER OFFICIAL LOCATIONS FOR GB1999 */
         /*UTILITIES*/
+        function ShowToolTip(htmlContent) {
+            var tooltip = d3.select(".tooltip");
+            tooltip.transition()
+                    .duration(500)
+                    .style("opacity", .9);
+            tooltip.html(htmlContent)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+        }
+        function HideToolTip() {
+            var tooltip = d3.select(".tooltip");
+            tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+        }
+
         var activeProvince=0;
         var active_county=null;
 
+        /* THIS IS UTILITY FOR CALCULATING CENTER OFFICIAL LOCATIONS FOR GB1999 */
         var chinaCountyCityDetail ={};
 
         function LoadGB1999CountyCenter(sites, projection) {
@@ -96,23 +129,23 @@
           });
         };
 
+        // FUNCTION TO compute the path location on the map:
         var arc = d3.geo.greatArc()
                 .source(function(d) {
-                  return chinaCountyCityDetail[d.source].location;
+                  return d.location || chinaCountyCityDetail[d.source].location;
                 })
                 .target(function(d) {
-                  return chinaCountyCityDetail[d.target].location;
+                  return d.location || chinaCountyCityDetail[d.target].location;
                 });
 
         // with the official GB1999 and location, we can map any gb1999 to lat lon;
-        function FindMatchingGB1999Site(gb1999, nullallowed)
-        {
-          var s = "GB"+gb1999;
-          var res = chinaCountyCityDetail[s];
-          if(res || nullallowed) {
+        function FindMatchingGB1999Site(gb1999, nullallowed) {
+            var s = "GB" + gb1999;
+            var res = chinaCountyCityDetail[s];
+            if (!res && !nullallowed) {
+                res = FindMatchingGB1999Site(Math.floor(gb1999 / 100.0) * 100, true);
+            }
             return res;
-          }
-          return FindMatchingGB1999Site( Math.floor(gb1999/100.0) *100, true );
         }
 
 

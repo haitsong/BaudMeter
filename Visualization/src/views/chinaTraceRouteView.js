@@ -26,7 +26,10 @@ angular.module('d3Charts')
             _DrawRouteLines(route_query);
         });
 
-        function draw(width, height, lineInstances, zoomGB1999, zoomscale ) {
+        function draw(_width, _height, lineInstances, zoomGB1999, zoomscale ) {
+
+            var width = _width;
+            var height = _height;
 
             // china projection:
             var chinaProjection = d3.geo.mercator()
@@ -42,18 +45,17 @@ angular.module('d3Charts')
                 .projection(chinaProjection)
                 .pointRadius(2);
 
-            var tooltip = d3.select(".tooltip");
-
             var svg = d3.select("#svgcounties");
             var gcounties = d3.select('#gcounties').call(zoombehavior);
+
 
             function panzoom() {
                 var t = d3.event.translate;
                 var s = d3.event.scale;
                 zoombehavior.translate(t);
                 gcounties.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
-                gcounties.select('circle').style("r", 3/s).attr("transform", "translate(" + t + ")scale(" + s + ")");
-                d3.selectAll('.site-circle').attr('display', s>=15? 'inline': 'none');
+                gcounties.select('circle').style("r", 3 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+                d3.selectAll('.site-circle').attr('display', s >= 15 ? 'inline' : 'none');
                 // zoom level:
                 d3.select("#zoomscale").text(s);
                 d3.select("#cx").text(t[0]);
@@ -90,6 +92,8 @@ angular.module('d3Charts')
                     })
                     .attr("stroke", function(d) {  return  colorscale(d.value); } )
                     .sort(function(a, b) { return b.value - a.value; });
+                //zoom to country wide
+                zoombehavior.translate([0,0]).scale(1).event(gcounties);
             };
 
             // function to preprocess the user data;
@@ -138,20 +142,13 @@ angular.module('d3Charts')
                         d3.select(this)
                             .classed("mouseover-county-line", true)
                             .classed("active-county-line", false);
-                        tooltip.transition()
-                            .duration(500)
-                            .style("opacity", .9);
-                        tooltip.html("<strong>GB1999: " + d.properties.GB1999+"</strong>")
-                            .style("left", (d3.event.pageX) + "px")
-                            .style("top", (d3.event.pageY - 28) + "px");
+                        ShowToolTip("<strong>GB1999: " + d.properties.GB1999+"</strong>");
                     })
                     .on("mouseout", function(d){
                             d3.select(this)
                                 .classed("mouseover-county-line", false)
                                 .classed("active-county-line", "GB"+d.properties.GB1999==active_county );
-                        tooltip.transition()
-                            .duration(500)
-                            .style("opacity", 0);
+                        HideToolTip();
                     })
                     .on("click", function(d){
                         if(active_county) {
@@ -177,7 +174,10 @@ angular.module('d3Charts')
                     .attr("class", function(d,i){ return 'site-circle'; })
                     .attr("r", function(d,i){ return d.radius; })
                     .attr("fill", function(d,i){ return d.color; })
-                    .on("click", function(d){ alert(d.GB1999+d.FULLNAME+' '+ d.LAT+' '+ d.LON );})
+                    .on("mouseover", function(d){
+                        var msg = "<strong>GB1999: "+d.GB1999+d.FULLNAME+' '+ d.LAT+' '+ d.LON +"</strong>";
+                        ShowToolTip(msg);
+                    })
                     .sort(function(a, b) { return b.radius - a.radius; });
 
                 // draw province border line:
@@ -222,11 +222,16 @@ angular.module('d3Charts')
                 }
             }
 
+            this.width = width;
+            this.height = height;
             // zoomGB1999 = 320701;
             /*ChinaCountyGBZipLatLonArray as data*/
             // load official GB1999 sites;
             LoadGB1999CountyCenter(ChinaCountyGBZipLatLonArray, chinaProjection);
-            DrawChinaMap(topoChinaMap, ChinaCountyGBZipLatLonArray, GetCountyColor );
+            // we shall load the site data instead of the government office location,
+            // however, we use this just for demo.
+            var userSiteMock = ChinaCountyGBZipLatLonArray;
+            DrawChinaMap(topoChinaMap, userSiteMock , GetCountyColor );
             zoomToGB1999(zoomGB1999, zoomscale);
             _DrawRouteLines = DrawRouteLines;
 
