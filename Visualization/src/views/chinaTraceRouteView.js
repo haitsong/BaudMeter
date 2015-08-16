@@ -82,7 +82,7 @@ angular.module('d3Charts')
                 var colorscale= d3.scale.linear().domain([0, 30, 100]).range(["green", "yellow", "red"]);
 
                 var gcounties = d3.select('#gcounties');
-                gcounties.selectAll("path.instancepath")
+                gcounties.selectAll('path.route-'+siteGB1999)
                     .data( sitelines )
                     .enter()
                     .append("svg:path")
@@ -177,6 +177,12 @@ angular.module('d3Charts')
                     .on("mouseover", function(d){
                         var msg = "<strong>GB1999: "+d.GB1999+d.FULLNAME+' '+ d.LAT+' '+ d.LON +"</strong>";
                         ShowToolTip(msg);
+                    })
+                    .on("click", function(d){
+                        var msg = "<strong>GB1999: "+d.GB1999+d.FULLNAME+' '+ d.LAT+' '+ d.LON +"</strong>";
+                        // seleccting the trace route data for a site, we should show the traceroute.
+                        var rtqry = { gb1999: d.GB1999, ip: "182.23.12.1" };
+                        DrawRouteLines(rtqry);
                     })
                     .sort(function(a, b) { return b.radius - a.radius; });
 
