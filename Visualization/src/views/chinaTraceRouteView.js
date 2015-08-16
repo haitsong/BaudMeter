@@ -82,11 +82,15 @@ angular.module('d3Charts')
                 var colorscale= d3.scale.linear().domain([0, 30, 100]).range(["green", "yellow", "red"]);
 
                 var gcounties = d3.select('#gcounties');
+                d3.selectAll('path.instancepath')
+                    .attr('style:visibility', 'hidden');
+
                 gcounties.selectAll('path.route-'+siteGB1999)
                     .data( sitelines )
                     .enter()
                     .append("svg:path")
                     .attr("class", "instancepath route-"+siteGB1999)
+                    .attr('style:visibility', 'visible')
                     .attr("d", function(d){
                         return path(arc(d));
                     })
