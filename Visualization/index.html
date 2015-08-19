@@ -1,10 +1,20 @@
 <html ng-app="myApp">
-  <head> 
+  <head>
+
+  <link href="./BAUDMETER_files/css/modern.css" rel="stylesheet">
+  <link href="./BAUDMETER_files/css/modern-responsive.css" rel="stylesheet">
+  <script src="./BAUDMETER_files/jquery-1.11.1.min.js"></script>
+  <script src="./BAUDMETER_files/jquery-1.11.1.min.js"></script>
+  <script src="./BAUDMETER_files/dropdown.js"></script>
+  <script src="./BAUDMETER_files/common.js"></script>
+
     <!-- Include 3rd party libraries -->
     <script src="bower_components/d3/d3.js" charset="UTF-8"></script>
     <script src="bower_components/angular/angular.js" charset="UTF-8"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/topojson/topojson.js" charset="UTF-8"></script>
+
+
 
     <!-- Include the application files -->
     <script src="src/app.js"></script>
@@ -153,38 +163,65 @@
 
   </head>
   <body>
-  <header>
-    <a href="#/latency">Latency View</a>
-    <a href="#/trace">Trace Route View</a>
-    <a href='#/default'>Default</a>
-  </header>
-<div>
-  <div id="countyname" >COUNTYNAME</div>
-  <div id="provincename" >PROVNAME</div>
-  <div id="cx" >cx</div>
-  <div id="cy" >cy</div>
-  <div id="zoomscale" >0</div>
-</div>
-  <svg id="svgcounties" width="900" height="600"><g id="gcounties"></g></svg>
-  <div class="tooltip" style="opacity: 0; left: 504px; top: 810px;"></div>
-  <div ng-view>
+
+  <div class="page secondary fixed-header">
+      <div class="page-header ">
+          <div class="page">
+              <div class="nav-bar">
+                  <div class="nav-bar-inner padding10">
+                      <span class="pull-menu"></span>
+
+                      <span class="element brand">
+                        <a href="#/latency"><img class="place-left" src="./BAUDMETER_files/BaudMeter.png" style="height: 24px"></a>
+                      </span>
+
+                      <div class="divider"></div>
+
+                      <ul class="menu">
+                          <li data-role="dropdown">
+                              <a href="#/latency">Latency</a>
+                              <ul class="dropdown-menu">
+                                  <li><a href="#/latency">Latency</a></li>
+                                  <li><a href="#/trace">Trace Route View</a></li>
+                              </ul>
+                          </li>
+                          <li data-role="dropdown">
+                              <a href="http://BaudMeter/#">Center Offices</a>
+                              <ul class="dropdown-menu">
+                                  <li class="divider"></li>
+                                  <li><a href="javascript:directTo('/Home/CodeCoverage/?branch=all');">BaudMeter Code Coverage</a></li>
+                              </ul>
+                          </li>
+                          <li data-role="dropdown">
+                              <a href="http://BaudMeter/#">Tools</a>
+                              <ul class="dropdown-menu">
+                                  <li><a href="javascript:directTo('/TestDRI/Show/?branch=BaudMeter_vnext');">TestDRI view</a></li>
+                                  <li class="divider"></li>
+                                  <li><a href="javascript:directTo('/Home/DRI');">DRI view</a></li>
+                                  <li class="divider"></li>
+                                  <li><a href="javascript:directTo('/Home/LaunchProcess');">Task Request</a></li>
+                                  <li><a target="_blank" href="http://ftloadgenui/">FTLoadGenUI</a></li>
+                                  <li class="divider"></li>
+                                  <li><a href="javascript:directTo('/TagBuilds/Show/?branch=BaudMeter', true);">Tag Builds</a></li>
+                              </ul>
+                          </li>
+                      </ul>
+
+                      <div class="divider"></div>
+                    <span id="feedbackLink" class="element brand place-right" style="cursor:pointer" onclick="feedbackClicked()" title="Click to provide feedback">
+                        Feedback
+                    </span>
+                  </div>
+              </div>
+          </div><!-- div page -->
+      </div><!-- page-header -->
+      <div class="page-region" style="background-color:white">
+          <!-- iframe name="BaudMeterWebFrame" id="BaudMeterWebFrame" style="border: 0px; margin: 0px; padding: 0px; height: 760px; width: 1705px;" src="./BAUDMETER_files/Show.html"></iframe -->
+          <div class="tooltip" style="opacity: 0; left: 504px; top: 810px;"></div>
+          <div id="mainview" ng-view>
+          </div>
+      </div>
   </div>
-  <!--
 
-    <div ng-controller="peopleCtrl">
-      <li ng-repeat="name in names">
-        {{name}}
-      </li>
-    </div>
-
-    <div ng-controller="userCtrl" align="left">
-      <input ng-model="newUser"/>
-      <button ng-click="addUser(newUser)">Add New User</button>
-      <li ng-repeat="user in users">
-        {{user}}
-      </li>
-    </div>
-    -->
-
-  </body> 
+  </body>
 </html>

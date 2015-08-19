@@ -6,6 +6,14 @@
         Target Site: <input type="text" ng-model="traceRouteQuery.targetSite" /><br />
         <input type="button" ng-click="search(traceRouteQuery)" value="Search" />
     </form>
+    <svg id="svgcounties" width="900" height="600"><g id="gcounties"></g></svg>
+    <div>
+        <div id="countyname" >COUNTYNAME</div>
+        <div id="provincename" >PROVNAME</div>
+        <div id="cx" >cx</div>
+        <div id="cy" >cy</div>
+        <div id="zoomscale" >0</div>
+    </div>
 </div>
 <div ng-controller="ChinaTraceRouteViewCtrl">
     <m-China-Trace-Route-View

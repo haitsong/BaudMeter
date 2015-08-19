@@ -208,7 +208,7 @@ angular.module('d3Charts')
                 },
                 compile: function( element, attrs, transclude ) {
 
-                    var svg = d3.select(element[0]).append('svg');
+                    var svg = d3.select(element[0]).append('svg').attr('id','provlatency');
 
                     // Define the dimensions for the chart
                     var width = 700, height = 800;

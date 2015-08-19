@@ -21,8 +21,8 @@ angular.module('d3Charts')
         var _DrawRouteLines=null;
 
         eventService.register("search_route", function(route_query){
-            //console.log(route_query);
-            alert("selected site: GB1999: " + route_query.gb1999 + ", coOfficeIp: "+ route_query.coOfficeIp +", target: "+ route_query.targetSite);
+            // console.log(route_query);
+            // alert("selected site: GB1999: " + route_query.gb1999 + ", coOfficeIp: "+ route_query.coOfficeIp +", target: "+ route_query.targetSite);
             _DrawRouteLines(route_query);
         });
 
@@ -260,6 +260,9 @@ angular.module('d3Charts')
                 lineInstances: '='
             },
             compile: function( element, attrs, transclude ) {
+
+                // var svg = d3.select(element[0]).append('svg').attr('id','svgcounties');
+
                 // Return the link function
                 return function(scope, element, attrs) {
                     draw( scope.width, scope.height, scope.lineInstances, scope.gb1999, scope.zoomscale );
