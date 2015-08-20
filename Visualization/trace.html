@@ -1,11 +1,12 @@
 
 <div ng-controller="traceQueryCtrl" >
     <form novalidate class="simple-form">
-        County GB1999 Number: <input type="text" ng-model="traceRouteQuery.gb1999" /><br />
+        County GB1999 Number: <input  id="txtGB1999" type="text" ng-model="traceRouteQuery.gb1999" /><br />
         CO Office IP: <input type="text" ng-model="traceRouteQuery.coOfficeIp" /><br />
         Target Site: <input type="text" ng-model="traceRouteQuery.targetSite" /><br />
         <input type="button" ng-click="search(traceRouteQuery)" value="Search" />
     </form>
+    <!-- input text="t" value="v" /-->
     <svg id="svgcounties" width="900" height="600"><g id="gcounties"></g></svg>
     <div>
         <div id="countyname" >COUNTYNAME</div>

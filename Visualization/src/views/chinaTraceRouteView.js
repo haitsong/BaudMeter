@@ -146,6 +146,7 @@ angular.module('d3Charts')
                         d3.select(this)
                             .classed("mouseover-county-line", true)
                             .classed("active-county-line", false);
+                        //XXXXXXXXXXXXX d3.select("#txtGB1999").attr('value', d.properties.GB1999);
                         ShowToolTip("<strong>GB1999: " + d.properties.GB1999+"</strong>");
                     })
                     .on("mouseout", function(d){
@@ -180,11 +181,13 @@ angular.module('d3Charts')
                     .attr("fill", function(d,i){ return d.color; })
                     .on("mouseover", function(d){
                         var msg = "<strong>GB1999: "+d.GB1999+d.FULLNAME+' '+ d.LAT+' '+ d.LON +"</strong>";
+                        d3.select('#txtGB1999').text(d.GB1999);
                         ShowToolTip(msg);
                     })
                     .on("click", function(d){
                         var msg = "<strong>GB1999: "+d.GB1999+d.FULLNAME+' '+ d.LAT+' '+ d.LON +"</strong>";
                         // seleccting the trace route data for a site, we should show the traceroute.
+                        //XXXXXXXXXXXXX d3.select('#txtGB1999').attr('value', d.GB1999);
                         var rtqry = { gb1999: d.GB1999, ip: "182.23.12.1" };
                         DrawRouteLines(rtqry);
                     })
