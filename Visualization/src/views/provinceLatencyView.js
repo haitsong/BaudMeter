@@ -17,8 +17,13 @@ angular.module('d3Charts')
     })
 
 // provinceLatencyView Directive
-    .directive('mProvinceLatencyView', ["d3", "topojson",
-        function(d3){
+    .directive('mProvinceLatencyView', ["d3", "eventService", "topojson",
+        function(d3, eventService){
+
+            function selectNewCounty(gb1999)
+            {
+                eventService.publish('selectNewCountyLatency', gb1999);
+            }
 
             function draw(svg, width, height, latency, provinceMapFile) {
 
@@ -140,6 +145,8 @@ angular.module('d3Charts')
                                 d3.select(this)
                                     .classed("active_county",true)
                                     .classed("inactive_county",false);
+
+                                selectNewCounty(d.properties.GB1999);
                             })
                             .attr("d", path)
                             .attr("class", "county-boundary")
@@ -154,49 +161,7 @@ angular.module('d3Charts')
                                     return "#ccc";
                                 }
                             });
-
-                        // Draw City
-                        /*
-                        svg.selectAll("circle1")
-                            .data(latency)
-                            .enter()
-                            .append("circle")
-                            .attr("cx", function(d) {
-                                return projection([d.Longitude, d.Latitude])[0];
-                            })
-                            .attr("cy", function(d) {
-                                return projection([d.Longitude, d.Latitude])[1];
-                            })
-                            .attr("r", 1);
-
-                        svg.selectAll("circle2")
-                            .data(latency)
-                            .enter()
-                            .append("circle")
-                            .attr("cx", function(d) {
-                                return projection([d.Longitude, d.Latitude])[0];
-                            })
-                            .attr("cy", function(d) {
-                                return projection([d.Longitude, d.Latitude])[1];
-                            })
-                            .attr("r", 2.5)
-                            .attr("fill", 'none')
-                            .attr('stroke', 'black');
-
-                        svg.selectAll(".place-label")
-                            .data(latency)
-                            .enter().append("text")
-                            .attr("class", "place-label")
-                            .attr("transform", function(d) { return "translate(" + projection([d.Longitude, d.Latitude]) + ")"; })
-                            .attr("dy", ".80em")
-                            .attr("x", function(d) { return d.Longitude > -center_long ? 6 : -6; })
-                            .style("text-anchor", function(d) { return d.Longitude > -center_long ? "start" : "end"; })
-                            .text(function(d) { return d.County; });
-
-                           */
                     });
-
-
                 });
             }
 
@@ -208,7 +173,7 @@ angular.module('d3Charts')
                 },
                 compile: function( element, attrs, transclude ) {
 
-                    var svg = d3.select(element[0]).append('svg').attr('id','provlatency');
+                    var svg = d3.select(element[0]).append('svg').attr('id','province_latency');
 
                     // Define the dimensions for the chart
                     var width = 700, height = 800;
