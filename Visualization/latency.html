@@ -1,3 +1,12 @@
+<div ng-controller="CurrentLatencySelectionCtrl">
+    <label>County<input type="text" name="input" ng-model="countyGB"></label>
+    <pre>Current Selected County is <span ng-bind="countyGB"></span>, current selected Co is  <span ng-bind="coId"></span></pre>
+</div>
 <div ng-controller="ProvinceLatencyViewCtrl">
     <m-Province-Latency-View latency="latency" county-Map="countyMap"></m-Province-Latency-View>
+</div>
+<div ng-controller="CoLatencyViewCtrl">
+    <li ng-repeat="co in coInfo[0] " ng-click="pickCo(co)">
+        Name is {{co.Id}}, LatencyIs {{co.Latency50}}ms.
+    </li>
 </div>
