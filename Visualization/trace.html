@@ -1,21 +1,34 @@
 
-<div ng-controller="traceQueryCtrl" >
+<div class="active-selection select-form" ng-controller="traceQueryCtrl" >
     <form novalidate class="simple-form">
         County GB1999 Number: <input  id="txtGB1999" type="text" ng-model="traceRouteQuery.gb1999" /><br />
         CO Office IP: <input type="text" ng-model="traceRouteQuery.coOfficeIp" /><br />
         Target Site: <input type="text" ng-model="traceRouteQuery.targetSite" /><br />
         <input type="button" ng-click="search(traceRouteQuery)" value="Search" />
     </form>
-    <!-- input text="t" value="v" /-->
-    <svg id="svgcounties" width="900" height="600"><g id="gcounties"></g></svg>
     <div>
-        <div id="countyname" >COUNTYNAME</div>
-        <div id="provincename" >PROVNAME</div>
-        <div id="cx" >cx</div>
-        <div id="cy" >cy</div>
-        <div id="zoomscale" >0</div>
+        <p>
+            <span id="countyname" >COUNTYNAME</span>
+            <span id="provincename" >PROVNAME</span>
+            <span id="cx" >cx</span>
+            <span id="cy" >cy</span>
+            <span id="zoomscale" >0</span>
+        </p>
     </div>
 </div>
+
+<div class="active-selection top-site" ng-controller="traceQueryCtrl" >
+    <table>
+        <tr><th>Sites</th><th>Percentage</th><th>Average Latency(S)</th><th>max Latency(S)</th></tr>
+        <tr><td>Baidu.com</td><td>20%</td><td>7</td><td>34</td></tr>
+        <tr><td>taobao.com</td><td>17%</td><td>5</td><td>134</td></tr>
+        <tr><td>QQ.com</td><td>11%</td><td>12</td><td>14</td></tr>
+        <tr><td>Sina.com</td><td>9%</td><td>2</td><td>24</td></tr>
+    </table>
+</div>
+
+<!-- input text="t" value="v" /-->
+<svg id="svgcounties" width="900" height="600"><g id="gcounties"></g></svg>
 <div ng-controller="ChinaTraceRouteViewCtrl">
     <m-China-Trace-Route-View
             line-Instances="lineInstances"
