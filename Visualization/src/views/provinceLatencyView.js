@@ -176,7 +176,7 @@ angular.module('d3Charts')
                     var svg = d3.select(element[0]).append('svg').attr('id','province_latency');
 
                     // Define the dimensions for the chart
-                    var width = 700, height = 800;
+                    var width = 700, height = 750;
                     svg.attr('width',width);
                     svg.attr('height',height);
 

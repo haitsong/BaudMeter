@@ -35,22 +35,71 @@
     #trafficContributionView #nicktool rect {
         fill: white;
     }
+
+    .lineChart .axis path, .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .lineChart .axis text {
+        font: 10px sans-serif;
+    }
+
+    .lineChart .axis .grid-line{
+        stroke: black;
+        shape-rendering: crispEdges;
+        stroke-opacity: .2;
+    }
+
+    .lineChart .line{
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 2;
+    }
+
+    .lineChart .dot {
+        fill: #fff;
+        stroke: steelblue;
+    }
+
+    .lineChart .area {
+        stroke: none;
+        fill: steelblue;
+        fill-opacity: .2;
+    }
+
+    .lineChart .pie text{
+        fill: white;
+        font-weight: bold;
+    }
+
+    .lineChart .circle {
+        stroke: none;
+        fill: red;
+        fill-opacity: .7;
+    }
 </style>
 
 <div ng-controller="CurrentLatencySelectionCtrl" class="selection">
-    <label>County<input type="text" name="input" ng-model="countyGB"></label>
     <pre>Current Selected County is <span ng-bind="countyGB"></span>, current selected Co is  <span ng-bind="coId"></span></pre>
 </div>
 <div ng-controller="ProvinceLatencyViewCtrl" class="latencyMap">
+    <h2 align="center"> Jiang Su Network Latency Overview</h2>
     <m-Province-Latency-View latency="latency" county-Map="countyMap"></m-Province-Latency-View>
 </div>
 <div ng-controller="CoLatencyViewCtrl" class="side">
+    <h2>central offices</h2>
     <li ng-repeat="co in coInfo[0] " ng-click="pickCo(co)">
         Name is {{co.Id}}, LatencyIs {{co.Latency50}}ms.
     </li>
 </div>
 <div ng-controller="TrafficContributionViewCtrl" class="side" id ="trafficContributionView">
+    <h2 align="center"> Top 10 visit sites </h2>
     <m-traffic-Contribution-View></m-Traffic-Contribution-View>
 </div>
-<div class="lineChart"> Line Chart 1</div>
+<div class="lineChart" id="TrafficLatencyChartView1" ng-controller="TrafficLatencyChartViewCtrl">
+    <h2 align="center"> Traffic Latency per sites</h2>
+    <m-traffic-Latency-Chart></m-traffic-Latency-Chart>
+</div>
 <div class="lineChart"> Line Chart 2</div>
