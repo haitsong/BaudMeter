@@ -113,11 +113,17 @@
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
         }
+
         function HideToolTip() {
-            var tooltip = d3.select(".tooltip");
-            tooltip.transition()
-                    .duration(2000)
-                    .style("opacity", 0);
+            ToggleDiv('.tooltip');
+        }
+
+        function ToggleDiv(selector) {
+            var el = d3.select(selector);
+            var opx = el.style('opacity');
+            el.transition()
+                .duration(600)
+                .style("opacity", opx<0.1? 0.9: 0.0 );
         }
 
         var activeProvince=0;
@@ -182,7 +188,13 @@
 
                       <ul class="menu">
                           <li data-role="dropdown">
-                              <a href="#/latency">Latency</a>
+                              <a href="#">Central Office</a>
+                              <ul class="dropdown-menu">
+                                  <li><a href="#/latency">List</a></li>
+                              </ul>
+                          </li>
+                          <li data-role="dropdown">
+                              <a href="#">Latency</a>
                               <ul class="dropdown-menu">
                                   <li><a href="#/latency">Latency Average</a></li>
                                   <li><a href="#/latency">Latency 75%</a></li>
@@ -191,7 +203,7 @@
                               </ul>
                           </li>
                           <li data-role="dropdown">
-                              <a href="#/trace">Trace Routes</a>
+                              <a href="#">Trace Routes</a>
                               <ul class="dropdown-menu">
                                   <li><a href="#/trace">Step Latency</a></li>
                                   <li class="divider"></li>
@@ -199,17 +211,18 @@
                               </ul>
                           </li>
                           <li data-role="dropdown">
-                              <a href="#/trace">Center Offices</a>
+                              <a href="#">Settings</a>
                               <ul class="dropdown-menu">
-                                  <a href="#/trace">Center Offices</a>
+                                  <li><a href="javascript:ToggleDiv('.select-form')">Toggle Site Form Window</a></li>
+                                  <li><a href="javascript:ToggleDiv('.top-site')">Toggle Top Site Window</a></li>
                               </ul>
                           </li>
                       </ul>
 
-                      <div class="divider"></div>
-                    <span id="feedbackLink" class="element brand place-right" style="cursor:pointer" onclick="feedbackClicked()" title="Click to provide feedback">
-                        Feedback
-                    </span>
+                      <!-- div class="divider"></div>
+                        <span id="feedbackLink" class="element brand place-right" style="cursor:pointer" onclick="feedbackClicked()" title="Click to provide feedback">
+                            Feedback
+                        </span -->
                   </div>
               </div>
           </div><!-- div page -->
