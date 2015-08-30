@@ -1,12 +1,142 @@
-<div ng-controller="CurrentLatencySelectionCtrl">
-    <label>County<input type="text" name="input" ng-model="countyGB"></label>
+<style>
+    .selection {
+        background-color:black;
+        color:white;
+        text-align:center;
+        padding:5px;
+    }
+    .latencyMap {
+        height:800px;
+        width:700px;
+        float:left;
+        padding:5px;
+    }
+    .side {
+        width:350px;
+        float:left;
+        text-align:center;
+        padding:10px;
+    }
+    .lineChart {
+        clear:both;
+        text-align:center;
+        padding:5px;
+    }
+
+    #trafficContributionView path {
+        stroke: white;
+        stroke-width: 2;
+    }
+
+    #trafficContributionView #nicktool {
+        font-size: 1.1em;
+    }
+
+    #trafficContributionView #nicktool rect {
+        fill: white;
+    }
+
+    .lineChart .axis path, .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .lineChart .axis text {
+        font: 10px sans-serif;
+    }
+
+    .lineChart .axis .grid-line{
+        stroke: black;
+        shape-rendering: crispEdges;
+        stroke-opacity: .2;
+    }
+
+    .lineChart .line{
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 2;
+    }
+
+    .lineChart .dot {
+        fill: #fff;
+        stroke: steelblue;
+    }
+
+    .lineChart .area {
+        stroke: none;
+        fill: steelblue;
+        fill-opacity: .2;
+    }
+
+    .lineChart .pie text{
+        fill: white;
+        font-weight: bold;
+    }
+
+    .lineChart .circle {
+        stroke: none;
+        fill: red;
+        fill-opacity: .7;
+    }
+
+    .co_normal {
+        border-radius: 5px;
+        background: #8AC007;
+        padding: 5px;
+        width: 60px;
+        height: 50px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    .co_mouseover {
+        border-radius: 5px;
+        background: #8AC007;
+        padding: 5px;
+        width: 60px;
+        height: 50px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    .co_click {
+        border-radius: 5px;
+        background: #FAEA05;
+        padding: 5px;
+        width: 60px;
+        height: 50px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div ng-controller="CurrentLatencySelectionCtrl" class="selection">
     <pre>Current Selected County is <span ng-bind="countyGB"></span>, current selected Co is  <span ng-bind="coId"></span></pre>
 </div>
-<div ng-controller="ProvinceLatencyViewCtrl">
+<div ng-controller="ProvinceLatencyViewCtrl" class="latencyMap">
+    <h2 align="center"> Jiang Su Network Latency Overview</h2>
     <m-Province-Latency-View latency="latency" county-Map="countyMap"></m-Province-Latency-View>
 </div>
-<div ng-controller="CoLatencyViewCtrl">
-    <li ng-repeat="co in coInfo[0] " ng-click="pickCo(co)">
-        Name is {{co.Id}}, LatencyIs {{co.Latency50}}ms.
-    </li>
+<div ng-controller="CoLatencyViewCtrl" class="side">
+    <h2>central offices</h2>
+
+    <div ng-repeat="co in coInfo[0]"
+         ng-mouseover="class"
+         ng-click="pickCo(co)"
+         class="co_normal"
+         style="float: left">
+        <b>{{co.Id}}</b> <br> {{co.Latency50}}ms.
+    </div>
+</div>
+<div ng-controller="TrafficContributionViewCtrl" class="side" id ="trafficContributionView">
+    <h2 align="center"> Top 10 visit sites </h2>
+    <m-traffic-Contribution-View></m-Traffic-Contribution-View>
+</div>
+<div class="lineChart" id="TrafficLatencyChartView1" ng-controller="TrafficLatencyChartViewCtrl">
+    <h2 align="center"> Traffic Latency per sites</h2>
+    <m-traffic-Latency-Chart></m-traffic-Latency-Chart>
+</div>
+<div class="lineChart">
+    <h2 align="center"> Query Per Second(QPS) per sites </h2>
 </div>
