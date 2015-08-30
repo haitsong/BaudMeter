@@ -49,18 +49,21 @@ div.select-form {
     /*display: inline-block;
     left:800px;
     top:120px;*/
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 div.top-site {
     /*display: inline-block;
     left:800px;
     top:380px;*/
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 div.site-trace {
     /*display: inline-block;
     left:800px;
     top:580px;*/
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 div.tooltip {
