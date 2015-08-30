@@ -113,15 +113,19 @@
         }
 
         function HideToolTip() {
-            ToggleDiv('.tooltip');
+            var el = d3.select('.tooltip');
+            var opx = el.style('opacity');
+            el.transition()
+                    .duration(600)
+                    .style("opacity",0.0 );
         }
 
         function ToggleDiv(selector) {
             var el = d3.select(selector);
-            var opx = el.style('opacity');
+            var opx = el.style('display');
             el.transition()
                 .duration(600)
-                .style("opacity", opx<0.1? 0.9: 0.0 );
+                .style("display", opx=='none'? 'inline': 'none' );
         }
 
         var activeProvince=0;

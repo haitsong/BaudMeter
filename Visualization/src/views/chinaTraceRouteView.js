@@ -34,7 +34,7 @@ angular.module('d3Charts')
             // china projection:
             var chinaProjection = d3.geo.mercator()
                 .scale(880)
-                .rotate([-110,-35])
+                .rotate([-110,-33.5])
                 .translate([width/2,height/2]);
 
             var zoombehavior = d3.behavior.zoom()
@@ -98,6 +98,21 @@ angular.module('d3Charts')
                     .sort(function(a, b) { return b.value - a.value; });
                 //zoom to country wide
                 zoombehavior.translate([0,0]).scale(1).event(gcounties);
+
+                d3.selectAll('tr.trtraceleg').remove();
+                table = d3.select('#table-site-trace');
+                var tr = table.selectAll('tr.trtraceleg')
+                    .data(sitelines).enter()
+                    .append('tr')
+                    .attr('class','trtraceleg')
+                    .html(function(m)
+                        {
+                            var xsrc = FindMatchingGB1999Site(m.source.substring(2));
+                            var xdst = FindMatchingGB1999Site(m.target.substring(2));
+                            var str= '<td>'+ xsrc.FULLNAME+'</td>'+'<td>'+ xdst.FULLNAME +'</td>'+'<td>'+ m.value+'</td>';
+                            return str;
+                        }
+                );
             };
 
             // function to preprocess the user data;

@@ -1,13 +1,29 @@
 
-<div class="active-selection select-form" ng-controller="traceQueryCtrl" >
-    <form novalidate class="simple-form">
+<div style="display: inline-block; vertical-align: top; margin: 10px; width:60%">
+    <!--p><br/></p -->
+    <!-- input text="t" value="v" /-->
+    <svg id="svgcounties" width="900" height="600"><g id="gcounties"></g></svg>
+    <div ng-controller="ChinaTraceRouteViewCtrl">
+        <m-China-Trace-Route-View
+                line-Instances="lineInstances"
+                width="900"
+                height="700"
+                zoomscale="8"
+                >
+            <!--  gb1999="320602" -->
+        </m-China-Trace-Route-View>
+    </div>
+    <!-- p><br/></p-->
+</div>
+
+<div style="display: inline-block; vertical-align: top; width:35%; margin:10px">
+
+    <div class="select-form" ng-controller="traceQueryCtrl" style="width:100%; margin:10px">
+        <p>
         County GB1999 Number: <input  id="txtGB1999" type="text" ng-model="traceRouteQuery.gb1999" /><br />
         CO Office IP: <input type="text" ng-model="traceRouteQuery.coOfficeIp" /><br />
         Target Site: <input type="text" ng-model="traceRouteQuery.targetSite" /><br />
         <input type="button" ng-click="search(traceRouteQuery)" value="Search" />
-    </form>
-    <div>
-        <p>
             <span id="countyname" >COUNTYNAME</span>
             <span id="provincename" >PROVNAME</span>
             <span id="cx" >cx</span>
@@ -15,27 +31,29 @@
             <span id="zoomscale" >0</span>
         </p>
     </div>
-</div>
 
-<div class="active-selection top-site" ng-controller="traceQueryCtrl" >
-    <table>
-        <tr><th>Sites</th><th>Percentage</th><th>Average Latency(S)</th><th>max Latency(S)</th></tr>
-        <tr><td>Baidu.com</td><td>20%</td><td>7</td><td>34</td></tr>
-        <tr><td>taobao.com</td><td>17%</td><td>5</td><td>134</td></tr>
-        <tr><td>QQ.com</td><td>11%</td><td>12</td><td>14</td></tr>
-        <tr><td>Sina.com</td><td>9%</td><td>2</td><td>24</td></tr>
-    </table>
-</div>
+    <div class="top-site" style="width:100%; margin:10px">
+        <table id="table-top-site">
+            <tr><th>Sites</th><th>Percentage</th><th>Average Latency(S)</th><th>max Latency(S)</th></tr>
+            <tr><td>Baidu.com</td><td>20%</td><td>7</td><td>34</td></tr>
+            <tr><td>taobao.com</td><td>17%</td><td>5</td><td>134</td></tr>
+            <tr><td>QQ.com</td><td>11%</td><td>12</td><td>14</td></tr>
+            <tr><td>Sina.com</td><td>9%</td><td>2</td><td>24</td></tr>
+        </table>
+    </div>
 
-<!-- input text="t" value="v" /-->
-<svg id="svgcounties" width="900" height="600"><g id="gcounties"></g></svg>
-<div ng-controller="ChinaTraceRouteViewCtrl">
-    <m-China-Trace-Route-View
-            line-Instances="lineInstances"
-            width="900"
-            height="600"
-            zoomscale="8"
-            >
-        <!--  gb1999="320602" -->
-    </m-China-Trace-Route-View>
+    <div class="site-trace" style="width:100%; margin:10px">
+        <table id="table-site-trace">
+            <tr><th>Leg Start</th><th>Leg End</th><th>Leg Weight</th></tr>
+            <tr class="trtraceleg"><td>A</td><td>B</td><td>34</td></tr>
+            <tr class="trtraceleg"><td>B</td><td>C</td><td>134</td></tr>
+            <tr class="trtraceleg"><td>C</td><td>D</td><td>14</td></tr>
+            <tr class="trtraceleg"><td>D</td><td>E</td><td>24</td></tr>
+            <tr class="trtraceleg"><td>E</td><td>F</td><td>24</td></tr>
+            <tr class="trtraceleg"><td>F</td><td>G</td><td>24</td></tr>
+            <tr class="trtraceleg"><td>G</td><td>H</td><td>24</td></tr>
+            <tr class="trtraceleg"><td>H</td><td>I</td><td>24</td></tr>
+        </table>
+    </div>
+
 </div>
