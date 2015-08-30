@@ -20,8 +20,8 @@
 
     <div class="select-form" ng-controller="traceQueryCtrl" style="width:100%; margin:10px">
         <p>
-        County GB1999 Number: <input  id="txtGB1999" type="text" ng-model="traceRouteQuery.gb1999" /><br />
-        CO Office IP: <input type="text" ng-model="traceRouteQuery.coOfficeIp" /><br />
+        Site Id: <input  id="txtGB1999" type="text" ng-model="traceRouteQuery.gb1999" /><br />
+        CO Office: <input type="text" ng-model="traceRouteQuery.coOfficeIp" /><br />
         Target Site: <input type="text" ng-model="traceRouteQuery.targetSite" /><br />
         <input type="button" ng-click="search(traceRouteQuery)" value="Search" />
             <span id="countyname" >COUNTYNAME</span>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="top-site" style="width:100%; margin:10px">
-        <table id="table-top-site">
+        <table id="table-top-site" style="margin: 10px">
             <tr><th>Sites</th><th>Percentage</th><th>Average Latency(S)</th><th>max Latency(S)</th></tr>
             <tr><td>Baidu.com</td><td>20%</td><td>7</td><td>34</td></tr>
             <tr><td>taobao.com</td><td>17%</td><td>5</td><td>134</td></tr>
@@ -43,16 +43,16 @@
     </div>
 
     <div class="site-trace" style="width:100%; margin:10px">
-        <table id="table-site-trace">
-            <tr><th>Leg Start</th><th>Leg End</th><th>Leg Weight</th></tr>
-            <tr class="trtraceleg"><td>A</td><td>B</td><td>34</td></tr>
-            <tr class="trtraceleg"><td>B</td><td>C</td><td>134</td></tr>
-            <tr class="trtraceleg"><td>C</td><td>D</td><td>14</td></tr>
-            <tr class="trtraceleg"><td>D</td><td>E</td><td>24</td></tr>
-            <tr class="trtraceleg"><td>E</td><td>F</td><td>24</td></tr>
-            <tr class="trtraceleg"><td>F</td><td>G</td><td>24</td></tr>
-            <tr class="trtraceleg"><td>G</td><td>H</td><td>24</td></tr>
-            <tr class="trtraceleg"><td>H</td><td>I</td><td>24</td></tr>
+        <table id="table-site-trace" style="margin: 10px">
+            <tr><th>Start</th><th>End</th><th>Latency</th><th>Hop Index</th></tr>
+            <tr class="trtraceleg"><td>A</td><td>B</td><td>11</td><td>34</td></tr>
+            <tr class="trtraceleg"><td>B</td><td>C</td><td>1</td><td>134</td></tr>
+            <tr class="trtraceleg"><td>C</td><td>D</td><td>1</td><td>14</td></tr>
+            <tr class="trtraceleg"><td>D</td><td>E</td><td>1</td><td>24</td></tr>
+            <tr class="trtraceleg"><td>E</td><td>F</td><td>1</td><td>24</td></tr>
+            <tr class="trtraceleg"><td>F</td><td>G</td><td>1</td><td>24</td></tr>
+            <tr class="trtraceleg"><td>G</td><td>H</td><td>1</td><td>24</td></tr>
+            <tr class="trtraceleg"><td>H</td><td>I</td><td>1</td><td>24</td></tr>
         </table>
     </div>
 

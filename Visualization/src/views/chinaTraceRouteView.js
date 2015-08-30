@@ -83,7 +83,7 @@ angular.module('d3Charts')
 
                 var gcounties = d3.select('#gcounties');
                 d3.selectAll('path.instancepath')
-                    .attr('style:visibility', 'hidden');
+                    .remove(); // .attr('style:visibility', 'hidden');
 
                 gcounties.selectAll('path.route-'+siteGB1999)
                     .data( sitelines )
@@ -94,7 +94,7 @@ angular.module('d3Charts')
                     .attr("d", function(d){
                         return path(arc(d));
                     })
-                    .attr("stroke", function(d) {  return  colorscale(d.value); } )
+                    .attr("stroke", function(d) {  return colorscale(d.value); } )
                     .sort(function(a, b) { return b.value - a.value; });
                 //zoom to country wide
                 zoombehavior.translate([0,0]).scale(1).event(gcounties);
@@ -109,7 +109,7 @@ angular.module('d3Charts')
                         {
                             var xsrc = FindMatchingGB1999Site(m.source.substring(2));
                             var xdst = FindMatchingGB1999Site(m.target.substring(2));
-                            var str= '<td>'+ xsrc.FULLNAME+'</td>'+'<td>'+ xdst.FULLNAME +'</td>'+'<td>'+ m.value+'</td>';
+                            var str= '<td class="cellstart_'+ m.start +'">'+ xsrc.FULLNAME+'</td>'+'<td class="cellend_'+ m.end+'">'+ xdst.FULLNAME +'</td>'+'<td>'+ m.value+'</td>'+'<td>'+ m.step+'</td>';
                             return str;
                         }
                 );

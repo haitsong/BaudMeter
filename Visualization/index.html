@@ -77,27 +77,34 @@
                 return routeTraceMock[key];
             }
             var res = [];
-            var iinst = {"source": 'GB' + siteDetail.gb1999, "target": null, "value": null};
+            var iinst = {"source": 'GB' + siteDetail.gb1999, "target": null, "value": null, "start": true, "end": false, step: 1 };
             // source shall have its own lat lon location
             var loc = siteDetail.location;
             if(!loc) {
                 var sitegb1999 = FindMatchingGB1999Site(siteDetail.gb1999);
                 loc = sitegb1999.location;
             }
-            if(loc) {
+            if(loc) { // compute lat lon for start.
                 iinst.location = [loc[0], loc[1]];
             }
             var nx = null;
-            for (var i = 0; i < 20; i++) {
-                var rx = Math.floor((Math.random() * 100) + 1);
+            var stepi=1;
+            for (var i = 0; i < 8; i++) {
                 var rb = Math.floor((Math.random() * ChinaCountyGBZipLatLonArray.length));
                 var gbx = ChinaCountyGBZipLatLonArray[rb];
+                var randlatency = Math.floor((Math.random() * 100) + 1);//
+                var isEndLeg = randlatency%4==0 || i==7;
                 iinst.target = 'GB' + gbx.GB1999;
-                iinst.value = rx;
-                res.push(iinst);
-                nx = (rx % 4 == 0 || i == 99) ? iinst.target : key;
-                iinst = {"source": nx, "target": null, "value": null};
+                iinst.value = randlatency;
+                iinst.end = isEndLeg;
+                iinst.step = stepi;
+                res.push(iinst); // push in trace step of leg
+                stepi= isEndLeg? 1: stepi+1;
+                // create new leg which starts either from CO from siteDetail or, continue from the target.
+                nx = isEndLeg ? key : iinst.target;
+                iinst = {"source": nx, "target": null, "value": null, "start": isEndLeg, "end": false, step: 1 };
             }
+            iinst.end=true;
             routeTraceMock[key] = res;
             return res;
         }
@@ -159,7 +166,7 @@
                   return d.location || chinaCountyCityDetail[d.source].location;
                 })
                 .target(function(d) {
-                  return d.location || chinaCountyCityDetail[d.target].location;
+                  return chinaCountyCityDetail[d.target].location;
                 });
 
         // with the official GB1999 and location, we can map any gb1999 to lat lon;

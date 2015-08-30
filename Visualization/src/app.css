@@ -45,6 +45,16 @@ div.active-selection {
     font-size:10px;
 }
 
+.cellstart_true
+{
+    background-color: lightgreen;
+}
+
+.cellend_true
+{
+    background-color: bisque;
+}
+
 div.select-form {
     /*display: inline-block;
     left:800px;
