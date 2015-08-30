@@ -1,12 +1,56 @@
-<div ng-controller="CurrentLatencySelectionCtrl">
+<style>
+    .selection {
+        background-color:black;
+        color:white;
+        text-align:center;
+        padding:5px;
+    }
+    .latencyMap {
+        height:800px;
+        width:700px;
+        float:left;
+        padding:5px;
+    }
+    .side {
+        width:350px;
+        float:left;
+        text-align:center;
+        padding:10px;
+    }
+    .lineChart {
+        clear:both;
+        text-align:center;
+        padding:5px;
+    }
+
+    #trafficContributionView path {
+        stroke: white;
+        stroke-width: 2;
+    }
+
+    #trafficContributionView #nicktool {
+        font-size: 1.1em;
+    }
+
+    #trafficContributionView #nicktool rect {
+        fill: white;
+    }
+</style>
+
+<div ng-controller="CurrentLatencySelectionCtrl" class="selection">
     <label>County<input type="text" name="input" ng-model="countyGB"></label>
     <pre>Current Selected County is <span ng-bind="countyGB"></span>, current selected Co is  <span ng-bind="coId"></span></pre>
 </div>
-<div ng-controller="ProvinceLatencyViewCtrl">
+<div ng-controller="ProvinceLatencyViewCtrl" class="latencyMap">
     <m-Province-Latency-View latency="latency" county-Map="countyMap"></m-Province-Latency-View>
 </div>
-<div ng-controller="CoLatencyViewCtrl">
+<div ng-controller="CoLatencyViewCtrl" class="side">
     <li ng-repeat="co in coInfo[0] " ng-click="pickCo(co)">
         Name is {{co.Id}}, LatencyIs {{co.Latency50}}ms.
     </li>
 </div>
+<div ng-controller="TrafficContributionViewCtrl" class="side" id ="trafficContributionView">
+    <m-traffic-Contribution-View></m-Traffic-Contribution-View>
+</div>
+<div class="lineChart"> Line Chart 1</div>
+<div class="lineChart"> Line Chart 2</div>
