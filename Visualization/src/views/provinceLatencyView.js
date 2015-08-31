@@ -25,26 +25,80 @@ angular.module('d3Charts')
                 eventService.publish('selectNewCountyLatency', gb1999);
             }
 
+            var latencyThresholds = [ 1400, 1800, 2000, 2500, 3000, 50000];
+            var thresholdColors = ['rgb(253,208,162)','rgb(253,174,107)','rgb(253,141,60)','rgb(241,105,19)','rgb(217,72,1)','rgb(140,45,4)'];
+            var color = d3.scale.threshold()
+                .domain(latencyThresholds)
+                .range(thresholdColors);
+
+            function drawLatencyLabelMark(svg)
+            {
+                var commasFormatter = d3.format(",.0f")
+
+                var latencyLabel = svg.selectAll(".latencyLabelMark")
+                    .data(color.domain())
+                    .enter()
+                    .append("g")
+                    .attr("class","latencyLabelMark");
+
+                latencyLabel.append("rect")
+                    .attr("x", 10)
+                    .attr("y", function(d,i) { return(i*30) + 400})
+                    .attr("width","30px")
+                    .attr("height","30px")
+                    .attr("fill", function(d) { return color(d) ; })
+                    .attr("stroke","#7f7f7f")
+                    .attr("stroke-width","0.5");
+
+                latencyLabel.append("text")
+                    .attr("class", "legText")
+                    .attr("font-size", 10)
+                    .attr("font-weight", 400)
+                    .text(function(d, i) { return '<= ' + commasFormatter(latencyThresholds[i]) + 'ms'; })
+                    .attr("x", 10+35)
+                    .attr("y", function(d, i) { return (30 * i) + 400 + 20; })
+            }
+
+            function drawDataTypeSelectors(svg){
+                var selectors = [
+                    { label : '50th percentile', color : '#ef6548'},
+                    { label : '75th percentile', color : '#3690c0'},
+                    { label : '95th percentile', color : '#41ae76'},
+                ];
+
+                var dataTypeSelectors = svg.selectAll('.dataTypeSelectors')
+                    .data(selectors)
+                    .enter()
+                    .append('g')
+                    .attr("class","dataTypeSelectors");
+
+                dataTypeSelectors.append("circle")
+                    .attr("cx", 25)
+                    .attr("cy", function(d,i) { return(i*30) + 250})
+                    .attr("r","12px")
+                    .attr("fill", function(d) { return d.color ; });
+
+                dataTypeSelectors.append("text")
+                    .attr("font-size", 11)
+                    .attr("font-weight", 500)
+                    .text(function(d, i) { return d.label; })
+                    .attr("x", 25 + 22)
+                    .attr("y", function(d, i) { return (30 * i) + 250 + 4; })
+            }
+
             function draw(svg, width, height, latency, provinceMapFile) {
 
                 var path = d3.geo.path();
-
-                var color = d3.scale.linear()
-                    .range(['rgb(254,229,217)','rgb(252,187,161)','rgb(252,146,114)','rgb(251,106,74)','rgb(239,59,44)','rgb(203,24,29)','rgb(153,0,13)']);
-
                 var tooltip = d3.select('.tooltip');
 
                 var active_county = null;
 
+                drawLatencyLabelMark(svg);
+                drawDataTypeSelectors(svg);
+
                 d3.csv(latency, function(error, latency) {
                     if (error) return console.error(error);
-                    console.log(latency);
-
-                    color.domain([
-                        //d3.min(latency, function(d) {return d.Latency;} ),
-                        0,
-                        d3.max(latency, function(d) { return d.Latency;} )
-                    ]);
+                        console.log(latency);
 
                     // Draw county map with different color for latency.
                     d3.json(provinceMapFile, function(error, geox) {
