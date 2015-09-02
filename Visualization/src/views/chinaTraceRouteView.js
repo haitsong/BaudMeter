@@ -109,7 +109,9 @@ angular.module('d3Charts')
                         {
                             var xsrc = FindMatchingGB1999Site(m.source.substring(2));
                             var xdst = FindMatchingGB1999Site(m.target.substring(2));
-                            var str= '<td class="cellstart_'+ m.start +'">'+ xsrc.FULLNAME+'</td>'+'<td class="cellend_'+ m.end+'">'+ xdst.FULLNAME +'</td>'+'<td>'+ m.value+'</td>'+'<td>'+ m.step+'</td>';
+                            var str= '<td class="cellstart_'+ m.start +'"><p title="12.12.2.21">'+ 
+                                    xsrc.FULLNAME+'</p></td>'
+                                +'<td class="cellend_'+ m.end+'"><p title="101.12.2.1">'+ xdst.FULLNAME +'</p></td>'+'<td>'+ m.value+'</td>'+'<td>'+ m.step+'</td>';
                             return str;
                         }
                 );
@@ -162,7 +164,7 @@ angular.module('d3Charts')
                             .classed("mouseover-county-line", true)
                             .classed("active-county-line", false);
                         //XXXXXXXXXXXXX d3.select("#txtGB1999").attr('value', d.properties.GB1999);
-                        ShowToolTip("<strong>GB1999: " + d.properties.GB1999+"</strong>");
+                        ShowToolTip("<strong>" + d.properties.NAME+"</strong>");
                     })
                     .on("mouseout", function(d){
                             d3.select(this)
@@ -193,9 +195,10 @@ angular.module('d3Charts')
                     })
                     .attr("class", function(d,i){ return 'site-circle'; })
                     .attr("r", function(d,i){ return d.radius; })
-                    .attr("fill", function(d,i){ return d.color; })
+                    .attr("stroke", 'black') //function(d,i){ return d.color; })
+                    .attr('fill','white')
                     .on("mouseover", function(d){
-                        var msg = "<strong>GB1999: "+d.GB1999+d.FULLNAME+' '+ d.LAT+' '+ d.LON +"</strong>";
+                        var msg = "<strong>SITEID: "+d.siteid+' '+d.FULLNAME+' '+ d.LAT+' '+ d.LON +"</strong>";
                         d3.select('#txtGB1999').text(d.GB1999);
                         ShowToolTip(msg);
                     })
@@ -258,7 +261,7 @@ angular.module('d3Charts')
             LoadGB1999CountyCenter(ChinaCountyGBZipLatLonArray, chinaProjection);
             // we shall load the site data instead of the government office location,
             // however, we use this just for demo.
-            var userSiteMock = ChinaCountyGBZipLatLonArray;
+            var userSiteMock = co_sites; // ChinaCountyGBZipLatLonArray;
             DrawChinaMap(topoChinaMap, userSiteMock , GetCountyColor );
             zoomToGB1999(zoomGB1999, zoomscale);
             _DrawRouteLines = DrawRouteLines;
