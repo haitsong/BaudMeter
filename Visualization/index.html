@@ -40,6 +40,7 @@
 
     <!--  preloaded data of each Geolocation of GB1999: ChinaCountyGBZipLatLonArray -->
     <script src="src/data/ChinaCityCountyCodes.js" charset="UTF-8" ></script>
+        
     <!--  preload data: china map into: topoChinaMap; -->
     <script src="src/data/ChinaMapJs.js" charset="UTF-8" ></script>
 
@@ -54,10 +55,10 @@
 
         /* INPUT PARAMETER, a function for color/size of circle of each site(aco), with GB1999 precaculated. */        
         function SetSiteCircleSizeAndColor(site) {
-            var code = site.GB1999;
-            var colorscale = d3.scale.linear().domain([0, 7000, 8000]).range(["green", "yellow", "red"]);
-            site.color = colorscale(code % 7 * 1000);
-            site.radius = (code % 11) * 0.3;
+            //var code = site.GB1999;
+            //var colorscale = d3.scale.linear().domain([0, 7000, 8000]).range(["green", "yellow", "red"]);
+            site.color = 'green'; // colorscale(code % 7 * 1000);
+            site.radius = 0.3; // (code % 11) * 0.3;
         }
 
         // MOCK IMPLAEMENTATION VALUE FOR ROUTES:
@@ -108,7 +109,31 @@
             routeTraceMock[key] = res;
             return res;
         }
-
+        
+        function MockCOSites()
+        {
+            var sites =[];
+            for(var xi in ChinaCountyGBZipLatLonArray){
+                var si = ChinaCountyGBZipLatLonArray[xi];
+                if(si.PROVINCE!=320000) continue;
+                var randxsites = Math.floor((Math.random() * 10) + 1);//
+                for(var ii =0; ii<randxsites; ii++) {
+                    var randx = Math.floor((Math.random() * 10) -5)*0.02;//
+                    var randy = Math.floor((Math.random() * 10) -5)*0.02;//
+                    var st = { 
+                        LON: si.LON+randx , LAT: si.LAT+randy, 
+                        FULLNAME: si.FULLNAME+ii, 
+                        SUBAREA: si.SUBAREA, 
+                        AREA: si.AREA,
+                        GB1999: si.GB1999,
+                        ZHCITY: si.ZHCITY};
+                    st.siteid = si.GB1999+'_'+ii;
+                    sites.push(st);
+                }
+            }
+            return sites;
+        }
+        
         /* #################################################################### */
         /* THIS IS UTILITY FOR CALCULATING CENTER OFFICIAL LOCATIONS FOR GB1999 */
         /*UTILITIES*/
@@ -143,6 +168,7 @@
 
         /* THIS IS UTILITY FOR CALCULATING CENTER OFFICIAL LOCATIONS FOR GB1999 */
         var chinaCountyCityDetail ={};
+        var co_sites = [];
 
         function LoadGB1999CountyCenter(sites, projection) {
           sites = sites.forEach(function(site) {
@@ -156,8 +182,9 @@
               site.GB1999 = site.COUNTY|| site.ZHCITY || site.PROVINCE;
             }
             // create a map of geo locations;
-            chinaCountyCityDetail["GB"+site.GB1999]=site;
+            chinaCountyCityDetail["GB"+site.GB1999]=site;            
           });
+          co_sites= MockCOSites();
         };
 
         // FUNCTION TO compute the path location on the map:
@@ -179,6 +206,7 @@
             return res;
         }
 
+        
 
     </script>
 
