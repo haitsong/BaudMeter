@@ -12,21 +12,18 @@ angular.module('d3Charts')
         return d3;
     })
 
-    .factory('topojson', function(){
-
-        return topojson;
-    })
-
-    .directive('mTrafficLatencyChart', ["d3", "eventService", "topojson",
+    .directive('mTrafficLatencyChart', ["d3", "eventService",
         function(d3, eventService){
-            var width = 1000, height = 300;
+            //var width = 1300, height = 300;
+            var g_width, g_height;
 
-            function lineChart(svg_id, width, height) { // <-1A
+            function lineChart(svg_id, width, height) {
                 var _chart = {};
 
                 var _width = width, _height = height,
-                    _margins = {top: 30, left: 30, right: 30, bottom: 30},
+                    _margins = {top: 30, left: 60, right: 70, bottom: 30},
                     _x, _y,
+                    _xb, _y1, _y2,
                     _data = [],
                     _qps_data = [],
                     _colors = d3.scale.category10(),
@@ -58,9 +55,13 @@ angular.module('d3Charts')
                 }
 
                 function renderXAxis(axesG){
+
                     var xAxis = d3.svg.axis()
-                        .scale(_x.range([0, quadrantWidth()]))
-                        .orient("bottom");
+                        .scale(_xb.range([0, quadrantWidth()]))
+                        .orient("bottom")
+                        .tickFormat(d3.time.format('%H:%M:%S'))
+                        .ticks(10)
+                        .tickSubdivide(5);
 
                     axesG.append("g")
                         .attr("class", "x axis")
@@ -69,6 +70,7 @@ angular.module('d3Charts')
                         })
                         .call(xAxis);
 
+                    /*
                     d3.selectAll("g.x g.tick")
                         .append("line")
                         .classed("grid-line", true)
@@ -76,11 +78,12 @@ angular.module('d3Charts')
                         .attr("y1", 0)
                         .attr("x2", 0)
                         .attr("y2", - quadrantHeight());
+                        */
                 }
 
                 function renderYAxis(axesG){
                     var yAxis = d3.svg.axis()
-                        .scale(_y.range([quadrantHeight(), 0]))
+                        .scale(_y1.range([quadrantHeight(), 0]))
                         .orient("left");
 
                     axesG.append("g")
@@ -89,6 +92,12 @@ angular.module('d3Charts')
                             return "translate(" + xStart() + "," + yEnd() + ")";
                         })
                         .call(yAxis);
+
+                    axesG.append("text")
+                        .attr("class", "y label")
+                        .text("Latency [ms]")
+                        .attr("transform", "rotate(270) translate("+ (-1 * quadrantHeight()/2) + ", 15)")
+                        //.attr("font-family", "sans-serif")
 
                     d3.selectAll("g.y g.tick")
                         .append("line")
@@ -101,7 +110,8 @@ angular.module('d3Charts')
 
                 function renderY2Axis(axesG){
                     var yAxis = d3.svg.axis()
-                        .scale(_y.range([quadrantHeight(), 0]))
+                        .scale(_y2.range([quadrantHeight(), 0]))
+                        .tickFormat(function(d) { return d+'k'})
                         .orient("right");
 
                     axesG.append("g")
@@ -110,15 +120,15 @@ angular.module('d3Charts')
                             return "translate(" + xEnd() + "," + yEnd() + ")";
                         })
                         .call(yAxis);
-                    /*
-                    d3.selectAll("g.y g.tick")
-                        .append("line")
-                        .classed("grid-line", true)
-                        .attr("x1", 0)
-                        .attr("y1", 0)
-                        .attr("x2", quadrantWidth())
-                        .attr("y2", 0);
-                        */
+
+                    axesG.append("text")
+                        .attr("class", "y label")
+                        .attr("text-anchor", "end")
+                        .attr("x", -30)
+                        .attr("y", _width-27)
+                        .attr("dy", ".75em")
+                        .attr("transform", "rotate(-90)")
+                        .text("Query Volume");
                 }
 
                 function defineBodyClip(svg) { // <-2C
@@ -150,11 +160,26 @@ angular.module('d3Charts')
                     renderDots();
                 }
 
+                var x_scale = x = d3.scale.linear()
+                    .domain([0, 10])
+                    .range([0, quadrantWidth()]);
+
+                var y_scale = d3.scale.linear()
+                    .domain([0, 10])
+                    .range([quadrantHeight(), 0]);
+
                 function renderLines() {
+
                     _line = d3.svg.line()
                         .interpolate('cardinal')
-                        .x(function (d) { return _x(d.x); })
-                        .y(function (d) { return _y(d.y); });
+                        .x(function (d) {
+                            var newX = x_scale(d.x);
+                            return newX;
+                        })
+                        .y(function (d) {
+                            var newY = y_scale(d.y);
+                            return newY;
+                        });
 
                     _bodyG.selectAll("path.line")
                         .data(_data)
@@ -168,15 +193,17 @@ angular.module('d3Charts')
                     _bodyG.selectAll("path.line")
                         .data(_data)
                         .transition() //<-4D
-                        .attr("d", function (d) { return _line(d); });
+                        .attr("d", function (d) {
+                            return _line(d);
+                        });
                 }
 
                 function renderAreas() {
                     var area = d3.svg.area()
                         .interpolate('basis')
-                        .x(function(d) { return _x(d.x); })
+                        .x(function(d) { return x_scale(d.x); })
                         .y0(yStart())
-                        .y1(function(d) { return _y(d.y); });
+                        .y1(function(d) { return y_scale(d.y); });
 
                     _bodyG.selectAll("path.area")
                         .data(_qps_data)
@@ -209,8 +236,8 @@ angular.module('d3Charts')
                                 return _colors(i); //<-4F
                             })
                             .transition() //<-4G
-                            .attr("cx", function (d) { return _x(d.x); })
-                            .attr("cy", function (d) { return _y(d.y); })
+                            .attr("cx", function (d) { return x_scale(d.x); })
+                            .attr("cy", function (d) { return y_scale(d.y); })
                             .attr("r", 4.5);
                     });
                 }
@@ -266,12 +293,32 @@ angular.module('d3Charts')
                 _chart.x = function (x) {
                     if (!arguments.length) return _x;
                     _x = x;
+                    //_x.range(xStart(), xEnd());
                     return _chart;
                 };
 
                 _chart.y = function (y) {
                     if (!arguments.length) return _y;
                     _y = y;
+                    //_y.range(yStart(), yEnd());
+                    return _chart;
+                };
+
+                _chart.xb = function (x) {
+                    if (!arguments.length) return _xb;
+                    _xb = x;
+                    return _chart;
+                };
+
+                _chart.y1 = function (y) {
+                    if (!arguments.length) return _y1;
+                    _y1 = y;
+                    return _chart;
+                };
+
+                _chart.y2 = function (y) {
+                    if (!arguments.length) return _y2;
+                    _y2 = y;
                     return _chart;
                 };
 
@@ -311,12 +358,19 @@ angular.module('d3Charts')
 
                 for (var i = 0; i < numberOfSeries; ++i)
                     data.push(d3.range(numberOfDataPoint).map(function (i) {
-                        return {x: i, y: randomData()};
+                        //return {x: i, y: randomData()};
+                        return {x: i, y: Math.random() * 8 + 2};
                     }));
 
-                var chart = lineChart('traffic_latency_chart_1', width, height)
-                    .x(d3.scale.linear().domain([0, 10]))
-                    .y(d3.scale.linear().domain([0, 10]));
+                var currentDate = new Date();
+                var lowDate = new Date(currentDate.getTime() - 15*60000);
+
+                var chart = lineChart('traffic_latency_chart_1', g_width, g_height)
+                    .x(d3.scale.linear().domain([0, 10]).range(60, g_width-70))
+                    .y(d3.scale.linear().domain([0, 10]).range(g_height-30, 30))
+                    .xb(d3.time.scale().domain([lowDate, currentDate]))
+                    .y1(d3.scale.linear().domain([950, 1200]))
+                    .y2(d3.scale.linear().domain([0,1250]));
 
                 data.forEach(function (series) {
                     chart.addSeries(series);
@@ -341,8 +395,14 @@ angular.module('d3Charts')
 
                     // Define the dimensions for the chart
 
-                    svg.attr('width',width);
-                    svg.attr('height',height);
+                    var stage_div = d3.select("#TrafficLatencyChartView1");
+                    g_height = stage_div.style("height").replace("px", "");
+                    g_width = stage_div.style("width").replace("px", "");
+                    var header = d3.select("#TrafficLatencyChartView1_header");
+                    g_height = g_height - header.style("height").replace("px", "") - 30;
+
+                    svg.attr('width',g_width);
+                    svg.attr('height',g_height);
 
                     // Return the link function
                     return function(scope, element, attrs) {

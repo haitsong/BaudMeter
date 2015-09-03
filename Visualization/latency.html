@@ -109,6 +109,16 @@
         margin-left: 10px;
         margin-bottom: 10px;
     }
+
+    #TrafficLatencyChartView1 {
+        width: 100%;
+        height: 400px;
+        margin: 5px;
+        border-radius: 25px;
+        border: 2px solid #ccc;
+        padding: 5px;
+        background-color: #f5f5f5;
+    }
 </style>
 
 <div ng-controller="CurrentLatencySelectionCtrl" class="selection">
@@ -134,7 +144,7 @@
     <m-traffic-Contribution-View></m-Traffic-Contribution-View>
 </div>
 <div class="lineChart" id="TrafficLatencyChartView1" ng-controller="TrafficLatencyChartViewCtrl">
-    <h2 align="center"> Traffic Latency per sites</h2>
+    <h3 align="center" id="TrafficLatencyChartView1_header"> Traffic Latency of top 10 sites</h3>
     <m-traffic-Latency-Chart></m-traffic-Latency-Chart>
 </div>
 <div class="lineChart">
