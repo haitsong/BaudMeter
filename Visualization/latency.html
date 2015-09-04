@@ -132,7 +132,7 @@
 <div ng-controller="CoLatencyViewCtrl" class="side">
     <h2>central offices</h2>
 
-    <div ng-repeat="co in coInfo[0]" id="co_{{$index}}"
+    <div ng-repeat="co in coInfo[coListIndex]" id="co_{{$index}}"
          ng-class="{'co_normal': mouse_leave, 'co_mouseover': mouse_over, 'co_click' : co.Id == currentSelectCo}"
          ng-mouseleave="mouse_leave=true; mouse_over=false;"
          ng-mouseover="mouse_leave=false; mouse_over=true;"
