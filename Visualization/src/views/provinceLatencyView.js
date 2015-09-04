@@ -201,6 +201,7 @@ angular.module('d3Charts')
                                     .classed("inactive_county",false);
 
                                 selectNewCounty(d.properties.GB1999);
+                                eventService.publish("newCountySelection", d.properties.GB1999);
                             })
                             .attr("d", path)
                             .attr("class", "county-boundary")
