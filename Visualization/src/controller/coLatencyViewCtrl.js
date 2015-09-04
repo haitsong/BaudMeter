@@ -7,7 +7,7 @@ angular.module('d3Charts')
             $scope.mouse_over = false;
 
             $scope.pickCo = function(co){
-                eventService.publish('selectNewCo', co.Id);
+                eventService.publish('newCoSelection', co.Id);
 
                 $scope.currentSelectCo = co.Id;
             };

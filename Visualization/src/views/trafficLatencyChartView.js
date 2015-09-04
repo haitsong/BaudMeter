@@ -12,10 +12,14 @@ angular.module('d3Charts')
         return d3;
     })
 
+    // Listen event on "newCoSelection"
     .directive('mTrafficLatencyChart', ["d3", "eventService",
         function(d3, eventService){
             //var width = 1300, height = 300;
             var g_width, g_height;
+            var g_chart;
+
+            eventService.register("newCoSelection", update);
 
             function lineChart(svg_id, width, height) {
                 var _chart = {};
@@ -372,22 +376,23 @@ angular.module('d3Charts')
                 return Math.random() * 9;
             }
 
-            function update(svg) {
+            function update() {
                 for (var i = 0; i < data.length; ++i) {
                     var series = data[i];
                     series.length = 0;
                     for (var j = 0; j < numberOfDataPoint; ++j)
-                        series.push({x: j, y: randomData()});
+                        //series.push({x: j, y: randomData()});
+                        series.push({x: j, y: Math.random() * 8 + 1});
                 }
 
-                render_chart(svg);
+                g_chart.render();
             }
 
-            function render_chart(svg) {
+            var numberOfSeries = 5,
+                numberOfDataPoint = 11,
+                data = [];
 
-                var numberOfSeries = 5,
-                    numberOfDataPoint = 11,
-                    data = [];
+            function render_chart(svg) {
 
                 for (var i = 0; i < numberOfSeries; ++i)
                     data.push(d3.range(numberOfDataPoint).map(function (i) {
@@ -413,6 +418,7 @@ angular.module('d3Charts')
                     return {x: i, y: Math.random() * 5 + 5};
                 }));
 
+                g_chart = chart;
                 chart.render();
             }
 
