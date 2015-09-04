@@ -23,7 +23,10 @@ angular.module('d3Charts')
     .directive('mTrafficContributionView', ["d3", "eventService", "topojson",
         function(d3, eventService){
 
-            var traffic_data = {
+            var g_svg;
+            var currentDataSetIndex = 1;
+            var traffic_datas = [
+                {
                 "name": "traffic",
                 "children": [
                     {
@@ -132,9 +135,122 @@ angular.module('d3Charts')
                     }
 
                 ]
-            };
+            },
+                {
+                    "name": "traffic",
+                    "children": [
+                        {
+                            "name": "Hao123", "value" : 240,
+                            "children": [
+                                {"name": "Img/Mobile", "value": 15},
+                                {"name": "Text/Mobile", "value": 70},
+                                {"name": "Img/Desktop", "value": 400},
+                                {"name": "Text/Desktop", "value": 500}
+                            ]
+                        },
+                        {
+                            "name": "Taobao", "value" : 10000,
+                            "children": [
+                                {"name": "Img/Mobile", "value": 1500},
+                                {"name": "Text/Mobile", "value": 8000},
+                                {"name": "Stream/Mobile", "value": 70},
+                                {"name": "Stream/Desktop", "value": 70},
+                                {"name": "Img/Desktop", "value": 12000},
+                                {"name": "Text/Desktop", "value": 14000}
+                            ]
+                        },
+                        {
+                            "name": "Baidu", "value" : 1600,
+                            "children": [
+                                {"name": "Img/Mobile", "value": 1300},
+                                {"name": "Text/Mobile", "value": 3000},
+                                {"name": "Stream/Mobile", "value": 200},
+                                {"name": "Stream/Desktop", "value": 150},
+                                {"name": "Img/Desktop", "value": 600},
+                                {"name": "Text/Desktop", "value": 400}
+                            ]
+                        },
+                        {
+                            "name": "Weibo", "value" : 600,
+                            "children": [
+                                {"name": "Img/Mobile", "value": 400},
+                                {"name": "Text/Mobile", "value": 2000},
+                                {"name": "Stream/Mobile", "value": 1700},
+                                {"name": "Stream/Desktop", "value": 600},
+                                {"name": "Img/Desktop", "value": 500},
+                                {"name": "Text/Desktop", "value": 400}
+                            ]
+                        },
+                        {
+                            "name": "360", "value" : 200,
+                            "children": [
+                                {"name": "Img/Mobile", "value": 70},
+                                {"name": "Text/Mobile", "value": 400},
+                                {"name": "Stream/Mobile", "value": 70},
+                                {"name": "Stream/Desktop", "value": 900},
+                                {"name": "Img/Desktop", "value": 70},
+                                {"name": "Text/Desktop", "value": 150}
+                            ]
+                        },
+                        {
+                            "name": "QQ", "value" : 6500,
+                            "children": [
+                                {"name": "Img/Mobile", "value": 2000},
+                                {"name": "Text/Mobile", "value": 500},
+                                {"name": "Img/Desktop", "value": 500},
+                                {"name": "Text/Desktop", "value": 600}
+                            ]
+                        },
+                        {
+                            "name": "Tmall", "value" : 600,
+                            "children": [
+                                {"name": "Img/Mobile", "value": 70},
+                                {"name": "Text/Mobile", "value": 3000},
+                                {"name": "Stream/Mobile", "value": 70},
+                                {"name": "Img/Desktop", "value": 700},
+                                {"name": "Text/Desktop", "value": 4000}
+                            ]
+                        },
+                        {
+                            "name": "Tianya", "value" : 900,
+                            "children": [
+                                {"name": "Img/Mobile", "value": 140},
+                                {"name": "Text/Mobile", "value": 500},
+                                {"name": "Stream/Mobile", "value": 70},
+                                {"name": "Stream/Desktop", "value": 70},
+                                {"name": "Img/Desktop", "value": 70},
+                                {"name": "Text/Desktop", "value": 600}
+                            ]
+                        },
+                        {
+                            "name": "Sohu", "value" : 900,
+                            "children": [
+                                {"name": "Img/Mobile", "value": 70},
+                                {"name": "Text/Mobile", "value": 200},
+                                {"name": "Stream/Mobile", "value": 70},
+                                {"name": "Stream/Desktop", "value": 600},
+                                {"name": "Img/Desktop", "value": 400},
+                                {"name": "Text/Desktop", "value": 70}
+                            ]
+                        },
+                        {
+                            "name": "Sina", "value" : 5500,
+                            "children": [
+                                {"name": "Img/Mobile", "value": 1000},
+                                {"name": "Text/Mobile", "value": 450},
+                                {"name": "Stream/Desktop", "value": 70},
+                                {"name": "Img/Desktop", "value": 70},
+                                {"name": "Text/Desktop", "value": 3000}
+                            ]
+                        }
+
+                    ]
+                }
+            ];
 
             var width = 530, height = 530;
+
+            eventService.register("newCoSelection", update);
 
             var color_pick = d3.scale.ordinal()
                 .range(['#EF3B39', '#FFCD05', '#69C9CA', '#666699', '#CC3366', '#0099CC',
@@ -245,7 +361,18 @@ angular.module('d3Charts')
                 render(svg);
             }
 
+            function update(){
+                if(currentDataSetIndex > 0)
+                    currentDataSetIndex = 0;
+                else
+                    currentDataSetIndex = 1;
+
+                render(g_svg);
+            }
+
             function render(svg){
+
+                var texts = svg.selectAll('text').remove();
 
                 var partition = d3.layout.partition()
                     .value(function (d) { return d.value; })
@@ -254,7 +381,7 @@ angular.module('d3Charts')
                     })
                     .size([2*Math.PI, 200]);
 
-                var nodes = partition.nodes(traffic_data);
+                var nodes = partition.nodes(traffic_datas[currentDataSetIndex]);
 
                 var arc = d3.svg.arc()
                     .innerRadius(function (d) { return d.y; })
@@ -278,6 +405,7 @@ angular.module('d3Charts')
 
                 node.append('path')
                     .attr({d: arc, fill: function (d) { return color_pick(d.name); }});
+
 
                 node.filter(function (d) {
                     return d.depth > 1 && d.value > 1500; })
@@ -306,6 +434,7 @@ angular.module('d3Charts')
 
                     svg.attr('width',width);
                     svg.attr('height',height);
+                    g_svg = svg;
 
                     // Return the link function
                     return function(scope, element, attrs) {
