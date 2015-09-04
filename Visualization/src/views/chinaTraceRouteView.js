@@ -66,12 +66,12 @@ angular.module('d3Charts')
             {
                 d3.selectAll('.province-line').attr('display','inline');
                 d3.selectAll('.province-line').attr('style:visibility','visible');
-                d3.selectAll('.county-line').attr('style:visibility','hidden');
-                d3.selectAll('.city-circle').attr('style:visibility','hidden');
-                d3.selectAll('.inactive-of-'+provid).attr('style:visibility','hidden');
-                d3.selectAll('.inactive-of-'+provid).attr('display','none');
-                d3.selectAll('.active-of-'+provid).attr('style:visibility','visible');
-                d3.selectAll('.active-of-'+provid).attr('display','inline');
+                d3.selectAll('.county-line').attr('style:visibility','visible'); 
+                //d3.selectAll('.city-circle').attr('style:visibility','hidden');
+                //d3.selectAll('.inactive-of-'+provid).attr('style:visibility','hidden');
+                //d3.selectAll('.inactive-of-'+provid).attr('display','none');
+                //d3.selectAll('.active-of-'+provid).attr('style:visibility','visible');
+                //d3.selectAll('.active-of-'+provid).attr('display','inline');
             }
 
             function DrawRouteLines(routeQry)
@@ -154,33 +154,33 @@ angular.module('d3Charts')
                         return d.properties.PROVINCE==activeProvince? 'visible': 'hidden';
                     })
                     .style('fill', function(d,i) {
-                        var colorx = d.properties.PROVINCE==0? '#4169E1':
-                            fColorForGb1999(d.properties.GB1999);
+                        var colorx = 'white';
                         return colorx;
-                    })
-                    .on("mouseover", function(d){
-                        d3.select("#countyname").text(d.properties.NAME+activeProvince);
-                        d3.select(this)
-                            .classed("mouseover-county-line", true)
-                            .classed("active-county-line", false);
-                        //XXXXXXXXXXXXX d3.select("#txtGB1999").attr('value', d.properties.GB1999);
-                        ShowToolTip("<strong>" + d.properties.NAME+"</strong>");
-                    })
-                    .on("mouseout", function(d){
-                            d3.select(this)
-                                .classed("mouseover-county-line", false)
-                                .classed("active-county-line", "GB"+d.properties.GB1999==active_county );
-                        HideToolTip();
-                    })
-                    .on("click", function(d){
-                        if(active_county) {
-                            d3.select("#" + active_county)
-                                .classed("active-county-line", false);
-                        }
-                        active_county = "GB"+d.properties.GB1999;
-                        d3.select(this)
-                            .classed("active-county-line",true);
                     });
+
+                // draw province border line:
+                for(var clsx in listofprov)
+                {
+                    var prvid = listofprov[clsx];
+                    var provlines = topojson.merge(geox,
+                        geox.objects.county.geometries.filter(
+                            function(d) {
+                                return d.properties.PROVINCE==prvid;
+                            }));
+                    provlines["PROVINCE"] =  prvid;
+                    gcounties.append('path')
+                        .datum(provlines)
+                        .attr("class", function(d, i) {
+                            var clsprv  = 'inactive-of-'+d.PROVINCE;
+                            return 'province-line '+ clsprv;
+                        })
+                        .attr("d", path)
+                        .on("mouseover", function(d, i) {
+                            d3.select("#provincename").text('PROVINCE='+d.PROVINCE);
+                            DrawCounties(d.PROVINCE);
+                        })
+                    ;
+                }
 
                 // Draw user's data sites by circles;
                 gcounties.selectAll("circle.site-circle")
@@ -210,31 +210,7 @@ angular.module('d3Charts')
                         DrawRouteLines(rtqry);
                     })
                     .sort(function(a, b) { return b.radius - a.radius; });
-
-                // draw province border line:
-                for(var clsx in listofprov)
-                {
-                    var prvid = listofprov[clsx];
-                    var provlines = topojson.merge(geox,
-                        geox.objects.county.geometries.filter(
-                            function(d) {
-                                return d.properties.PROVINCE==prvid;
-                            }));
-                    provlines["PROVINCE"] =  prvid;
-                    gcounties.append('path')
-                        .datum(provlines)
-                        .attr("class", function(d, i) {
-                            var clsprv  = 'inactive-of-'+d.PROVINCE;
-                            return 'province-line '+ clsprv;
-                        })
-                        .attr("d", path)
-                        .on("mouseover", function(d, i) {
-                            d3.select("#provincename").text('PROVINCE='+d.PROVINCE);
-                            DrawCounties(d.PROVINCE);
-                        })
-                    ;
-                }
-
+                
 
             };
 
