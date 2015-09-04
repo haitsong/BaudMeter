@@ -2,8 +2,14 @@ angular.module('d3Charts')
 
     .controller('CoLatencyViewCtrl', ['$scope', 'eventService',
         function ($scope, eventService) {
+            $scope.currentSelectCo = "";
+            $scope.mouse_leave = true;
+            $scope.mouse_over = false;
+
             $scope.pickCo = function(co){
                 eventService.publish('selectNewCo', co.Id);
+
+                $scope.currentSelectCo = co.Id;
             };
 
             $scope.coInfo = [
@@ -59,7 +65,7 @@ angular.module('d3Charts')
                 ],
                 [
                     {
-                        Name : 'Co1',
+                        Id : 'Co1',
                         OfficeIp : '203.5.71.22',
                         InComingQps : 9985,
                         Latency50 : 25.3,

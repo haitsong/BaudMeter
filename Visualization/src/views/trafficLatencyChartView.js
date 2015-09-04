@@ -21,7 +21,7 @@ angular.module('d3Charts')
                 var _chart = {};
 
                 var _width = width, _height = height,
-                    _margins = {top: 30, left: 60, right: 70, bottom: 30},
+                    _margins = {top: 30, left: 60, right: 70, bottom: 60},
                     _x, _y,
                     _xb, _y1, _y2,
                     _data = [],
@@ -158,6 +158,8 @@ angular.module('d3Charts')
                     renderAreas();
 
                     renderDots();
+
+                    renderMarkers();
                 }
 
                 var x_scale = x = d3.scale.linear()
@@ -240,6 +242,37 @@ angular.module('d3Charts')
                             .attr("cy", function (d) { return y_scale(d.y); })
                             .attr("r", 4.5);
                     });
+                }
+
+                function renderMarkers(){
+                    var markers = [
+                        { id : 1, name : 'Baidu'},
+                        { id : 2, name : 'Weibo'},
+                        { id : 3, name : 'WeiXin'},
+                        { id : 4, name : 'Taobao'},
+                        { id : 5, name : 'Sina'},
+                    ];
+
+                    var lineMarkers = _svg.selectAll('.lineMarkers')
+                        .data(markers)
+                        .enter()
+                        .append('g')
+                        .attr("class","lineMarkers");
+
+                    lineMarkers.append("rect")
+                        .attr("x", function(d, i) { return xStart() + 80 + 80*i; })
+                        .attr("y", yStart() + 30)
+                        .attr("width", "16px")
+                        .attr("height", "5px")
+                        .attr("fill", function(d, i) { return _colors(i); });
+
+                    lineMarkers.append("text")
+                        .attr("font-size", 11)
+                        .attr("font-weight", 500)
+                        .text(function(d, i) { return d.name; })
+                        .attr("x", function(d, i) { return xStart() + 100 + 80*i; })
+                        .attr("y", yStart() + 35)
+                        .attr("fill", function(d, i) { return _colors(i); })
                 }
 
                 function xStart() {
@@ -352,14 +385,14 @@ angular.module('d3Charts')
 
             function render_chart(svg) {
 
-                var numberOfSeries = 2,
+                var numberOfSeries = 5,
                     numberOfDataPoint = 11,
                     data = [];
 
                 for (var i = 0; i < numberOfSeries; ++i)
                     data.push(d3.range(numberOfDataPoint).map(function (i) {
                         //return {x: i, y: randomData()};
-                        return {x: i, y: Math.random() * 8 + 2};
+                        return {x: i, y: Math.random() * 8 + 1};
                     }));
 
                 var currentDate = new Date();
