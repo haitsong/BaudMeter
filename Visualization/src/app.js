@@ -12,8 +12,12 @@ angular.module('myApp', ['d3Charts', 'ngRoute'])
       .when('/trace', {
         controller: 'TraceRouteCtrl',
         templateUrl: 'trace.html'
-      }).
-      otherwise({
+      })
+      .when('/statistic', {
+        controller: 'StatisticCtrl',
+        templateUrl: 'statistic.html'
+      })
+      .otherwise({
         redirectTo: '/latency'
       });
 })
