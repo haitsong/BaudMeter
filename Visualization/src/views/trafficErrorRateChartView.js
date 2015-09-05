@@ -13,8 +13,8 @@ angular.module('d3Charts')
     })
 
     // Listen event on "newCoSelection"
-    .directive('mTrafficErrorRateChartView', ["d3", "eventService",
-        function(d3, eventService){
+    .directive('mTrafficErrorRateChartView', ["d3", "eventService", "latencyDataService",
+        function(d3, eventService, latencyDataService){
             //var width = 1300, height = 300;
             var g_width, g_height;
             var g_chart;
@@ -409,7 +409,13 @@ angular.module('d3Charts')
 
                     // Return the link function
                     return function(scope, element, attrs) {
-                        render_chart(svg);
+                        //if(!latencyDataService.IsErrorRateInit())
+                        //{
+                        // clean up global data before redraw.
+                            data = [];
+                            render_chart(svg);
+                        //    latencyDataService.SetErrorRateChartInit(true);
+                        //}
                     };
                 }
             };

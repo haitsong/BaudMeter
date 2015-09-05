@@ -445,6 +445,8 @@ angular.module('d3Charts')
 
                     // Return the link function
                     return function(scope, element, attrs) {
+                        // clean up global data before redraw.
+                        data = [];
                         render_chart(svg);
                     };
                 }

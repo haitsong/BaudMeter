@@ -24,6 +24,15 @@ eventLib.service('latencyDataService', [
         this.SetCoId = function(obj){
             currentCoId = obj;
         };
+
+        var error_rate_chart_init = false;
+        this.IsErrorRateInit = function(){
+            return error_rate_chart_init;
+        }
+
+        this.SetErrorRateChartInit = function(obj){
+            error_rate_chart_init = obj;
+        }
     }]
 );
 

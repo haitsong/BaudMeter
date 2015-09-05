@@ -1,10 +1,5 @@
 var d3Charts = angular.module('d3Charts');
 
-function getcountycolor(gb1999)
-{
-
-}
-
 d3Charts.controller('traceQueryCtrl', ['$scope', 'eventService', 'latencyDataService',
     function($scope, eventService, latencyDataService) {
 
