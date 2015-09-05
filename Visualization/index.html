@@ -87,22 +87,26 @@
                 var sitegb1999 = FindMatchingGB1999Site(siteDetail.gb1999);
                 loc = sitegb1999.location;
             }
-            if(loc) { // compute lat lon for start.
-                iinst.location = [loc[0], loc[1]];
-            }
             var nx = null;
-            var xnorth = [371500 , 141100, 130128, 510100, 102200, 231084, 230722 ];
-            var xsouth = [341700 , 360400, 350424, 445200, 510300, 451400, 440881 ];
+            var xnorth = [371500 , 410500, 130128, 130323, 110114, 220622, 231084 ];
+            var xsouth = [341700 , 360400, 350424, 445200, 440881, 450922, 451400 ];
             var xwest  = [341182 , 411625, 440233, 511529, 610629, 610821, 652927 ];
             var xpaths = [ xnorth, xsouth, xwest ];
-            for (var ipath=0; ipath<3; ipath++) {            
+            for (var ipath=0; ipath<2; ipath++) { 
                 var stepi=1;
                 var iinst = {"source": 'GB' + siteDetail.gb1999, "target": null, "value": null, "start": true, "end": false, step: 1 };
-                for (var iix = 0; i < 8; i++) {
-                    var rb = Math.floor(Math.random()*3);
-                    var isEndLeg = (i==7);
+                if(loc) { // compute lat lon for start.
+                    iinst.location = [loc[0], loc[1]];
+                }
+                for (var iix = 0; iix < 7; iix++) {
+                    var rb = Math.floor(Math.random()*5);
+                    var isEndLeg = (iix==6);
                     if(rb>1) {
-                        var gbx = ChinaCountyGBZipLatLonArray[iix];
+                        gbpathx = xpaths[ ipath ] [iix];
+                        var gbx = FindMatchingGB1999Site(gbpathx);
+                        if(!gbx) {
+                            alert(gbpathx);
+                        }
                         var randlatency = Math.floor((Math.random() * 100) + 1);//
                         iinst.target = 'GB' + gbx.GB1999;
                         iinst.value = randlatency;
@@ -238,11 +242,6 @@
                       <div class="divider"></div>
 
                       <ul class="menu">
-<<<<<<< HEAD
-                          <li data-role="dropdown">
-                              <a href="#">Latency</a>
-                              <ul class="dropdown-menu">
-=======
                           <!--<li data-role="dropdown">
                               <a href="#">Central Office</a>
                               <ul class="dropdown-menu">
@@ -252,7 +251,6 @@
                           <li data-role="dropdown">
                               <a href="#latency">Latency</a>
                               <!--<ul class="dropdown-menu">
->>>>>>> 97865e56ffcf3deb30b867c1d043ecb9c44f09dd
                                   <li><a href="#/latency">Latency Average</a></li>
                                   <li><a href="#/latency">Latency 75%</a></li>
                                   <li><a href="#/latency">Latency 90%</a></li>
@@ -269,19 +267,9 @@
                               </ul>-->
                           </li>
                           <li data-role="dropdown">
-<<<<<<< HEAD
-                              <a href="#">Statistics</a>
-                              <ul class="dropdown-menu">
-                                  <li><a href="#/trace">Latency Ranking</a></li>
-                                  <li class="divider"></li>
-                              </ul>
-                          </li>
-                          <li data-role="dropdown">
-=======
                               <a href="#statistic">Statistic</a>
                           </li>
                           <!--<li data-role="dropdown">
->>>>>>> 97865e56ffcf3deb30b867c1d043ecb9c44f09dd
                               <a href="#">Settings</a>
                               <ul class="dropdown-menu">
                                   <li><a href="javascript:ToggleDiv('.select-form')">Toggle Site Form Window</a></li>
@@ -290,7 +278,7 @@
                           </li>
                           -->
                       </ul>
-
+                      
                       <!-- div class="divider"></div>
                         <span id="feedbackLink" class="element brand place-right" style="cursor:pointer" onclick="feedbackClicked()" title="Click to provide feedback">
                             Feedback

@@ -79,12 +79,22 @@ angular.module('d3Charts')
                 var siteGB1999 = routeQry.gb1999;
                 var siteIP = routeQry.ip;
                 var sitelines = GetRouteTrace(routeQry);
-                var colorscale= d3.scale.linear().domain([0, 30, 100]).range(["green", "yellow", "red"]);
+                var colorscale= d3.scale.linear().domain([0, 70, 100]).range(["green", "red", "purple"]);
 
                 var gcounties = d3.select('#gcounties');
-                d3.selectAll('path.instancepath')
+                d3.selectAll('.instancepath')
                     .remove(); // .attr('style:visibility', 'hidden');
 
+                var sitefrom= chinaProjection(sitelines[0].location);
+                gcounties//.selectAll('circle.instancepath')
+                    .append("circle")
+                    .attr('class', 'instancepath')
+                    .attr("cx",  sitefrom[0])
+                    .attr("cy",  sitefrom[1])
+                    .attr('r', 2)
+                    .attr("stroke", 'black') //function(d,i){ return d.color; })
+                    .attr('fill','pink');                
+                                                            
                 gcounties.selectAll('path.route-'+siteGB1999)
                     .data( sitelines )
                     .enter()
@@ -98,7 +108,7 @@ angular.module('d3Charts')
                     .sort(function(a, b) { return b.value - a.value; });
                 //zoom to country wide
                 zoombehavior.translate([0,0]).scale(1).event(gcounties);
-
+                
                 d3.selectAll('tr.trtraceleg').remove();
                 table = d3.select('#table-site-trace');
                 var tr = table.selectAll('tr.trtraceleg')
@@ -115,6 +125,7 @@ angular.module('d3Charts')
                             return str;
                         }
                 );
+                HideToolTip();
             };
 
             // function to preprocess the user data;
