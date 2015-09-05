@@ -73,8 +73,22 @@ angular.module('d3Charts')
                     .attr("class","dataTypeSelectors");
 
                 dataTypeSelectors.append("circle")
+                    .on("mouseover", function(d){
+                        d3.select(this)
+                            .classed("percentileSelector_mouseover", true);
+                    })
+                    .on("mouseout", function(d){
+                        d3.select(this).classed("percentileSelector_mouseover", false);
+                    })
                     .attr("cx", 25)
-                    .attr("cy", function(d,i) { return(i*30) + 250})
+                    .attr("cy", function(d,i) {
+                        if(i == 0)
+                        {
+                            d3.select(this).classed("percentileSelector_click", true);
+                        }
+
+                        return(i*30) + 250;
+                    })
                     .attr("r","12px")
                     .attr("fill", function(d) { return d.color ; });
 
