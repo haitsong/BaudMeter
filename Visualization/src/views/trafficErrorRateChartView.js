@@ -13,8 +13,8 @@ angular.module('d3Charts')
     })
 
     // Listen event on "newCoSelection"
-    .directive('mTrafficLatencyChart', ["d3", "eventService",
-        function(d3, eventService){
+    .directive('mTrafficErrorRateChartView', ["d3", "eventService", "latencyDataService",
+        function(d3, eventService, latencyDataService){
             //var width = 1300, height = 300;
             var g_width, g_height;
             var g_chart;
@@ -54,8 +54,6 @@ angular.module('d3Charts')
                     renderXAxis(axesG);
 
                     renderYAxis(axesG);
-
-                    renderY2Axis(axesG);
                 }
 
                 function renderXAxis(axesG){
@@ -73,66 +71,34 @@ angular.module('d3Charts')
                             return "translate(" + xStart() + "," + yStart() + ")";
                         })
                         .call(xAxis);
-
-                    /*
-                    d3.selectAll("g.x g.tick")
-                        .append("line")
-                        .classed("grid-line", true)
-                        .attr("x1", 0)
-                        .attr("y1", 0)
-                        .attr("x2", 0)
-                        .attr("y2", - quadrantHeight());
-                        */
                 }
 
                 function renderYAxis(axesG){
                     var yAxis = d3.svg.axis()
                         .scale(_y1.range([quadrantHeight(), 0]))
+                        .tickFormat(function(d) { return d+'%'})
                         .orient("left");
 
                     axesG.append("g")
-                        .attr("class", "y axis")
+                        .attr("class", "y1 axis")
                         .attr("transform", function () {
                             return "translate(" + xStart() + "," + yEnd() + ")";
                         })
                         .call(yAxis);
 
                     axesG.append("text")
-                        .attr("class", "y label")
-                        .text("Latency [ms]")
+                        .attr("class", "y1 label")
+                        .text("Error Rate")
                         .attr("transform", "rotate(270) translate("+ (-1 * quadrantHeight()/2) + ", 15)")
-                        //.attr("font-family", "sans-serif")
+                    //.attr("font-family", "sans-serif")
 
-                    d3.selectAll("g.y g.tick")
+                    d3.selectAll("g.y1 g.tick")
                         .append("line")
                         .classed("grid-line", true)
                         .attr("x1", 0)
                         .attr("y1", 0)
                         .attr("x2", quadrantWidth())
                         .attr("y2", 0);
-                }
-
-                function renderY2Axis(axesG){
-                    var yAxis = d3.svg.axis()
-                        .scale(_y2.range([quadrantHeight(), 0]))
-                        .tickFormat(function(d) { return d+'k'})
-                        .orient("right");
-
-                    axesG.append("g")
-                        .attr("class", "y axis")
-                        .attr("transform", function () {
-                            return "translate(" + xEnd() + "," + yEnd() + ")";
-                        })
-                        .call(yAxis);
-
-                    axesG.append("text")
-                        .attr("class", "y label")
-                        .attr("text-anchor", "end")
-                        .attr("x", -30)
-                        .attr("y", _width-27)
-                        .attr("dy", ".75em")
-                        .attr("transform", "rotate(-90)")
-                        .text("Query Volume");
                 }
 
                 function defineBodyClip(svg) { // <-2C
@@ -158,8 +124,6 @@ angular.module('d3Charts')
                             .attr("clip-path", "url(#body-clip)");
 
                     renderLines();
-
-                    renderAreas();
 
                     renderDots();
 
@@ -403,11 +367,11 @@ angular.module('d3Charts')
                 var currentDate = new Date();
                 var lowDate = new Date(currentDate.getTime() - 15*60000);
 
-                var chart = lineChart('traffic_latency_chart_1', g_width, g_height)
+                var chart = lineChart('Error_Rate_ChartView_1', g_width, g_height)
                     .x(d3.scale.linear().domain([0, 10]).range(60, g_width-70))
                     .y(d3.scale.linear().domain([0, 10]).range(g_height-30, 30))
                     .xb(d3.time.scale().domain([lowDate, currentDate]))
-                    .y1(d3.scale.linear().domain([950, 1200]))
+                    .y1(d3.scale.linear().domain([1.5, 9]))
                     .y2(d3.scale.linear().domain([0,1250]));
 
                 data.forEach(function (series) {
@@ -430,14 +394,14 @@ angular.module('d3Charts')
                 },
                 compile: function( element, attrs, transclude ) {
 
-                    var svg = d3.select(element[0]).append('svg').attr('id','traffic_latency_chart_1');
+                    var svg = d3.select(element[0]).append('svg').attr('id','Error_Rate_ChartView_1');
 
                     // Define the dimensions for the chart
 
-                    var stage_div = d3.select("#TrafficLatencyChartView1");
+                    var stage_div = d3.select("#ErrorRateChartView1");
                     g_height = stage_div.style("height").replace("px", "");
                     g_width = stage_div.style("width").replace("px", "");
-                    var header = d3.select("#TrafficLatencyChartView1_header");
+                    var header = d3.select("#ErrorRateChartView1_header");
                     g_height = g_height - header.style("height").replace("px", "") - 30;
 
                     svg.attr('width',g_width);
@@ -445,9 +409,13 @@ angular.module('d3Charts')
 
                     // Return the link function
                     return function(scope, element, attrs) {
+                        //if(!latencyDataService.IsErrorRateInit())
+                        //{
                         // clean up global data before redraw.
-                        data = [];
-                        render_chart(svg);
+                            data = [];
+                            render_chart(svg);
+                        //    latencyDataService.SetErrorRateChartInit(true);
+                        //}
                     };
                 }
             };

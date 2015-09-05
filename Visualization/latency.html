@@ -23,6 +23,12 @@
         padding:5px;
     }
 
+    .height_divider{
+        width:auto;
+        height:7px;
+        display:inline-block;
+    }
+
     #trafficContributionView path {
         stroke: white;
         stroke-width: 2;
@@ -114,17 +120,44 @@
     #TrafficLatencyChartView1 {
         width: 98%;
         height: 400px;
-        margin: 5px;
+        margin: auto;
+        /*margin: 5px;*/
         border-radius: 25px;
         border: 2px solid #ccc;
         padding: 5px;
         background-color: #f5f5f5;
     }
-</style>
 
+    #ErrorRateChartView1{
+        width: 98%;
+        height: 400px;
+        margin: auto;
+        /*margin: 5px;*/
+        border-radius: 25px;
+        border: 2px solid #ccc;
+        padding: 5px;
+        background-color: #f5f5f5;
+    }
+
+    .percentileSelector_mouseover{
+        stroke:#999696;
+        stroke-width:3;
+        stroke-dasharray:0;
+    }
+
+    .percentileSelector_click{
+        stroke:#999696;
+        stroke-width:3;
+        stroke-dasharray:0;
+    }
+</style>
+<!--
 <div ng-controller="CurrentLatencySelectionCtrl" class="selection">
     <pre>Current Selected County is <span ng-bind="countyGB"></span>, current selected Co is  <span ng-bind="coId"></span></pre>
 </div>
+-->
+
+
 <div ng-controller="ProvinceLatencyViewCtrl" class="latencyMap">
     <h2 align="center"> Jiang Su Network Latency Overview</h2>
     <m-Province-Latency-View latency="latency" county-Map="countyMap"></m-Province-Latency-View>
@@ -146,10 +179,17 @@
     <h2 align="center"> Top 10 visit sites </h2>
     <m-traffic-Contribution-View></m-Traffic-Contribution-View>
 </div>
+
 <div class="lineChart" id="TrafficLatencyChartView1" ng-controller="TrafficLatencyChartViewCtrl">
-    <h3 align="center" id="TrafficLatencyChartView1_header"> Traffic Latency of top 10 sites</h3>
+    <h3 align="center" id="TrafficLatencyChartView1_header"> Traffic latency of top 5 sites</h3>
     <m-traffic-Latency-Chart></m-traffic-Latency-Chart>
 </div>
-<div class="lineChart">
-    <h2 align="center"> Query Per Second(QPS) per sites </h2>
+
+<div class="height_divider"></div>
+<!---->
+<div class="lineChart" id="ErrorRateChartView1" ng-controller="TrafficErrorRateChartViewCtrl">
+    <h3 align="center" id="ErrorRateChartView1_header"> Error rate of top 5 sites</h3>
+    <m-traffic-error-rate-chart-view></m-traffic-error-rate-chart-view>
 </div>
+<!---->
+<div class="height_divider"></div>
