@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaudMeterAgent", "NetPingAgent\BaudMeterAgent.csproj", "{D8E95673-FBDC-44A4-AC4E-260D057314CC}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BaudMeterSite", "..\BaudMeterSite\", "{9D938556-616C-446A-9983-757BEC81BBD6}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_16169"
+		Debug.AspNetCompiler.PhysicalPath = "..\BaudMeterSite\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_16169\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_16169"
+		Release.AspNetCompiler.PhysicalPath = "..\BaudMeterSite\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_16169\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "16169"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Any CPU = CD_ROM|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		DVD-5|Any CPU = DVD-5|Any CPU
+		Release|Any CPU = Release|Any CPU
+		SingleImage|Any CPU = SingleImage|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8E95673-FBDC-44A4-AC4E-260D057314CC}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{D8E95673-FBDC-44A4-AC4E-260D057314CC}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{D8E95673-FBDC-44A4-AC4E-260D057314CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8E95673-FBDC-44A4-AC4E-260D057314CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8E95673-FBDC-44A4-AC4E-260D057314CC}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8E95673-FBDC-44A4-AC4E-260D057314CC}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{D8E95673-FBDC-44A4-AC4E-260D057314CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8E95673-FBDC-44A4-AC4E-260D057314CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8E95673-FBDC-44A4-AC4E-260D057314CC}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{D8E95673-FBDC-44A4-AC4E-260D057314CC}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{9D938556-616C-446A-9983-757BEC81BBD6}.CD_ROM|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D938556-616C-446A-9983-757BEC81BBD6}.CD_ROM|Any CPU.Build.0 = Debug|Any CPU
+		{9D938556-616C-446A-9983-757BEC81BBD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D938556-616C-446A-9983-757BEC81BBD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D938556-616C-446A-9983-757BEC81BBD6}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D938556-616C-446A-9983-757BEC81BBD6}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{9D938556-616C-446A-9983-757BEC81BBD6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D938556-616C-446A-9983-757BEC81BBD6}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{9D938556-616C-446A-9983-757BEC81BBD6}.SingleImage|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D938556-616C-446A-9983-757BEC81BBD6}.SingleImage|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
