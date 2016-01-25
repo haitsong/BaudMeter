@@ -142,10 +142,10 @@ namespace BaudMeterAgent
                             break;
                         }
                     }
-                    catch (PingException ex)
+                    catch (PingException )
                     {
                     }
-                    catch (SocketException ex)
+                    catch (SocketException )
                     {
                     }
                 }
