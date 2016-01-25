@@ -1,0 +1,175 @@
+﻿Installing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Installing service BaudMeterAgent...
+Service BaudMeterAgent has been successfully installed.
+Creating EventLog source BaudMeterAgent in log Application...
+Committing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Uninstalling assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Removing EventLog source BaudMeterAgent.
+Service BaudMeterAgent is being removed from the system...
+Service BaudMeterAgent was successfully removed from the system.
+Installing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Installing service BaudMeterAgent...
+Service BaudMeterAgent has been successfully installed.
+Creating EventLog source BaudMeterAgent in log Application...
+Committing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Uninstalling assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Removing EventLog source BaudMeterAgent.
+Service BaudMeterAgent is being removed from the system...
+Service BaudMeterAgent was successfully removed from the system.
+Uninstalling assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Removing EventLog source BaudMeterAgent.
+Warning: The source BaudMeterAgent is not registered on the local machine.
+Service BaudMeterAgent is being removed from the system...
+An exception occurred during the uninstallation of the System.ServiceProcess.ServiceInstaller installer.
+System.ComponentModel.Win32Exception: The specified service does not exist as an installed service
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Installing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Installing service BaudMeterAgent...
+Service BaudMeterAgent has been successfully installed.
+Creating EventLog source BaudMeterAgent in log Application...
+Committing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Uninstalling assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Removing EventLog source BaudMeterAgent.
+Service BaudMeterAgent is being removed from the system...
+Service BaudMeterAgent was successfully removed from the system.
+Installing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Installing service BaudMeterAgent...
+Service BaudMeterAgent has been successfully installed.
+Creating EventLog source BaudMeterAgent in log Application...
+Committing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Uninstalling assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Removing EventLog source BaudMeterAgent.
+Service BaudMeterAgent is being removed from the system...
+Service BaudMeterAgent was successfully removed from the system.
+Uninstalling assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Removing EventLog source BaudMeterAgent.
+Warning: The source BaudMeterAgent is not registered on the local machine.
+Service BaudMeterAgent is being removed from the system...
+An exception occurred during the uninstallation of the System.ServiceProcess.ServiceInstaller installer.
+System.ComponentModel.Win32Exception: The specified service does not exist as an installed service
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Installing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Installing service BaudMeterAgent...
+Service BaudMeterAgent has been successfully installed.
+Creating EventLog source BaudMeterAgent in log Application...
+Committing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Uninstalling assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Removing EventLog source BaudMeterAgent.
+Service BaudMeterAgent is being removed from the system...
+Service BaudMeterAgent was successfully removed from the system.
+Installing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Installing service BaudMeterAgent...
+Service BaudMeterAgent has been successfully installed.
+Creating EventLog source BaudMeterAgent in log Application...
+Committing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Uninstalling assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Removing EventLog source BaudMeterAgent.
+Service BaudMeterAgent is being removed from the system...
+Service BaudMeterAgent was successfully removed from the system.
+Attempt to stop service BaudMeterAgent.
+Installing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Installing service BaudMeterAgent...
+Service BaudMeterAgent has been successfully installed.
+Creating EventLog source BaudMeterAgent in log Application...
+Committing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Installing assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Installing service BaudMeterAgent...
+Creating EventLog source BaudMeterAgent in log Application...
+Rolling back assembly 'C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.InstallLog
+   assemblypath = C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+Restoring event log to previous state for source BaudMeterAgent.
