@@ -1,4 +1,0 @@
-C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\NetPingAgent.exe
-C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\NetPingAgent.pdb
-C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\obj\Debug\NetPingAgent.exe
-C:\Home\NetPingAgentService\NetPingAgent\NetPingAgent\obj\Debug\NetPingAgent.pdb
