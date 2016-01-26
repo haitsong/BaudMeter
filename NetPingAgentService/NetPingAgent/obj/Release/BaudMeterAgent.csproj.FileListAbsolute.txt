@@ -1,0 +1,6 @@
+C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\bin\Release\BaudMeterAgent.pdb
+C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\obj\Release\BaudMeterAgent.csprojResolveAssemblyReference.cache
+C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\obj\Release\BaudMeterAgent.pdb
+C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\bin\Release\BaudMeterAgent.exe.config
+C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\bin\Release\BaudMeterAgent.exe
+C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\obj\Release\BaudMeterAgent.exe

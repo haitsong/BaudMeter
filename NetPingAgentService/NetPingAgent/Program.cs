@@ -5,7 +5,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaudMeterAgent
+namespace com.BaudMeter.Model
 {
     using System;
     using System.Configuration.Install;

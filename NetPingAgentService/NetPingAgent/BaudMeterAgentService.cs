@@ -9,7 +9,7 @@ using System.Text;
 using System.Timers;
 using System.Threading.Tasks;
 
-namespace BaudMeterAgent
+namespace com.BaudMeter.Model
 {
     public partial class BaudMeterAgentService : ServiceBase
     {
@@ -25,7 +25,7 @@ namespace BaudMeterAgent
         }
 
         bool isWorkAlreadyRunning = false;
-        NetAgentWorker worker = new NetAgentWorker();
+        BaudAgentWorker worker = new BaudAgentWorker();
 
         public static void WriteEvent(string fmt, params object[] args)
         {
@@ -66,6 +66,17 @@ namespace BaudMeterAgent
             actionTriggerTimer.Interval = 90000;
             actionTriggerTimer.Enabled = true;
         }
+
+        public static int TimerInterval
+        {
+            set
+            {
+                // allow the center server to adjust agent interval of tests (but 10 sec each is likely tight).
+                actionTriggerTimer.Interval = value>10000? value : 10000;
+            }
+        }
+
+        public static string ServerReportedAgentIp = "";
 
         protected override void OnPause()
         {

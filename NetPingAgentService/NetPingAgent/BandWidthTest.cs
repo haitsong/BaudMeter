@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaudMeterAgent
+namespace com.BaudMeter.Model
 {
     using System.Runtime.InteropServices; // : This is for declaring our Win32 API
     using System.Net;
     using System.Net.NetworkInformation;
     using System.Net.Sockets;
     using System.Threading;
+    using com.BaudMeter.Agent.WebService;
 
     class BandWidthTest
     {
@@ -21,7 +22,7 @@ namespace BaudMeterAgent
 
         private double _bandwidth = 0;
 
-        public BandwidthTestResult BandWidthResult { get; set; }
+        public BandwidthReport BandWidthResult { get; set; }
 
         private void ComputeBandWidth()
         {
@@ -127,8 +128,9 @@ namespace BaudMeterAgent
         {
             IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
             var tcpStartStats = new TcpStatistics[] { properties.GetTcpIPv6Statistics(), properties.GetTcpIPv4Statistics() };
-            this.BandWidthResult = new BandwidthTestResult(); //reset to new object;
+            this.BandWidthResult = new BandwidthReport(); //reset to new object;
             this.BandWidthResult.Url = urlToTest;
+            this.BandWidthResult.Ip = BaudMeterAgentService.ServerReportedAgentIp;
 
             try
             {
@@ -139,7 +141,8 @@ namespace BaudMeterAgent
                 {
                     StartNICBandWidthRecording.Set();
                     //DateTime Variable To Store Download Start Time.
-                    DateTime dt1 = DateTime.Now;
+                    DateTime dt1 = DateTime.UtcNow;
+                    BandWidthResult.UtcTimeStamp = dt1;
                     //Number Of Bytes Downloaded Are Stored In ‘data’
                     System.IO.Stream os = client.OpenRead(urlToTest);
                     byte[] buffer = new byte[1024];
@@ -151,7 +154,7 @@ namespace BaudMeterAgent
                     }
                     double mbytes = totalBytesDownloaded / 1024 / 1024;
                     //DateTime Variable To Store Download End Time.
-                    DateTime dt2 = DateTime.Now;
+                    DateTime dt2 = DateTime.UtcNow;
                     //To Calculate Speed in Kb Divide Value Of data by 1024 And Then by End Time Subtract Start Time To Know Download Per Second.
                     this.BandWidthResult.DownloadBandwidth = Math.Round(mbytes / (dt2 - dt1).TotalSeconds, 2)* 8; // report mbits per sec, not bytes.
                     var tcpEndStats = new TcpStatistics[] { properties.GetTcpIPv6Statistics(), properties.GetTcpIPv4Statistics() };

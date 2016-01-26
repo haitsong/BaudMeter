@@ -5,11 +5,11 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D8E95673-FBDC-44A4-AC4E-260D057314CC}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BaudMeterAgent</RootNamespace>
+    <RootNamespace>com.BaudMeter.Agent</RootNamespace>
     <AssemblyName>BaudMeterAgent</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -33,13 +33,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BandWidthTest.cs" />
-    <Compile Include="BandwidthTestResult.cs" />
     <Compile Include="BaudMeterAgentService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -126,22 +130,57 @@
     <Compile Include="Dns\Response.cs" />
     <Compile Include="Dns\RR.cs" />
     <Compile Include="Dns\Structs.cs" />
-    <Compile Include="NetAgentTestResult.cs" />
     <Compile Include="NetPingTest.cs" />
-    <Compile Include="NetAgentWorker.cs" />
-    <Compile Include="NetPingResult.cs" />
+    <Compile Include="BaudAgentWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="BaudMeterAgentInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\WebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dns\Records\totla.txt" />
     <Content Include="Dns\Root\named_root.txt" />
+    <None Include="Service References\WebService\com.BaudMeter.Agent.WebService.BaudCommand.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WebService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\WebService\configuration.svcinfo" />
+    <None Include="Service References\WebService\configuration91.svcinfo" />
+    <None Include="Service References\WebService\Service.disco" />
+    <None Include="Service References\WebService\Service.wsdl" />
+    <None Include="Service References\WebService\Service4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Service References\WebService\Service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WebService\Service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WebService\Service2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WebService\Service3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\WebService\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

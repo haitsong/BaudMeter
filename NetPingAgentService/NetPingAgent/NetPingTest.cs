@@ -5,13 +5,14 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaudMeterAgent
+namespace com.BaudMeter.Model
 {
     using System.Runtime.InteropServices; // : This is for declaring our Win32 API
     using System.Net;
     using System.Net.NetworkInformation;
     using System.Net.Sockets;
     using System.Diagnostics;
+    using com.BaudMeter.Agent.WebService;
 
     public class NetPingTest
     {
@@ -33,7 +34,7 @@ namespace BaudMeterAgent
         [DllImport("wininet", CharSet = CharSet.Auto)]
         static extern bool InternetGetConnectedState(ref ConnectionStatusEnum flags, int dw);
 
-        public NetPingResult PingTestResult { get; set;  }
+        public NetPingReport PingTestResult { get; set;  }
 
         /// <summary>
         /// method for retrieving the IP address from the host provided
@@ -69,7 +70,8 @@ namespace BaudMeterAgent
                 addrArray =  hostentry.AddressList;
                 sw.Stop();
                 address = addrArray != null ? addrArray[0] : null;
-                this.PingTestResult.DnsResolveTimeTaken = sw.ElapsedMilliseconds;    
+                this.PingTestResult.DnsResolveTimeTaken = sw.ElapsedMilliseconds;
+                this.PingTestResult.HostIp = address.ToString();
             }
             catch (SocketException ex)
             {
@@ -110,8 +112,10 @@ namespace BaudMeterAgent
         /// <returns></returns>
         public void PingHost(string host)
         {
-            this.PingTestResult = new NetPingResult();
+            this.PingTestResult = new NetPingReport();
             this.PingTestResult.Host = host;
+            this.PingTestResult.Ip = BaudMeterAgentService.ServerReportedAgentIp;
+
             //IPAddress instance for holding the returned host
             IPAddress address = GetIpFromHost(ref host);
             //set the ping options, TTL 128

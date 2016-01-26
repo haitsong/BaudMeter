@@ -1,4 +1,4 @@
-﻿namespace BaudMeterAgent
+﻿namespace com.BaudMeter.Model
 {
     partial class BaudMeterAgentService
     {

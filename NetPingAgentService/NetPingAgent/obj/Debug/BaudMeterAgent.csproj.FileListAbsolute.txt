@@ -9,5 +9,8 @@ C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMe
 C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\NetPingAgent\obj\Debug\BaudMeterAgent.csprojResolveAssemblyReference.cache
 C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\NetPingAgent\bin\Debug\BaudMeterAgent.exe.config
 C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\bin\Debug\BaudMeterAgent.exe.config
+C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\bin\Debug\BaudMeterAgent.exe
+C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\bin\Debug\BaudMeterAgent.pdb
 C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\obj\Debug\BaudMeterAgent.exe
 C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\obj\Debug\BaudMeterAgent.pdb
+C:\Home\BaudMeter\NetPingAgentService\NetPingAgent\obj\Debug\BaudMeterAgent.csprojResolveAssemblyReference.cache

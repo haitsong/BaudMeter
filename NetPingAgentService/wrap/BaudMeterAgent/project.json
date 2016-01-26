@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net45": {
+      "wrappedProject": "../../NetPingAgent/BaudMeterAgent.csproj",
+      "bin": {
+        "assembly": "../../NetPingAgent/obj/{configuration}/BaudMeterAgent.exe",
+        "pdb": "../../NetPingAgent/obj/{configuration}/BaudMeterAgent.pdb"
+      }
+    },
+    "net451": {
+      "wrappedProject": "../../NetPingAgent/BaudMeterAgent.csproj",
+      "bin": {
+        "assembly": "../../NetPingAgent/obj/{configuration}/BaudMeterAgent.exe",
+        "pdb": "../../NetPingAgent/obj/{configuration}/BaudMeterAgent.pdb"
+      }
+    }
+  }
+}
