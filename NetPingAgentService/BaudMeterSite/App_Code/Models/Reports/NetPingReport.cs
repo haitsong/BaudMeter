@@ -5,7 +5,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.BaudMeter.Model
+namespace com.BaudMeter.Agent
 {
 
     public class NetPingReport 

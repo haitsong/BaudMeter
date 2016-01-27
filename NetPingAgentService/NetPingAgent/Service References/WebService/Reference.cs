@@ -305,6 +305,9 @@ namespace com.BaudMeter.Agent.WebService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CrcField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int IntervalSecondsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -323,6 +326,19 @@ namespace com.BaudMeter.Agent.WebService {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Crc {
+            get {
+                return this.CrcField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CrcField, value) != true)) {
+                    this.CrcField = value;
+                    this.RaisePropertyChanged("Crc");
+                }
             }
         }
         
@@ -392,17 +408,11 @@ namespace com.BaudMeter.Agent.WebService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="WebService.IService")]
     public interface IService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/CheckClientIp", ReplyAction="http://tempuri.org/IService/CheckClientIpResponse")]
-        string CheckClientIp(string key);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/CheckClientIp", ReplyAction="http://tempuri.org/IService/CheckClientIpResponse")]
-        System.Threading.Tasks.Task<string> CheckClientIpAsync(string key);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/PostReports", ReplyAction="http://tempuri.org/IService/PostReportsResponse")]
+        com.BaudMeter.Agent.WebService.BaudCommand PostReports(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string encodedSessionKey);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/PostReports", ReplyAction="http://tempuri.org/IService/PostReportsResponse")]
-        com.BaudMeter.Agent.WebService.BaudCommand PostReports(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/PostReports", ReplyAction="http://tempuri.org/IService/PostReportsResponse")]
-        System.Threading.Tasks.Task<com.BaudMeter.Agent.WebService.BaudCommand> PostReportsAsync(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults);
+        System.Threading.Tasks.Task<com.BaudMeter.Agent.WebService.BaudCommand> PostReportsAsync(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string encodedSessionKey);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -432,20 +442,12 @@ namespace com.BaudMeter.Agent.WebService {
                 base(binding, remoteAddress) {
         }
         
-        public string CheckClientIp(string key) {
-            return base.Channel.CheckClientIp(key);
+        public com.BaudMeter.Agent.WebService.BaudCommand PostReports(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string encodedSessionKey) {
+            return base.Channel.PostReports(BandWidthResults, PingResults, encodedSessionKey);
         }
         
-        public System.Threading.Tasks.Task<string> CheckClientIpAsync(string key) {
-            return base.Channel.CheckClientIpAsync(key);
-        }
-        
-        public com.BaudMeter.Agent.WebService.BaudCommand PostReports(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults) {
-            return base.Channel.PostReports(BandWidthResults, PingResults);
-        }
-        
-        public System.Threading.Tasks.Task<com.BaudMeter.Agent.WebService.BaudCommand> PostReportsAsync(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults) {
-            return base.Channel.PostReportsAsync(BandWidthResults, PingResults);
+        public System.Threading.Tasks.Task<com.BaudMeter.Agent.WebService.BaudCommand> PostReportsAsync(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string encodedSessionKey) {
+            return base.Channel.PostReportsAsync(BandWidthResults, PingResults, encodedSessionKey);
         }
     }
 }

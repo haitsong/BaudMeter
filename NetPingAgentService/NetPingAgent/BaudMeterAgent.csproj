@@ -61,6 +61,7 @@
     <Compile Include="BaudMeterAgentService.Designer.cs">
       <DependentUpon>BaudMeterAgentService.cs</DependentUpon>
     </Compile>
+    <Compile Include="PostReportSign.cs" />
     <Compile Include="Dns\Header.cs" />
     <Compile Include="Dns\Question.cs" />
     <Compile Include="Dns\RecordReader.cs" />

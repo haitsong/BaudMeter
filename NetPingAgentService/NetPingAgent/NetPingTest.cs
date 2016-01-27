@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.BaudMeter.Model
+namespace com.BaudMeter.Agent
 {
     using System.Runtime.InteropServices; // : This is for declaring our Win32 API
     using System.Net;
@@ -69,8 +69,11 @@ namespace com.BaudMeter.Model
                 var hostentry = resv.Resolve(host);
                 addrArray =  hostentry.AddressList;
                 sw.Stop();
-                address = addrArray != null ? addrArray[0] : null;
+                // pick anyone from the address of resolved, and ping test that one.
+                int nAddr = addrArray == null ? 0 : addrArray.Length;
+                address = nAddr==0? null :  addrArray[rand.Next(nAddr)];
                 this.PingTestResult.DnsResolveTimeTaken = sw.ElapsedMilliseconds;
+                this.PingTestResult.UtcTimeStamp = DateTime.UtcNow;
                 this.PingTestResult.HostIp = address.ToString();
             }
             catch (SocketException ex)
@@ -81,12 +84,14 @@ namespace com.BaudMeter.Model
             return address;
         }
 
+        // random val generator;
+        private Random rand = new Random();
 
         /// <summary>
         /// method to check the status of the pinging machines internet connection
         /// </summary>
         /// <returns></returns>
-        private  bool HasConnection()
+        private bool HasConnection()
         {
             //instance of our ConnectionStatusEnum
             ConnectionStatusEnum state = 0;

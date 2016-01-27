@@ -9,12 +9,6 @@
       <xsd:import schemaLocation="http://baudmeter.azurewebsites.net/Service.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IService_CheckClientIp_InputMessage">
-    <wsdl:part name="parameters" element="tns:CheckClientIp" />
-  </wsdl:message>
-  <wsdl:message name="IService_CheckClientIp_OutputMessage">
-    <wsdl:part name="parameters" element="tns:CheckClientIpResponse" />
-  </wsdl:message>
   <wsdl:message name="IService_PostReports_InputMessage">
     <wsdl:part name="parameters" element="tns:PostReports" />
   </wsdl:message>
@@ -22,10 +16,6 @@
     <wsdl:part name="parameters" element="tns:PostReportsResponse" />
   </wsdl:message>
   <wsdl:portType name="IService">
-    <wsdl:operation name="CheckClientIp">
-      <wsdl:input wsaw:Action="http://tempuri.org/IService/CheckClientIp" message="tns:IService_CheckClientIp_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IService/CheckClientIpResponse" message="tns:IService_CheckClientIp_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="PostReports">
       <wsdl:input wsaw:Action="http://tempuri.org/IService/PostReports" message="tns:IService_PostReports_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService/PostReportsResponse" message="tns:IService_PostReports_OutputMessage" />
@@ -33,15 +23,6 @@
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService" type="tns:IService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="CheckClientIp">
-      <soap:operation soapAction="http://tempuri.org/IService/CheckClientIp" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="PostReports">
       <soap:operation soapAction="http://tempuri.org/IService/PostReports" style="document" />
       <wsdl:input>

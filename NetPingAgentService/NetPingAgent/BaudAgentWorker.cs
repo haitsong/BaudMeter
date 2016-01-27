@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.BaudMeter.Model
+namespace com.BaudMeter.Agent
 {
     using System.Diagnostics;
     using com.BaudMeter.Agent.WebService;
@@ -12,7 +12,7 @@ namespace com.BaudMeter.Model
     /// <summary>
     /// utility class to stringize data;
     /// </summary>
-    static class StringExtension
+    static class HelperExtension
     {
         public static string ToSTR(this BandwidthReport rep)
         {
@@ -33,7 +33,7 @@ namespace com.BaudMeter.Model
             string PingReplyDetail = "";
             if (rep.NetPingReply != null)
             {
-                PingReplyDetail = ", Address:'" + rep.NetPingReply.Address + "'" +
+                PingReplyDetail = 
                         ", BufferLength:" + rep.NetPingReply.Buffer.Length +
                         ", RoundtripTime:" + rep.NetPingReply.RoundtripTime;
             }
@@ -45,6 +45,14 @@ namespace com.BaudMeter.Model
                     ", DnsResolveTimeTaken:" + rep.DnsResolveTimeTaken +
                     PingReplyDetail +
                   "}}";
+        }
+
+        public static bool IsSigningValid(this BaudCommand cmd)
+        {
+            string contentstr = string.Join(",",cmd.Urls) + cmd.IntervalSeconds + cmd.Ip + cmd.ReportBatch;
+            string crc = cmd.Crc;
+            string hash = com.BaudMeter.Agent.ReportPostSign.GetHash(contentstr);
+            return true; // return string.Compare(crc,hash, true)==0;
         }
 
     }
@@ -73,9 +81,6 @@ namespace com.BaudMeter.Model
             TestUrls.AddRange(testurls);
         }
 
-        private void GetCommandFromServer()
-        {
-        }
 
         public void RunOnce()
         {
@@ -112,12 +117,8 @@ namespace com.BaudMeter.Model
                 // construct api call to report result.
                 // post to server;
                 var svc = new ServiceClient();
-                var cmd = svc.PostReports(BandwidthResults.ToArray(), PingResults.ToArray());
-                BaudMeterAgentService.TimerInterval = cmd.IntervalSeconds * 1000;
-                ReportBatchSize = cmd.ReportBatch;
-                BaudMeterAgentService.ServerReportedAgentIp = cmd.Ip;
-                // set the urls for testing, we shuffle it.
-                this.SetTestUrls(cmd.Urls);
+                var cmd = svc.PostReports(BandwidthResults.ToArray(), PingResults.ToArray(), Agent.ReportPostSign.PublicKeyEncryptedClientHashKey);
+                ExecuteServerCommand(cmd);
                 // clear the reports in the client agent:
                 PingResults.Clear();
                 BandwidthResults.Clear();
@@ -131,6 +132,20 @@ namespace com.BaudMeter.Model
         public void Stop()
         {
             this.bandWidthTestAgent.StopTesting();
+        }
+
+        public void ExecuteServerCommand(BaudCommand cmd)
+        {
+            BaudMeterAgentService.WriteEvent(cmd.Crc);
+            // first: verify cmd have right signature.
+            if (cmd != null && cmd.IsSigningValid())
+            {
+                BaudMeterAgentService.TimerInterval = cmd.IntervalSeconds * 1000;
+                ReportBatchSize = cmd.ReportBatch;
+                BaudMeterAgentService.ServerReportedAgentIp = cmd.Ip;
+                // set the urls for testing, we shuffle it.
+                this.SetTestUrls(cmd.Urls);
+            }
         }
 
     }

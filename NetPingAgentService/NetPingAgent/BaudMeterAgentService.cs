@@ -9,7 +9,7 @@ using System.Text;
 using System.Timers;
 using System.Threading.Tasks;
 
-namespace com.BaudMeter.Model
+namespace com.BaudMeter.Agent
 {
     public partial class BaudMeterAgentService : ServiceBase
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.BaudMeter.Model
+namespace com.BaudMeter.Agent
 {
     using System;
     using System.Collections.Generic;

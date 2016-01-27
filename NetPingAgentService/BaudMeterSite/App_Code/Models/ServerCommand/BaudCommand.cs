@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.BaudMeter.Model
+namespace com.BaudMeter.Agent
 {
     public class BaudCommand
     {
@@ -12,5 +12,6 @@ namespace com.BaudMeter.Model
         public string[] Urls { get; set; }
         public int IntervalSeconds { get; set; }
         public int ReportBatch { get; set; }
+        public string Crc { get; set;  }
     }
 }

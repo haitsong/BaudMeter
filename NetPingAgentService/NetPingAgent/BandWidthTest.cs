@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.BaudMeter.Model
+namespace com.BaudMeter.Agent
 {
     using System.Runtime.InteropServices; // : This is for declaring our Win32 API
     using System.Net;

@@ -40,6 +40,7 @@
   <xs:element name="NetPingReport" nillable="true" type="tns:NetPingReport" />
   <xs:complexType name="BaudCommand">
     <xs:sequence>
+      <xs:element minOccurs="0" name="Crc" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IntervalSeconds" type="xs:int" />
       <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="ReportBatch" type="xs:int" />
