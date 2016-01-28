@@ -29,7 +29,7 @@ namespace com.BaudMeter.Agent
 
         public static void WriteEvent(string fmt, params object[] args)
         {
-            if (evtlog!=null)
+            if (evtlog!=null && fmt!=null && args!=null)
             {
                 evtlog.WriteEntry(string.Format(fmt, args));
             }

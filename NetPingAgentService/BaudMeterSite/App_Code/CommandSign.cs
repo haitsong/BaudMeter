@@ -34,7 +34,7 @@ public class CommandSign
         return Encoding.UTF32.GetString(arrayList.ToArray());
     }
 
-    public static string GetHash(string hashKey, string ValueString)
+    public static string GetHash(string ValueString, string hashKey)
     {
         string input = hashKey + ValueString;
         using (MD5 md5Hash = MD5.Create())

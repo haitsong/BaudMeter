@@ -49,10 +49,15 @@ namespace com.BaudMeter.Agent
 
         public static bool IsSigningValid(this BaudCommand cmd)
         {
-            string contentstr = string.Join(",",cmd.Urls) + cmd.IntervalSeconds + cmd.Ip + cmd.ReportBatch;
-            string crc = cmd.Crc;
-            string hash = com.BaudMeter.Agent.ReportPostSign.GetHash(contentstr);
-            return true; // return string.Compare(crc,hash, true)==0;
+            if (cmd != null)
+            {
+                string contentstr = string.Join(",", cmd.Urls) + cmd.IntervalSeconds + cmd.Ip + cmd.ReportBatch;
+                string crc = cmd.Crc;
+                string hash = ReportPostSign.GetHash(contentstr);
+                BaudMeterAgentService.WriteEvent("AgentSide:["+ contentstr+hash+"][" + cmd.Crc+ "][" + cmd.ClientIdKey + "]");
+                return string.Compare(crc,hash, true)==0;
+            }
+            return false; 
         }
 
     }
@@ -136,7 +141,6 @@ namespace com.BaudMeter.Agent
 
         public void ExecuteServerCommand(BaudCommand cmd)
         {
-            BaudMeterAgentService.WriteEvent(cmd.Crc);
             // first: verify cmd have right signature.
             if (cmd != null && cmd.IsSigningValid())
             {

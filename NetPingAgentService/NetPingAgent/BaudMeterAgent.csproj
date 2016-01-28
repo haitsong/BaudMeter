@@ -147,6 +147,7 @@
   <ItemGroup>
     <Content Include="Dns\Records\totla.txt" />
     <Content Include="Dns\Root\named_root.txt" />
+    <None Include="app.config" />
     <None Include="Service References\WebService\com.BaudMeter.Agent.WebService.BaudCommand.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -166,7 +167,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Service References\WebService\Service.xsd">
       <SubType>Designer</SubType>
     </None>

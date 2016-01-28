@@ -20,10 +20,9 @@ namespace com.BaudMeter.Agent
             string serverPublicKeyXml = "<RSAKeyValue><Modulus>oEH3ZgFZPXp4vKaovHEcdfH4GXTBtHszuBY/YHpzZtw6wSVRHTGyU0ymf2uLXIXcoNezfxxB71PacAuwEj9epKmuPSHqz8rsGhtR/m5TwASY0Cqxad6+5R8NQa/AZHkkt8T9qF9iRm66cFov3mbXgD4h2X2YjnCXldkHaJp76qk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
             ClientRandomHashKey = "" + rand.Next(int.MaxValue) + rand.Next(int.MaxValue) + rand.Next(int.MaxValue);
             PublicKeyEncryptedClientHashKey = EncryptString(ClientRandomHashKey, 1024, serverPublicKeyXml);
-            com.BaudMeter.Agent.BaudMeterAgentService.WriteEvent("ClientKey=[" + ClientRandomHashKey + "] Encode=" + PublicKeyEncryptedClientHashKey);
         }
 
-        private static string EncryptString(string inputString, int dwKeySize, string xmlString)
+        public static string EncryptString(string inputString, int dwKeySize, string xmlString)
         {
             RSACryptoServiceProvider rsaCryptoServiceProvider = new RSACryptoServiceProvider(dwKeySize);
             rsaCryptoServiceProvider.FromXmlString(xmlString);
@@ -56,9 +55,10 @@ namespace com.BaudMeter.Agent
             get; private set;
         }
 
-        public static string GetHash(string ValueString)
+
+        public static string GetHash(string ValueString, string hashKey=null)
         {
-            string input = ClientRandomHashKey + ValueString;
+            string input = (hashKey ?? ClientRandomHashKey) + ValueString;
             using (MD5 md5Hash = MD5.Create())
             {
                 // Convert the input string to a byte array and compute the hash.
@@ -78,6 +78,7 @@ namespace com.BaudMeter.Agent
                 return sBuilder.ToString();
             }
         }
+
 
     }
 

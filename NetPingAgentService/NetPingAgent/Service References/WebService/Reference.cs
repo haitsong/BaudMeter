@@ -15,7 +15,7 @@ namespace com.BaudMeter.Agent.WebService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="BandwidthReport", Namespace="http://schemas.datacontract.org/2004/07/com.BaudMeter.Model")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BandwidthReport", Namespace="http://schemas.datacontract.org/2004/07/com.BaudMeter.Agent")]
     [System.SerializableAttribute()]
     public partial class BandwidthReport : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -172,7 +172,7 @@ namespace com.BaudMeter.Agent.WebService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="NetPingReport", Namespace="http://schemas.datacontract.org/2004/07/com.BaudMeter.Model")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="NetPingReport", Namespace="http://schemas.datacontract.org/2004/07/com.BaudMeter.Agent")]
     [System.SerializableAttribute()]
     public partial class NetPingReport : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -297,12 +297,15 @@ namespace com.BaudMeter.Agent.WebService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="BaudCommand", Namespace="http://schemas.datacontract.org/2004/07/com.BaudMeter.Model")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaudCommand", Namespace="http://schemas.datacontract.org/2004/07/com.BaudMeter.Agent")]
     [System.SerializableAttribute()]
     public partial class BaudCommand : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ClientIdKeyField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string CrcField;
@@ -326,6 +329,19 @@ namespace com.BaudMeter.Agent.WebService {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ClientIdKey {
+            get {
+                return this.ClientIdKeyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ClientIdKeyField, value) != true)) {
+                    this.ClientIdKeyField = value;
+                    this.RaisePropertyChanged("ClientIdKey");
+                }
             }
         }
         

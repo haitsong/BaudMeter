@@ -31,8 +31,8 @@ public class Service : IService
     {
         string clientIdKey = CommandSign.DecryptString(encodedSessionKey);
         string contentstr = string.Join(",", cmd.Urls) + cmd.IntervalSeconds + cmd.Ip + cmd.ReportBatch;
-        cmd.Crc = clientIdKey; // CommandSign.GetHash(contentstr, clientIdKey);
-
+        cmd.Crc = CommandSign.GetHash(contentstr, clientIdKey);
+        cmd.ClientIdKey = clientIdKey;
     }
 
     public BaudCommand PostReports(List<BandwidthReport> BandWidthResults, List<NetPingReport> PingResults, string encodedSessionKey)
