@@ -10,6 +10,7 @@
   <xs:element name="ArrayOfBandwidthReport" nillable="true" type="tns:ArrayOfBandwidthReport" />
   <xs:complexType name="BandwidthReport">
     <xs:sequence>
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:GeoCityInfo" />
       <xs:element minOccurs="0" name="DownloadBandwidth" type="xs:double" />
       <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="NetBandwidth" type="xs:double" />
@@ -21,6 +22,16 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="BandwidthReport" nillable="true" type="tns:BandwidthReport" />
+  <xs:complexType name="GeoCityInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="City" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Country" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Latitude" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Longitude" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Zip" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GeoCityInfo" nillable="true" type="tns:GeoCityInfo" />
   <xs:complexType name="ArrayOfNetPingReport">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="NetPingReport" nillable="true" type="tns:NetPingReport" />
@@ -29,6 +40,7 @@
   <xs:element name="ArrayOfNetPingReport" nillable="true" type="tns:ArrayOfNetPingReport" />
   <xs:complexType name="NetPingReport">
     <xs:sequence>
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:GeoCityInfo" />
       <xs:element minOccurs="0" name="DnsResolveTimeTaken" type="xs:long" />
       <xs:element minOccurs="0" name="Host" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="HostIp" nillable="true" type="xs:string" />
@@ -40,7 +52,7 @@
   <xs:element name="NetPingReport" nillable="true" type="tns:NetPingReport" />
   <xs:complexType name="BaudCommand">
     <xs:sequence>
-      <xs:element minOccurs="0" name="ClientIdKey" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:GeoCityInfo" />
       <xs:element minOccurs="0" name="Crc" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IntervalSeconds" type="xs:int" />
       <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />

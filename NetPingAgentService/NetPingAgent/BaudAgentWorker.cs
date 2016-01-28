@@ -27,6 +27,17 @@ namespace com.BaudMeter.Agent
                   ", TcpConnResetRate:" + rep.TcpConnResetRate +
                   "}}";
         }
+        public static string ToSTR(this GeoCityInfo geocity)
+        {
+            if (geocity == null) return null;
+            return
+                  @"{{ Latitude: '" + geocity.Latitude + "' " +
+                  ", Longitude: " + geocity.Longitude +
+                  ", City:" + geocity.City +
+                  ", Zip:'" + geocity.Zip + "'" +
+                  ", Country:'" + geocity.Country + "'" +
+                  "}}";
+        }
 
         public static string ToSTR(this NetPingReport rep)
         {
@@ -54,7 +65,7 @@ namespace com.BaudMeter.Agent
                 string contentstr = string.Join(",", cmd.Urls) + cmd.IntervalSeconds + cmd.Ip + cmd.ReportBatch;
                 string crc = cmd.Crc;
                 string hash = ReportPostSign.GetHash(contentstr);
-                BaudMeterAgentService.WriteEvent("AgentSide:["+ contentstr+hash+"][" + cmd.Crc+ "][" + cmd.ClientIdKey + "]");
+                BaudMeterAgentService.WriteEvent("ServerReports:  Ip={0},City={1}", cmd.Ip, cmd.City.ToSTR());
                 return string.Compare(crc,hash, true)==0;
             }
             return false; 

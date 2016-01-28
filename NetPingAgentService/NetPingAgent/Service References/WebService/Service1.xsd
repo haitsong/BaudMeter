@@ -6,7 +6,7 @@
       <xs:sequence>
         <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/com.BaudMeter.Agent" minOccurs="0" name="BandWidthResults" nillable="true" type="q1:ArrayOfBandwidthReport" />
         <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/com.BaudMeter.Agent" minOccurs="0" name="PingResults" nillable="true" type="q2:ArrayOfNetPingReport" />
-        <xs:element minOccurs="0" name="encodedSessionKey" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="EncryptedClientInstanceId" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

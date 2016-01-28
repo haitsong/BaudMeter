@@ -1,0 +1,67 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'Http-Server' ]
+2 info using npm@1.2.21
+3 info using node@v0.10.7
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 verbose read json C:\Home\BaudMeter\package.json
+6 verbose read json C:\Home\BaudMeter\package.json
+7 verbose cache add [ 'Http-Server', null ]
+8 verbose cache add name=undefined spec="Http-Server" args=["Http-Server",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'Http-Server',
+9 verbose parsed url   path: 'Http-Server',
+9 verbose parsed url   href: 'Http-Server' }
+10 silly lockFile f3b25a9c-Http-Server Http-Server
+11 verbose lock Http-Server C:\Users\haitsong\AppData\Roaming\npm-cache\f3b25a9c-Http-Server.lock
+12 silly lockFile f3b25a9c-Http-Server Http-Server
+13 silly lockFile f3b25a9c-Http-Server Http-Server
+14 verbose addNamed [ 'Http-Server', '' ]
+15 verbose addNamed [ null, '' ]
+16 silly lockFile d7f6a344-Http-Server Http-Server@
+17 verbose lock Http-Server@ C:\Users\haitsong\AppData\Roaming\npm-cache\d7f6a344-Http-Server.lock
+18 silly addNameRange { name: 'Http-Server', range: '', hasData: false }
+19 verbose url raw Http-Server
+20 verbose url resolving [ 'https://registry.npmjs.org/', './Http-Server' ]
+21 verbose url resolved https://registry.npmjs.org/Http-Server
+22 info trying registry request attempt 1 at 23:14:15
+23 http GET https://registry.npmjs.org/Http-Server
+24 http 404 https://registry.npmjs.org/Http-Server
+25 silly registry.get cb [ 404,
+25 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+25 silly registry.get     'content-type': 'application/json',
+25 silly registry.get     'cache-control': 'max-age=0',
+25 silly registry.get     'content-length': '51',
+25 silly registry.get     'accept-ranges': 'bytes',
+25 silly registry.get     date: 'Sat, 01 Aug 2015 06:14:16 GMT',
+25 silly registry.get     via: '1.1 varnish',
+25 silly registry.get     age: '0',
+25 silly registry.get     connection: 'keep-alive',
+25 silly registry.get     'x-served-by': 'cache-sjc3124-SJC',
+25 silly registry.get     'x-cache': 'MISS',
+25 silly registry.get     'x-cache-hits': '0',
+25 silly registry.get     'x-timer': 'S1438409656.520836,VS0,VE90' } ]
+26 silly lockFile d7f6a344-Http-Server Http-Server@
+27 silly lockFile d7f6a344-Http-Server Http-Server@
+28 error 404 'Http-Server' is not in the npm registry.
+28 error 404 You should bug the author to publish it
+28 error 404
+28 error 404 Note that you can also install from a
+28 error 404 tarball, folder, or http url, or git url.
+29 error System Windows_NT 6.2.9200
+30 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "Http-Server"
+31 error cwd C:\Home\BaudMeter
+32 error node -v v0.10.7
+33 error npm -v 1.2.21
+34 error code E404
+35 verbose exit [ 1, true ]

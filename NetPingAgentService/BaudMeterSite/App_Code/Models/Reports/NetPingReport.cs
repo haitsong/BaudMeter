@@ -24,6 +24,8 @@ namespace com.BaudMeter.Agent
 
         public string Ip { get; set; }
 
+        public GeoCityInfo City { get; set; }
+
     }
 
 }

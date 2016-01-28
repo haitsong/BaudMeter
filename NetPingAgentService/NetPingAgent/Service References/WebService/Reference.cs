@@ -23,6 +23,9 @@ namespace com.BaudMeter.Agent.WebService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private com.BaudMeter.Agent.WebService.GeoCityInfo CityField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private double DownloadBandwidthField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -53,6 +56,19 @@ namespace com.BaudMeter.Agent.WebService {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public com.BaudMeter.Agent.WebService.GeoCityInfo City {
+            get {
+                return this.CityField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CityField, value) != true)) {
+                    this.CityField = value;
+                    this.RaisePropertyChanged("City");
+                }
             }
         }
         
@@ -172,12 +188,124 @@ namespace com.BaudMeter.Agent.WebService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GeoCityInfo", Namespace="http://schemas.datacontract.org/2004/07/com.BaudMeter.Agent")]
+    [System.SerializableAttribute()]
+    public partial class GeoCityInfo : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CityField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CountryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> LatitudeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> LongitudeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ZipField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string City {
+            get {
+                return this.CityField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CityField, value) != true)) {
+                    this.CityField = value;
+                    this.RaisePropertyChanged("City");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Country {
+            get {
+                return this.CountryField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CountryField, value) != true)) {
+                    this.CountryField = value;
+                    this.RaisePropertyChanged("Country");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> Latitude {
+            get {
+                return this.LatitudeField;
+            }
+            set {
+                if ((this.LatitudeField.Equals(value) != true)) {
+                    this.LatitudeField = value;
+                    this.RaisePropertyChanged("Latitude");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> Longitude {
+            get {
+                return this.LongitudeField;
+            }
+            set {
+                if ((this.LongitudeField.Equals(value) != true)) {
+                    this.LongitudeField = value;
+                    this.RaisePropertyChanged("Longitude");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Zip {
+            get {
+                return this.ZipField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ZipField, value) != true)) {
+                    this.ZipField = value;
+                    this.RaisePropertyChanged("Zip");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="NetPingReport", Namespace="http://schemas.datacontract.org/2004/07/com.BaudMeter.Agent")]
     [System.SerializableAttribute()]
     public partial class NetPingReport : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private com.BaudMeter.Agent.WebService.GeoCityInfo CityField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long DnsResolveTimeTakenField;
@@ -204,6 +332,19 @@ namespace com.BaudMeter.Agent.WebService {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public com.BaudMeter.Agent.WebService.GeoCityInfo City {
+            get {
+                return this.CityField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CityField, value) != true)) {
+                    this.CityField = value;
+                    this.RaisePropertyChanged("City");
+                }
             }
         }
         
@@ -305,7 +446,7 @@ namespace com.BaudMeter.Agent.WebService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ClientIdKeyField;
+        private com.BaudMeter.Agent.WebService.GeoCityInfo CityField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string CrcField;
@@ -333,14 +474,14 @@ namespace com.BaudMeter.Agent.WebService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ClientIdKey {
+        public com.BaudMeter.Agent.WebService.GeoCityInfo City {
             get {
-                return this.ClientIdKeyField;
+                return this.CityField;
             }
             set {
-                if ((object.ReferenceEquals(this.ClientIdKeyField, value) != true)) {
-                    this.ClientIdKeyField = value;
-                    this.RaisePropertyChanged("ClientIdKey");
+                if ((object.ReferenceEquals(this.CityField, value) != true)) {
+                    this.CityField = value;
+                    this.RaisePropertyChanged("City");
                 }
             }
         }
@@ -425,10 +566,10 @@ namespace com.BaudMeter.Agent.WebService {
     public interface IService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/PostReports", ReplyAction="http://tempuri.org/IService/PostReportsResponse")]
-        com.BaudMeter.Agent.WebService.BaudCommand PostReports(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string encodedSessionKey);
+        com.BaudMeter.Agent.WebService.BaudCommand PostReports(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string EncryptedClientInstanceId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/PostReports", ReplyAction="http://tempuri.org/IService/PostReportsResponse")]
-        System.Threading.Tasks.Task<com.BaudMeter.Agent.WebService.BaudCommand> PostReportsAsync(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string encodedSessionKey);
+        System.Threading.Tasks.Task<com.BaudMeter.Agent.WebService.BaudCommand> PostReportsAsync(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string EncryptedClientInstanceId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -458,12 +599,12 @@ namespace com.BaudMeter.Agent.WebService {
                 base(binding, remoteAddress) {
         }
         
-        public com.BaudMeter.Agent.WebService.BaudCommand PostReports(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string encodedSessionKey) {
-            return base.Channel.PostReports(BandWidthResults, PingResults, encodedSessionKey);
+        public com.BaudMeter.Agent.WebService.BaudCommand PostReports(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string EncryptedClientInstanceId) {
+            return base.Channel.PostReports(BandWidthResults, PingResults, EncryptedClientInstanceId);
         }
         
-        public System.Threading.Tasks.Task<com.BaudMeter.Agent.WebService.BaudCommand> PostReportsAsync(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string encodedSessionKey) {
-            return base.Channel.PostReportsAsync(BandWidthResults, PingResults, encodedSessionKey);
+        public System.Threading.Tasks.Task<com.BaudMeter.Agent.WebService.BaudCommand> PostReportsAsync(com.BaudMeter.Agent.WebService.BandwidthReport[] BandWidthResults, com.BaudMeter.Agent.WebService.NetPingReport[] PingResults, string EncryptedClientInstanceId) {
+            return base.Channel.PostReportsAsync(BandWidthResults, PingResults, EncryptedClientInstanceId);
         }
     }
 }
