@@ -27,15 +27,14 @@ public class Service : IService
         }
     }
 
-    void SignCommand(BaudCommand cmd, string encodedSessionKey)
+    void SignCommand(BaudCommand cmd, string encyptedClientInstanceId)
     {
-        string clientIdKey = CommandSign.DecryptString(encodedSessionKey);
+        string clientInstanceId = CommandSign.DecryptString(encyptedClientInstanceId);
         string contentstr = string.Join(",", cmd.Urls) + cmd.IntervalSeconds + cmd.Ip + cmd.ReportBatch;
-        cmd.Crc = CommandSign.GetHash(contentstr, clientIdKey);
-        cmd.ClientIdKey = clientIdKey;
+        cmd.Crc = CommandSign.GetHash(contentstr, clientInstanceId);
     }
 
-    public BaudCommand PostReports(List<BandwidthReport> BandWidthResults, List<NetPingReport> PingResults, string encodedSessionKey)
+    public BaudCommand PostReports(List<BandwidthReport> BandWidthResults, List<NetPingReport> PingResults, string encryptedClientInstanceId)
     {
         string clientip = System.Web.HttpContext.Current.Request.UserHostAddress;
         foreach (var bw in BandWidthResults)
@@ -56,7 +55,7 @@ public class Service : IService
             IntervalSeconds = 60,
             ReportBatch = 1 // report everytime, no batch
         };
-        SignCommand(cmd, encodedSessionKey);
+        SignCommand(cmd, encryptedClientInstanceId);
         return cmd;
     }
 

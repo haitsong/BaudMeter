@@ -11,5 +11,5 @@ using com.BaudMeter.Agent;
 public interface IService
 {
     [OperationContract]
-    BaudCommand PostReports(List<BandwidthReport> BandWidthResults, List<NetPingReport> PingResults, string encodedSessionKey);
+    BaudCommand PostReports(List<BandwidthReport> BandWidthResults, List<NetPingReport> PingResults, string EncryptedClientInstanceId);
 }

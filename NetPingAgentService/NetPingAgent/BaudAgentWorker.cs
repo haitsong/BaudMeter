@@ -122,7 +122,7 @@ namespace com.BaudMeter.Agent
                 // construct api call to report result.
                 // post to server;
                 var svc = new ServiceClient();
-                var cmd = svc.PostReports(BandwidthResults.ToArray(), PingResults.ToArray(), Agent.ReportPostSign.PublicKeyEncryptedClientHashKey);
+                var cmd = svc.PostReports(BandwidthResults.ToArray(), PingResults.ToArray(), Agent.ReportPostSign.EncryptedClientInstanceId);
                 ExecuteServerCommand(cmd);
                 // clear the reports in the client agent:
                 PingResults.Clear();
