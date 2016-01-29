@@ -49,6 +49,9 @@ namespace com.BaudMeter.Agent.WebService {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.DateTime UtcTimeStampField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string idField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -172,6 +175,19 @@ namespace com.BaudMeter.Agent.WebService {
                 if ((this.UtcTimeStampField.Equals(value) != true)) {
                     this.UtcTimeStampField = value;
                     this.RaisePropertyChanged("UtcTimeStamp");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.idField, value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
                 }
             }
         }
@@ -320,10 +336,19 @@ namespace com.BaudMeter.Agent.WebService {
         private string IpField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Net.NetworkInformation.PingReply NetPingReplyField;
+        private int PingBufferLengthField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PingRondTripTimeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PingStatusField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.DateTime UtcTimeStampField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string idField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -401,14 +426,40 @@ namespace com.BaudMeter.Agent.WebService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Net.NetworkInformation.PingReply NetPingReply {
+        public int PingBufferLength {
             get {
-                return this.NetPingReplyField;
+                return this.PingBufferLengthField;
             }
             set {
-                if ((object.ReferenceEquals(this.NetPingReplyField, value) != true)) {
-                    this.NetPingReplyField = value;
-                    this.RaisePropertyChanged("NetPingReply");
+                if ((this.PingBufferLengthField.Equals(value) != true)) {
+                    this.PingBufferLengthField = value;
+                    this.RaisePropertyChanged("PingBufferLength");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PingRondTripTime {
+            get {
+                return this.PingRondTripTimeField;
+            }
+            set {
+                if ((this.PingRondTripTimeField.Equals(value) != true)) {
+                    this.PingRondTripTimeField = value;
+                    this.RaisePropertyChanged("PingRondTripTime");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PingStatus {
+            get {
+                return this.PingStatusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PingStatusField, value) != true)) {
+                    this.PingStatusField = value;
+                    this.RaisePropertyChanged("PingStatus");
                 }
             }
         }
@@ -422,6 +473,19 @@ namespace com.BaudMeter.Agent.WebService {
                 if ((this.UtcTimeStampField.Equals(value) != true)) {
                     this.UtcTimeStampField = value;
                     this.RaisePropertyChanged("UtcTimeStamp");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.idField, value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
                 }
             }
         }

@@ -59,11 +59,11 @@ namespace com.BaudMeter.Agent
         {
             WriteEvent("BaudMeterAgent Start ... ");
             // Create a timer with a 90 second interval.
-            actionTriggerTimer = new System.Timers.Timer(15000);
+            actionTriggerTimer = new System.Timers.Timer(20000);
             // Hook up the Elapsed event for the timer.
             actionTriggerTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             // Set the Interval to 2 seconds (2000 milliseconds).
-            actionTriggerTimer.Interval = 90000;
+            actionTriggerTimer.Interval = 20000;
             actionTriggerTimer.Enabled = true;
         }
 

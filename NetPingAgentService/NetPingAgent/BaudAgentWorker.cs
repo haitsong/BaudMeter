@@ -42,12 +42,9 @@ namespace com.BaudMeter.Agent
         public static string ToSTR(this NetPingReport rep)
         {
             string PingReplyDetail = "";
-            if (rep.NetPingReply != null)
-            {
-                PingReplyDetail = 
-                        ", BufferLength:" + rep.NetPingReply.Buffer.Length +
-                        ", RoundtripTime:" + rep.NetPingReply.RoundtripTime;
-            }
+            PingReplyDetail = 
+                    ", BufferLength:" + rep.PingBufferLength +
+                    ", RoundtripTime:" + rep.PingRondTripTime;
             return
                 @"{{ UtcTimeStamp: '" + rep.UtcTimeStamp + "'" +
                     ", Host:'" + rep.Host + "'" +
@@ -83,6 +80,9 @@ namespace com.BaudMeter.Agent
 
         static int runCount = 0;
         static int ReportBatchSize   = 1;
+
+        static int reportidindex = 0;
+        public static int ReportIdIndex { get { System.Threading.Interlocked.Increment(ref reportidindex); return reportidindex; } }
 
         static List<string> TestUrls = new List<string>();
         static List<NetPingReport> PingResults = new List<NetPingReport>();

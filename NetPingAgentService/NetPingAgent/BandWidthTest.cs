@@ -168,8 +168,9 @@ namespace com.BaudMeter.Agent
                 bandwidthRecords.Clear();
                 totalBytesDownloaded = 0;
                 bytesReceivedPrev = 0;
+                BandWidthResult.id = this.BandWidthResult.UtcTimeStamp.Ticks.ToString() + BaudAgentWorker.ReportIdIndex + this.BandWidthResult.Ip;
             }
-            
+
         }
 
         private void CalculateTcpStats(TcpStatistics[] statstart, TcpStatistics[] statsend )

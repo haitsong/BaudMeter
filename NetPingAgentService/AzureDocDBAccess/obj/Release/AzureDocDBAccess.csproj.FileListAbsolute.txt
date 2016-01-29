@@ -1,0 +1,9 @@
+C:\Home\BaudMeter\NetPingAgentService\AzureDocDBAccess\bin\Release\AzureDocDBAccess.exe.config
+C:\Home\BaudMeter\NetPingAgentService\AzureDocDBAccess\bin\Release\AzureDocDBAccess.exe
+C:\Home\BaudMeter\NetPingAgentService\AzureDocDBAccess\bin\Release\AzureDocDBAccess.pdb
+C:\Home\BaudMeter\NetPingAgentService\AzureDocDBAccess\bin\Release\Microsoft.Azure.Documents.Client.dll
+C:\Home\BaudMeter\NetPingAgentService\AzureDocDBAccess\bin\Release\Newtonsoft.Json.dll
+C:\Home\BaudMeter\NetPingAgentService\AzureDocDBAccess\bin\Release\Microsoft.Azure.Documents.Client.xml
+C:\Home\BaudMeter\NetPingAgentService\AzureDocDBAccess\bin\Release\Newtonsoft.Json.xml
+C:\Home\BaudMeter\NetPingAgentService\AzureDocDBAccess\obj\Release\AzureDocDBAccess.exe
+C:\Home\BaudMeter\NetPingAgentService\AzureDocDBAccess\obj\Release\AzureDocDBAccess.pdb

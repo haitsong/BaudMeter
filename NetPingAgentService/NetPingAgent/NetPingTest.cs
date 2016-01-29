@@ -75,6 +75,7 @@ namespace com.BaudMeter.Agent
                 this.PingTestResult.DnsResolveTimeTaken = sw.ElapsedMilliseconds;
                 this.PingTestResult.UtcTimeStamp = DateTime.UtcNow;
                 this.PingTestResult.HostIp = address.ToString();
+                this.PingTestResult.id = DateTime.UtcNow.Ticks.ToString() + BaudAgentWorker.ReportIdIndex + this.PingTestResult.Ip;
             }
             catch (SocketException ex)
             {
@@ -147,7 +148,9 @@ namespace com.BaudMeter.Agent
                         //make sure we dont have a null reply
                         if (pingReply != null && pingReply.Status== IPStatus.Success )
                         {
-                            PingTestResult.NetPingReply = pingReply;
+                            PingTestResult.PingBufferLength = pingReply.Buffer.Length;
+                            PingTestResult.PingRondTripTime = (int)(pingReply.RoundtripTime);
+                            PingTestResult.PingStatus = pingReply.Status.ToString();
                             break;
                         }
                     }

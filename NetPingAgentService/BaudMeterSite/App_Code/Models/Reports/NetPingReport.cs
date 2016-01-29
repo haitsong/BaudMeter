@@ -10,13 +10,20 @@ namespace com.BaudMeter.Agent
 
     public class NetPingReport 
     {
+        public string id { get; set; }
+
         public NetPingReport() { UtcTimeStamp = DateTime.UtcNow; }
 
         public DateTime UtcTimeStamp { get; set; }
 
         public long DnsResolveTimeTaken { get; set; }
 
-        public PingReply NetPingReply { get; set;  }
+        // public PingReply NetPingReply { get; set; }
+        public int PingBufferLength { get; set; }
+
+        public int PingRondTripTime { get; set; }
+
+        public string PingStatus { get; set; }
 
         public string Host { get; set; }
 		 

@@ -10,6 +10,8 @@ namespace com.BaudMeter.Agent
     {
         public BandwidthReport() { UtcTimeStamp = DateTime.UtcNow; }
 
+        public string id { get; set; }
+
         public DateTime UtcTimeStamp { get; set; }
 
         public double NetBandwidth { get; set; }
