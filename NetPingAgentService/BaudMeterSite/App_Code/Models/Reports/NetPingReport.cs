@@ -33,6 +33,8 @@ namespace com.BaudMeter.Agent
 
         public GeoCityInfo City { get; set; }
 
+        public string Mac { get; set; }
+
     }
 
 }

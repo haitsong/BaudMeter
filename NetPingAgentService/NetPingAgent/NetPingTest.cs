@@ -75,7 +75,9 @@ namespace com.BaudMeter.Agent
                 this.PingTestResult.DnsResolveTimeTaken = sw.ElapsedMilliseconds;
                 this.PingTestResult.UtcTimeStamp = DateTime.UtcNow;
                 this.PingTestResult.HostIp = address.ToString();
-                this.PingTestResult.id = DateTime.UtcNow.Ticks.ToString() + BaudAgentWorker.ReportIdIndex + this.PingTestResult.Ip;
+                this.PingTestResult.id = DateTime.UtcNow.Ticks.ToString() +  BaudAgentWorker.MacAddress;
+                PingTestResult.Mac = BaudAgentWorker.MacAddress;
+
             }
             catch (SocketException ex)
             {

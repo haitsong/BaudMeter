@@ -29,6 +29,8 @@ namespace com.BaudMeter.Agent
              
         public double TcpConnResetRate { get; set; }
 
+        public string Mac { get; set; }
+
         public GeoCityInfo City { get; set; }
     }
 }

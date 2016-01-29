@@ -12,6 +12,7 @@
       <xs:element minOccurs="0" name="City" nillable="true" type="tns:GeoCityInfo" />
       <xs:element minOccurs="0" name="DownloadBandwidth" type="xs:double" />
       <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Mac" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="NetBandwidth" type="xs:double" />
       <xs:element minOccurs="0" name="TcpConnResetRate" type="xs:double" />
       <xs:element minOccurs="0" name="TcpErrorRate" type="xs:double" />
@@ -45,6 +46,7 @@
       <xs:element minOccurs="0" name="Host" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="HostIp" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Mac" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="PingBufferLength" type="xs:int" />
       <xs:element minOccurs="0" name="PingRondTripTime" type="xs:int" />
       <xs:element minOccurs="0" name="PingStatus" nillable="true" type="xs:string" />

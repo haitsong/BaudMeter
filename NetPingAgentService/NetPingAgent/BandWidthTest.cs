@@ -168,7 +168,8 @@ namespace com.BaudMeter.Agent
                 bandwidthRecords.Clear();
                 totalBytesDownloaded = 0;
                 bytesReceivedPrev = 0;
-                BandWidthResult.id = this.BandWidthResult.UtcTimeStamp.Ticks.ToString() + BaudAgentWorker.ReportIdIndex + this.BandWidthResult.Ip;
+                BandWidthResult.id = this.BandWidthResult.UtcTimeStamp.Ticks.ToString() + BaudAgentWorker.MacAddress;
+                BandWidthResult.Mac = BaudAgentWorker.MacAddress;
             }
 
         }

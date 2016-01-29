@@ -8,6 +8,7 @@ namespace com.BaudMeter.Agent
 {
     using System.Diagnostics;
     using com.BaudMeter.Agent.WebService;
+    using System.Net.NetworkInformation;
 
     /// <summary>
     /// utility class to stringize data;
@@ -81,12 +82,28 @@ namespace com.BaudMeter.Agent
         static int runCount = 0;
         static int ReportBatchSize   = 1;
 
-        static int reportidindex = 0;
-        public static int ReportIdIndex { get { System.Threading.Interlocked.Increment(ref reportidindex); return reportidindex; } }
-
         static List<string> TestUrls = new List<string>();
         static List<NetPingReport> PingResults = new List<NetPingReport>();
         static List<BandwidthReport> BandwidthResults = new List<BandwidthReport>();
+
+        public static string MacAddress
+        {
+            get
+            {
+                PhysicalAddress addr = null;
+                foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    addr = nic.GetPhysicalAddress();
+                    // Only consider Ethernet network interfaces
+                    if (nic.OperationalStatus == OperationalStatus.Up)
+                    {
+                        break;
+                    }
+                }
+                string hex = BitConverter.ToString(addr.GetAddressBytes()).Replace("-", string.Empty);
+                return hex;
+            }
+        }
 
         private Random random = new Random();
         private void SetTestUrls(string[] testurls)

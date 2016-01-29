@@ -32,6 +32,9 @@ namespace com.BaudMeter.Agent.WebService {
         private string IpField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MacField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private double NetBandwidthField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -97,6 +100,19 @@ namespace com.BaudMeter.Agent.WebService {
                 if ((object.ReferenceEquals(this.IpField, value) != true)) {
                     this.IpField = value;
                     this.RaisePropertyChanged("Ip");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Mac {
+            get {
+                return this.MacField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MacField, value) != true)) {
+                    this.MacField = value;
+                    this.RaisePropertyChanged("Mac");
                 }
             }
         }
@@ -336,6 +352,9 @@ namespace com.BaudMeter.Agent.WebService {
         private string IpField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MacField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int PingBufferLengthField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -421,6 +440,19 @@ namespace com.BaudMeter.Agent.WebService {
                 if ((object.ReferenceEquals(this.IpField, value) != true)) {
                     this.IpField = value;
                     this.RaisePropertyChanged("Ip");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Mac {
+            get {
+                return this.MacField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MacField, value) != true)) {
+                    this.MacField = value;
+                    this.RaisePropertyChanged("Mac");
                 }
             }
         }
