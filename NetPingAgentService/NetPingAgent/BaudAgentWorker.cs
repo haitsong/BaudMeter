@@ -24,7 +24,7 @@ namespace com.BaudMeter.Agent
                   ", Url:'" + rep.Url + "'" +
                   ", Ip:'" + rep.Ip + "'" +
                   ", TcpErrorRate:" + rep.TcpErrorRate +
-                  ", TcpSegmentResentRate:" + rep.TcpSegmentResentRate +
+                  ", TcpSegmentResendRate:" + rep.TcpSegmentResendRate +
                   ", TcpConnResetRate:" + rep.TcpConnResetRate +
                   "}}";
         }
@@ -45,7 +45,7 @@ namespace com.BaudMeter.Agent
             string PingReplyDetail = "";
             PingReplyDetail = 
                     ", BufferLength:" + rep.PingBufferLength +
-                    ", RoundtripTime:" + rep.PingRondTripTime;
+                    ", RoundtripTime:" + rep.PingRoundTripTime;
             return
                 @"{{ UtcTimeStamp: '" + rep.UtcTimeStamp + "'" +
                     ", Host:'" + rep.Host + "'" +

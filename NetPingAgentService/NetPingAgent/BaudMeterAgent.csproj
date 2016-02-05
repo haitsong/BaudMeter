@@ -162,6 +162,7 @@
   <ItemGroup>
     <Content Include="Dns\Records\totla.txt" />
     <Content Include="Dns\Root\named_root.txt" />
+    <None Include="Service References\WebService\Service.disco" />
     <None Include="Service References\WebService\com.BaudMeter.Agent.WebService.BaudCommand.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -171,7 +172,6 @@
     </None>
     <None Include="Service References\WebService\configuration.svcinfo" />
     <None Include="Service References\WebService\configuration91.svcinfo" />
-    <None Include="Service References\WebService\Service.disco" />
     <None Include="app.config" />
     <None Include="Service References\WebService\Service.wsdl" />
     <None Include="Service References\WebService\Service.xsd">

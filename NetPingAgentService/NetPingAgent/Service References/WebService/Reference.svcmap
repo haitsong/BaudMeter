@@ -19,15 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://baudmeter.azurewebsites.net/Service.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://baudmeter.azurewebsites.net/service.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Service.xsd" MetadataType="Schema" ID="506073ec-ae97-44b1-9c8f-638b1f215b08" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?xsd=xsd0" />
-    <MetadataFile FileName="Service1.xsd" MetadataType="Schema" ID="43d366f9-2915-4c3d-b700-8497528f52a3" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?xsd=xsd1" />
-    <MetadataFile FileName="Service2.xsd" MetadataType="Schema" ID="aab590a0-6de0-43b3-9369-011d3a38eb55" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?xsd=xsd3" />
-    <MetadataFile FileName="Service.disco" MetadataType="Disco" ID="333c78b2-155a-4202-93a5-05440ac27f55" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?disco" />
-    <MetadataFile FileName="Service.wsdl" MetadataType="Wsdl" ID="bdf0ed31-395f-4c6d-9ea5-1e5014f3e9e5" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?wsdl" />
-    <MetadataFile FileName="Service3.xsd" MetadataType="Schema" ID="594a0651-07e0-4646-9ac3-c0df6ff931a1" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?xsd=xsd2" />
+    <MetadataFile FileName="Service.xsd" MetadataType="Schema" ID="0d60b42d-7be9-4602-8876-5f9061c2c702" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?xsd=xsd0" />
+    <MetadataFile FileName="Service1.xsd" MetadataType="Schema" ID="877fa3dd-4eab-4167-b36a-4dad72664f83" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?xsd=xsd1" />
+    <MetadataFile FileName="Service2.xsd" MetadataType="Schema" ID="7e0e65dc-cc7e-48ed-949d-214da50e10aa" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?xsd=xsd3" />
+    <MetadataFile FileName="Service.disco" MetadataType="Disco" ID="341cfb1e-3840-4142-be40-2a5e0ab74478" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?disco" />
+    <MetadataFile FileName="Service.wsdl" MetadataType="Wsdl" ID="40ba019f-0b40-49b3-aab5-0e53a0a320bc" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?wsdl" />
+    <MetadataFile FileName="Service3.xsd" MetadataType="Schema" ID="232991b6-7a27-4526-ad0a-4ee0baacb1bf" SourceId="1" SourceUrl="http://baudmeter.azurewebsites.net/Service.svc?xsd=xsd2" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

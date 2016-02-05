@@ -151,7 +151,7 @@ namespace com.BaudMeter.Agent
                         if (pingReply != null && pingReply.Status== IPStatus.Success )
                         {
                             PingTestResult.PingBufferLength = pingReply.Buffer.Length;
-                            PingTestResult.PingRondTripTime = (int)(pingReply.RoundtripTime);
+                            PingTestResult.PingRoundTripTime = (int)(pingReply.RoundtripTime);
                             PingTestResult.PingStatus = pingReply.Status.ToString();
                             break;
                         }

@@ -16,7 +16,7 @@
       <xs:element minOccurs="0" name="NetBandwidth" type="xs:double" />
       <xs:element minOccurs="0" name="TcpConnResetRate" type="xs:double" />
       <xs:element minOccurs="0" name="TcpErrorRate" type="xs:double" />
-      <xs:element minOccurs="0" name="TcpSegmentResentRate" type="xs:double" />
+      <xs:element minOccurs="0" name="TcpSegmentResendRate" type="xs:double" />
       <xs:element minOccurs="0" name="Url" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="UtcTimeStamp" type="xs:dateTime" />
       <xs:element minOccurs="0" name="id" nillable="true" type="xs:string" />
@@ -48,7 +48,7 @@
       <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Mac" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="PingBufferLength" type="xs:int" />
-      <xs:element minOccurs="0" name="PingRondTripTime" type="xs:int" />
+      <xs:element minOccurs="0" name="PingRoundTripTime" type="xs:int" />
       <xs:element minOccurs="0" name="PingStatus" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="UtcTimeStamp" type="xs:dateTime" />
       <xs:element minOccurs="0" name="id" nillable="true" type="xs:string" />

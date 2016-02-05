@@ -44,7 +44,7 @@ namespace com.BaudMeter.Agent.WebService {
         private double TcpErrorRateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private double TcpSegmentResentRateField;
+        private double TcpSegmentResendRateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string UrlField;
@@ -157,14 +157,14 @@ namespace com.BaudMeter.Agent.WebService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public double TcpSegmentResentRate {
+        public double TcpSegmentResendRate {
             get {
-                return this.TcpSegmentResentRateField;
+                return this.TcpSegmentResendRateField;
             }
             set {
-                if ((this.TcpSegmentResentRateField.Equals(value) != true)) {
-                    this.TcpSegmentResentRateField = value;
-                    this.RaisePropertyChanged("TcpSegmentResentRate");
+                if ((this.TcpSegmentResendRateField.Equals(value) != true)) {
+                    this.TcpSegmentResendRateField = value;
+                    this.RaisePropertyChanged("TcpSegmentResendRate");
                 }
             }
         }
@@ -358,7 +358,7 @@ namespace com.BaudMeter.Agent.WebService {
         private int PingBufferLengthField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int PingRondTripTimeField;
+        private int PingRoundTripTimeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PingStatusField;
@@ -471,14 +471,14 @@ namespace com.BaudMeter.Agent.WebService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int PingRondTripTime {
+        public int PingRoundTripTime {
             get {
-                return this.PingRondTripTimeField;
+                return this.PingRoundTripTimeField;
             }
             set {
-                if ((this.PingRondTripTimeField.Equals(value) != true)) {
-                    this.PingRondTripTimeField = value;
-                    this.RaisePropertyChanged("PingRondTripTime");
+                if ((this.PingRoundTripTimeField.Equals(value) != true)) {
+                    this.PingRoundTripTimeField = value;
+                    this.RaisePropertyChanged("PingRoundTripTime");
                 }
             }
         }

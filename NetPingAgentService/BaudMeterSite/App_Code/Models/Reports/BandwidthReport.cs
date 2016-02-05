@@ -18,19 +18,20 @@ namespace com.BaudMeter.Agent
 
         public double DownloadBandwidth { get; set;  }
 
-        public string Url { get; set; }
+        public string Url { get; set; } // http://localhost:32505/App_Code/Models/Reports/NetPingReport.cs
 
         // default, client will fill empty;
         public string Ip { get; set; }
 
         public double TcpErrorRate { get; set; }
 
-        public double TcpSegmentResentRate { get; set; }
+        public double TcpSegmentResendRate { get; set; }
              
         public double TcpConnResetRate { get; set; }
 
         public string Mac { get; set; }
 
         public GeoCityInfo City { get; set; }
+
     }
 }

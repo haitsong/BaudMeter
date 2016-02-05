@@ -183,7 +183,7 @@ namespace com.BaudMeter.Agent
                 double connreset = (statsend[0].ResetConnections + statsend[1].ResetConnections) - (statstart[0].ResetConnections + statstart[1].ResetConnections);
                 double tcperr = (statsend[0].ErrorsReceived + statsend[1].ErrorsReceived) - (statstart[0].ErrorsReceived + statstart[1].ErrorsReceived);
                 this.BandWidthResult.TcpErrorRate = tcperr / segtotal;
-                this.BandWidthResult.TcpSegmentResentRate = segreset / segtotal;
+                this.BandWidthResult.TcpSegmentResendRate = segreset / segtotal;
                 this.BandWidthResult.TcpConnResetRate = connreset / segtotal;
             }
         }

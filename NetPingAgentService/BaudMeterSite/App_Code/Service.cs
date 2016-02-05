@@ -86,9 +86,62 @@ public class Service : IService
         }
     }
 
+    private string GetRandomSimulatedPublicIp()
+    {
+        Random rand = new Random(DateTime.Now.Millisecond);
+        string ip = "";
+        for (int ix = 0; ix < 4; )
+        {
+            int i = rand.Next(200);
+            if (i == 10 || i == 0 || i == 10||i==168)
+                continue;
+            ix++;
+            ip = ip + "." + i;
+        }
+        return ip.Substring(1);
+    }
+
+    private void InsertDocumentDB(List<object> reportObjList)
+    {
+        var jsonstr = JsonConvert.SerializeObject(reportObjList);
+        InsertRecords(jsonstr).Wait();
+    }
+
+    private void InsertInSQLAzure(List<BandwidthReport> BandWidthResults, List<NetPingReport> PingResults)
+    {
+        string connstr = "Server=tcp:baudmeterdb.database.windows.net,1433;Database=BaudMeterDB;User ID=baudmeter@baudmeterdb;Password=!Microsoft1;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+        using (System.Data.SqlClient.SqlConnection c = new System.Data.SqlClient.SqlConnection(connstr))
+        {
+            c.Open();
+            AzureSqlReportHelper h = new AzureSqlReportHelper();
+            h.InsertDB(BandWidthResults, c);
+            h.InsertDB(PingResults, c);
+        }
+    }
+
+    private BaudCommand SignResponse(string encryptedClientInstanceId, string clientip, GeoCityInfo defaultCityInfo)
+    {
+        var cmd = new BaudCommand
+        {
+            Ip = clientip, // ip detected by server, need to report it by the client to make sure there is no change in between.
+            Urls =
+            new string[] {
+               "http://mirror.internode.on.net/pub/test/10meg.test",
+               //  "http://localhost/"
+            },
+            IntervalSeconds = 20,
+            City = defaultCityInfo,
+            ReportBatch = 1 // report everytime, no batch
+        };
+        SignCommand(cmd, encryptedClientInstanceId);
+        return cmd;
+    }
+
     public BaudCommand PostReports(List<BandwidthReport> BandWidthResults, List<NetPingReport> PingResults, string encryptedClientInstanceId)
     {
-        string clientip = System.Web.HttpContext.Current.Request.UserHostAddress;
+        /* for testing purpose, randomize ip to simulate*/
+        // string clientip = System.Web.HttpContext.Current.Request.UserHostAddress;
+        string clientip = GetRandomSimulatedPublicIp();
         GeoCityInfo defaultCityInfo = null;
         try
         {
@@ -104,28 +157,15 @@ public class Service : IService
                 r.City = GetCityInfo(r.Ip, clientip);
                 resultlist.Add(r);
             }
-            var jsonstr = JsonConvert.SerializeObject(resultlist);
-            InsertRecords(jsonstr).Wait();
+            InsertInSQLAzure(BandWidthResults, PingResults);
+            InsertDocumentDB(resultlist);
         }
         catch(Exception ex)
         {
             // even we have problem processing data, we still want to give commands back.
             Console.Write(ex.ToString());
         }
-        var cmd = new BaudCommand
-        {
-            Ip = clientip, // ip detected by server, need to report it by the client to make sure there is no change in between.
-            Urls =
-            new string[] {
-               "http://mirror.internode.on.net/pub/test/10meg.test",
-               //  "http://localhost/"
-            },
-            IntervalSeconds = 20,
-            City = defaultCityInfo,
-            ReportBatch = 1 // report everytime, no batch
-        };
-        SignCommand(cmd, encryptedClientInstanceId);
-        return cmd;
+        return SignResponse(encryptedClientInstanceId, clientip, defaultCityInfo);
     }
 
 }

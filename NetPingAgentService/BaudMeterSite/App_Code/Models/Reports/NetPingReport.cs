@@ -21,7 +21,7 @@ namespace com.BaudMeter.Agent
         // public PingReply NetPingReply { get; set; }
         public int PingBufferLength { get; set; }
 
-        public int PingRondTripTime { get; set; }
+        public int PingRoundTripTime { get; set; }
 
         public string PingStatus { get; set; }
 
